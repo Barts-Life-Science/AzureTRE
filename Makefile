@@ -30,6 +30,9 @@ help: ## 💬 This help message :)
 # This will remove + import the resource state into a shared service
 migrate-firewall-state: prepare-tf-state
 
+slug:
+	${MAKEFILE_DIR}/devops/scripts/generate-unique-slug.sh
+
 bootstrap:
 	$(call target_title, "Bootstrap Terraform") \
 	&& . ${MAKEFILE_DIR}/devops/scripts/check_dependencies.sh nodocker,env \
