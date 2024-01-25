@@ -23,8 +23,14 @@
         "mgmt_resource_group_name": {
           "description": "The shared resource group for all management resources, including the storage account.",
           "type": "string",
-          "pattern": "^[a-z0-9-]+$",
-          "maxLength": 20
+          "pattern": "^[-\\w\\._\\(\\)]+$",
+          "maxLength": 90
+        },
+        "rg_slug": {
+          "description": "slug unique identifier for core resource group",
+          "type": "string",
+          "pattern": "^[a-z0-9]*$",
+          "maxLength": 8
         },
         "mgmt_storage_account_name": {
           "description": "The name of the storage account to hold the Terraform state and other deployment artifacts.",
