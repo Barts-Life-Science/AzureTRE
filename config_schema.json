@@ -29,7 +29,7 @@
         "slug": {
           "description": "slug unique identifier for core resource group",
           "type": [ "string", "null" ],
-          "pattern": "^-[a-z0-9]*$",
+          "pattern": "^((-[a-f0-9]*)|)$",
           "maxLength": 9
         },
         "mgmt_storage_account_name": {
