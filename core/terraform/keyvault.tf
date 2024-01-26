@@ -1,5 +1,5 @@
 resource "azurerm_key_vault" "kv" {
-  name                     = "kv-${var.tre_id}"
+  name                     = "kv-${var.tre_id}${var.slug}"
   tenant_id                = data.azurerm_client_config.current.tenant_id
   location                 = azurerm_resource_group.core.location
   resource_group_name      = azurerm_resource_group.core.name
