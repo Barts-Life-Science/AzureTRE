@@ -26,11 +26,11 @@
           "pattern": "^[-\\w\\._\\(\\)]+$",
           "maxLength": 90
         },
-        "rg_slug": {
+        "slug": {
           "description": "slug unique identifier for core resource group",
           "type": "string",
-          "pattern": "^[a-z0-9]*$",
-          "maxLength": 8
+          "pattern": "^-[a-z0-9]*$",
+          "maxLength": 9
         },
         "mgmt_storage_account_name": {
           "description": "The name of the storage account to hold the Terraform state and other deployment artifacts.",
