@@ -28,7 +28,7 @@
         },
         "slug": {
           "description": "slug unique identifier for core resource group",
-          "type": "string",
+          "type": [ "string", "null" ],
           "pattern": "^-[a-z0-9]*$",
           "maxLength": 9
         },

@@ -16,10 +16,10 @@ set -o nounset
 # exists with the current name, and abort if that's the case.
 here=$(dirname $0)
 config_file="${here}/../../config.yaml"
-rg_slug=$(yq .management.rg_slug ${config_file})
-if [ "${rg_slug}" != "__THIS_IS_SET_AUTOMATICALLY__" ]; then
+slug=$(yq '.management.slug // ""' ${config_file})
+if [ "${slug}" != "" ]; then
   mgmt_group=$(yq .management.mgmt_resource_group_name ${config_file})
-  core_group="rg-${mgmt_group}-${rg_slug}"
+  core_group="rg-${mgmt_group}-${slug}"
   exists=$(az group list --query "[?name=='${core_group}'].name" --output tsv)
   if [ "${exists}" == "${core_group}" ]; then
     echo "A previously configured managment group exists with the name \"${mgmt_group}\""
@@ -27,7 +27,7 @@ if [ "${rg_slug}" != "__THIS_IS_SET_AUTOMATICALLY__" ]; then
     exit 1
   fi
 fi
-printf -v rg_slug "%x" "$(date +%s)"
+printf -v slug "%x" "$(date +%s)"
 
-echo "Updating config file with rg_slug ${rg_slug}"
-yq --inplace e ".management.rg_slug = \"${rg_slug}\"" "${config_file}"
+echo "Updating config file with slug ${slug}"
+yq --inplace e ".management.slug = \"-${slug}\"" "${config_file}"

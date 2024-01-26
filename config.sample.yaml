@@ -4,7 +4,8 @@
 tre_id: __CHANGE_ME__
 location: __CHANGE_ME__
 management:
-  mgmt_resource_group_name: __THIS_IS_SET_AUTOMATICALLY__
+  slug:
+  mgmt_resource_group_name: __CHANGE_ME__
   mgmt_storage_account_name: __CHANGE_ME__
   terraform_state_container_name: tfstate
   acr_name: __CHANGE_ME__

@@ -53,6 +53,11 @@ variable "mgmt_storage_account_name" {
   description = "Storage account created by bootstrap to hold all Terraform state"
 }
 
+variable "slug" {
+  type        = string
+  description = "Unique SLUG for ensuring resources aren't recovered from soft-delete"
+}
+
 variable "mgmt_resource_group_name" {
   type        = string
   description = "Shared management resource group"
