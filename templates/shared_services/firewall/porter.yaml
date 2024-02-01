@@ -20,6 +20,9 @@ parameters:
   - name: tre_id
     type: string
     description: "The ID of the parent TRE instance e.g., mytre-dev-3142"
+  - name: slug
+    type: string
+    description: "A unique identifier slug for resources"
   - name: id
     type: string
     description: "Resource ID"
@@ -65,6 +68,7 @@ install:
       vars:
         tre_id: ${ bundle.parameters.tre_id }
         tre_resource_id: ${ bundle.parameters.id }
+        slug: ${ bundle.parameters.slug }
         api_driven_rule_collections_b64: ${ bundle.parameters.rule_collections }
         api_driven_network_rule_collections_b64: ${ bundle.parameters.network_rule_collections }
         sku_tier: ${ bundle.parameters.sku_tier }

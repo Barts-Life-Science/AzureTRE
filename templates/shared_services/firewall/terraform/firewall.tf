@@ -58,7 +58,7 @@ data "azurerm_monitor_diagnostic_categories" "firewall" {
 }
 
 resource "azurerm_monitor_diagnostic_setting" "firewall" {
-  name                           = "diagnostics-fw-${var.tre_id}"
+  name                           = "diagnostics-fw-${var.tre_id}${var.slug}"
   target_resource_id             = azurerm_firewall.fw.id
   log_analytics_workspace_id     = data.azurerm_log_analytics_workspace.tre.id
   log_analytics_destination_type = "Dedicated"
