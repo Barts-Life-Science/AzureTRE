@@ -3,6 +3,11 @@ variable "tre_id" {
   description = "Unique TRE ID"
 }
 
+variable "slug" {
+  type        = string
+  description = "Slug for ensuring resources are identified distinctly"
+}
+
 variable "microsoft_graph_fqdn" {
   type        = string
   description = "Microsoft Graph FQDN"

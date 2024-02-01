@@ -282,20 +282,60 @@ workspace_bundle:
 	$(MAKE) bundle-build bundle-publish bundle-register \
 	DIR="${MAKEFILE_DIR}/templates/workspaces/${BUNDLE}" BUNDLE_TYPE=workspace
 
+workspace_bundle_publish:
+	$(MAKE) bundle-build bundle-publish \
+	DIR="${MAKEFILE_DIR}/templates/workspaces/${BUNDLE}" BUNDLE_TYPE=workspace
+
+workspace_bundle_register:
+	$(MAKE) bundle-register \
+	DIR="${MAKEFILE_DIR}/templates/workspaces/${BUNDLE}" BUNDLE_TYPE=workspace
+
 workspace_service_bundle:
 	$(MAKE) bundle-build bundle-publish bundle-register \
+	DIR="${MAKEFILE_DIR}/templates/workspace_services/${BUNDLE}" BUNDLE_TYPE=workspace_service
+
+workspace_service_bundle_publish:
+	$(MAKE) bundle-build bundle-publish \
+	DIR="${MAKEFILE_DIR}/templates/workspace_services/${BUNDLE}" BUNDLE_TYPE=workspace_service
+
+workspace_service_bundle_register:
+	$(MAKE) bundle-register \
 	DIR="${MAKEFILE_DIR}/templates/workspace_services/${BUNDLE}" BUNDLE_TYPE=workspace_service
 
 shared_service_bundle:
 	$(MAKE) bundle-build bundle-publish bundle-register \
 	DIR="${MAKEFILE_DIR}/templates/shared_services/${BUNDLE}" BUNDLE_TYPE=shared_service
 
+shared_service_bundle_publish:
+	$(MAKE) bundle-build bundle-publish \
+	DIR="${MAKEFILE_DIR}/templates/shared_services/${BUNDLE}" BUNDLE_TYPE=shared_service
+
+shared_service_bundle_register:
+	$(MAKE) bundle-register \
+	DIR="${MAKEFILE_DIR}/templates/shared_services/${BUNDLE}" BUNDLE_TYPE=shared_service
+
 user_resource_bundle:
 	$(MAKE) bundle-build bundle-publish bundle-register \
 	DIR="${MAKEFILE_DIR}/templates/workspace_services/${WORKSPACE_SERVICE}/user_resources/${BUNDLE}" BUNDLE_TYPE=user_resource WORKSPACE_SERVICE_NAME=tre-service-${WORKSPACE_SERVICE}
 
+user_resource_bundle_publish:
+	$(MAKE) bundle-build bundle-publish \
+	DIR="${MAKEFILE_DIR}/templates/workspace_services/${WORKSPACE_SERVICE}/user_resources/${BUNDLE}" BUNDLE_TYPE=user_resource WORKSPACE_SERVICE_NAME=tre-service-${WORKSPACE_SERVICE}
+
+user_resource_bundle_register:
+	$(MAKE) bundle-register \
+	DIR="${MAKEFILE_DIR}/templates/workspace_services/${WORKSPACE_SERVICE}/user_resources/${BUNDLE}" BUNDLE_TYPE=user_resource WORKSPACE_SERVICE_NAME=tre-service-${WORKSPACE_SERVICE}
+
 bundle-publish-register-all:
 	${MAKEFILE_DIR}/devops/scripts/publish_and_register_all_bundles.sh
+
+# TW Build and publish, but don't register... yet.
+bundle-build-publish-all:
+	${MAKEFILE_DIR}/devops/scripts/publish_all_bundles.sh
+
+# TW Register all bundles
+bundle-register-all:
+	${MAKEFILE_DIR}/devops/scripts/register_all_bundles.sh
 
 deploy-shared-service:
 	$(call target_title, "Deploying ${DIR} shared service") \

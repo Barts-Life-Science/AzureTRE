@@ -11,6 +11,12 @@
       }
     },
     {
+      "name": "slug",
+      "source": {
+        "env": "SLUG"
+      }
+    },
+    {
       "name": "id",
       "source": {
         "env": "ID"

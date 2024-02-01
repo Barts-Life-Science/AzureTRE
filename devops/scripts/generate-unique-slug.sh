@@ -10,24 +10,26 @@ set -o nounset
 # generate a new slug with the 'make slug' command. This gets round the problem
 # of soft-deleting resources, such as the key vault and various bits of logging.
 #
-
-#
-# Be paranoid about creating zombie groups: Check to see if a group already
-# exists with the current name, and abort if that's the case.
 here=$(dirname $0)
 config_file="${here}/../../config.yaml"
-slug=$(yq '.management.slug // ""' ${config_file})
-if [ "${slug}" != "" ]; then
-  mgmt_group=$(yq .management.mgmt_resource_group_name ${config_file})
-  core_group="rg-${mgmt_group}-${slug}"
-  exists=$(az group list --query "[?name=='${core_group}'].name" --output tsv)
-  if [ "${exists}" == "${core_group}" ]; then
-    echo "A previously configured managment group exists with the name \"${mgmt_group}\""
-    echo "Delete this group before continuing, or you risk having zombie infrastructure"
-    exit 1
-  fi
-fi
-printf -v slug "%x" "$(date +%s)"
 
+#
+# Be paranoid about creating zombie infrastructure:
+# Check to see if a keyvault already exists with the current name,
+# and abort if that's the case.
+slug=$(yq '.management.slug // ""' ${config_file})
+mgmt_group=$(yq .management.mgmt_resource_group_name ${config_file})
+kv_name="kv-${mgmt_group}${slug}"
+
+kv_exists=$(az keyvault list --resource-group rg-aztre --query "[?name=='${kv_name}'].name" --output tsv)
+if [ "${kv_exists}" == "${kv_name}" ]; then
+  echo "A previously configured keyvault exists with the name \"${kv_name}\""
+  echo "Delete this keyvault before continuing, or you risk having zombie infrastructure"
+  exit 1
+fi
+
+#
+# No active keyvault with the expected name, so I can go ahead and create the slug
+printf -v slug "%x" "$(date +%s)"
 echo "Updating config file with slug ${slug}"
 yq --inplace e ".management.slug = \"-${slug}\"" "${config_file}"
