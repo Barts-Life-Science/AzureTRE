@@ -52,6 +52,8 @@ done
 set -o nounset
 
 if [[ -z ${core_tre_rg:-} ]]; then
+  # core_tre_rg=$(jq --raw-output .core_resource_group_name.value $(dirname $0)/../../core/tre_output.json)
+  # echo "Core TRE RG name = ${core_tre_rg}"
   if [[ -n ${TRE_ID:-} ]]; then
     core_tre_rg="rg-${TRE_ID}"
   else
@@ -103,9 +105,9 @@ tre_id=${core_tre_rg#"rg-"}
 
 # purge keyvault if possible (makes it possible to reuse the same tre_id later)
 # this has to be done before we delete the resource group since we might not wait for it to complete
-keyvault_name="kv-${tre_id}"
-keyvault=$(az keyvault show --name "${keyvault_name}" --resource-group "${core_tre_rg}" -o json || echo 0)
-if [ "${keyvault}" != "0" ]; then
+# keyvault_name="kv-${tre_id}"
+keyvault_name=$(az keyvault list --resource-group "${core_tre_rg}" --query "[].name" -o tsv || echo 0)
+if [ "${keyvault_name}" != "0" ]; then
   secrets=$(az keyvault secret list --vault-name "${keyvault_name}" -o json | jq -r '.[].id')
   for secret_id in ${secrets}; do
     echo "Deleting ${secret_id}"
@@ -125,6 +127,7 @@ if [ "${keyvault}" != "0" ]; then
   done
 
   echo "Removing access policies so if the vault is recovered there are not there"
+  keyvault=$(az keyvault show --name "${keyvault_name}" --resource-group "${core_tre_rg}" -o json || echo 0)
   access_policies=$(echo "$keyvault" | jq -r '.properties.accessPolicies[].objectId' )
   for access_policy_id in ${access_policies}; do
     echo "Attempting to delete access policy ${access_policy_id}"
