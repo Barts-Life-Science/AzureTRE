@@ -27,7 +27,7 @@
           "maxLength": 90
         },
         "slug": {
-          "description": "slug unique identifier for core resource group",
+          "description": "slug unique identifier for various resources",
           "type": [ "string", "null" ],
           "pattern": "^((-[a-f0-9]*)|)$",
           "maxLength": 9
