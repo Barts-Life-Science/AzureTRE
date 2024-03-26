@@ -68,7 +68,6 @@ export API_CLIENT_SECRET=$(yq .authentication.api_client_secret ${config_yaml})
 
 export APPLICATION_ADMIN_CLIENT_ID=$(yq .authentication.application_admin_client_id ${config_yaml})
 export APPLICATION_ADMIN_CLIENT_SECRET=$(yq .authentication.application_admin_client_secret ${config_yaml})
-export AZURE_CREDENTIALS=${something}
 
 export SWAGGER_UI_CLIENT_ID=$(yq .authentication.swagger_ui_client_id ${config_yaml})
 
@@ -91,7 +90,6 @@ for key in TRE_ID \
   API_CLIENT_SECRET \
   APPLICATION_ADMIN_CLIENT_ID \
   APPLICATION_ADMIN_CLIENT_SECRET \
-  AZURE_CREDENTIALS \
   SWAGGER_UI_CLIENT_ID \
   TEST_ACCOUNT_CLIENT_ID \
   TEST_ACCOUNT_CLIENT_SECRET \
@@ -106,7 +104,7 @@ do
 done
 
 echo "Setting Azure credentials"
-set -o xtrace
+
 sp_name="sp-aztre-cicd"
 subscriptionId=$(az account show --name 'BH-LS-PMP TRE' --query id -o tsv)
 #
