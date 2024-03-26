@@ -46,9 +46,7 @@ function set_env_secret() {
     exit 0
   fi
 
-# echo ./gh-encrypt-string.py "${public_key}" "${secret_value}"
   encrypted_value=$(./gh-encrypt-string.py "${public_key}" "${secret_value}")
-# echo "Encrypted string is '${encrypted_value}'"
 
   gh api -H "${header1}" -H "${header2}" \
     --method PUT \
@@ -60,7 +58,7 @@ function set_env_secret() {
 export TRE_ID=$(yq .tre_id ${config_yaml})
 export ACR_NAME=$(yq .management.acr_name ${config_yaml})
 export MGMT_RESOURCE_GROUP_NAME=$(yq .management.mgmt_resource_group_name ${config_yaml})
-export MGMT_STORAGE_ACCOUNT_NAME=$(yq .management.terraform_state_container_name ${config_yaml})
+export MGMT_STORAGE_ACCOUNT_NAME=$(yq .management.mgmt_storage_account_name ${config_yaml})
 export AAD_TENANT_ID=$(yq .authentication.aad_tenant_id ${config_yaml})
 
 export API_CLIENT_ID=$(yq .authentication.api_client_id ${config_yaml})
@@ -104,7 +102,6 @@ do
 done
 
 echo "Setting Azure credentials"
-
 sp_name="sp-aztre-cicd"
 subscriptionId=$(az account show --name 'BH-LS-PMP TRE' --query id -o tsv)
 #
