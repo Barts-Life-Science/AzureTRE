@@ -45,6 +45,7 @@ resource "azurerm_linux_virtual_machine" "linuxvm" {
   admin_username                  = random_string.username.result
   admin_password                  = random_password.password.result
 
+
   custom_data = data.template_cloudinit_config.config.rendered
 
   # set source_image_id/reference depending on the config for the selected image

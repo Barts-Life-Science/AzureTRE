@@ -12,25 +12,25 @@ sudo rm -f /etc/apt/sources.list.d/*
 # Update apt packages from configured Nexus sources
 sudo apt-get update
 
-# Install xrdp so Guacamole can connect via RDP
-sudo apt-get install xrdp -y
-sudo adduser xrdp ssl-cert
+# # Install xrdp so Guacamole can connect via RDP
+# sudo apt-get install xrdp -y
+# sudo adduser xrdp ssl-cert
 
-# Install desktop environment if image doesn't have one already
-if [ "${INSTALL_UI}" -eq 1 ]; then
-  sudo apt-get install xorg xfce4 xfce4-goodies dbus-x11 x11-xserver-utils -y
-  echo xfce4-session > ~/.xsession
-fi
+# # Install desktop environment if image doesn't have one already
+# if [ "${INSTALL_UI}" -eq 1 ]; then
+#   sudo apt-get install xorg xfce4 xfce4-goodies dbus-x11 x11-xserver-utils -y
+#   echo xfce4-session > ~/.xsession
+# fi
 
-# Fix for blank screen on DSVM (/sh -> /bash due to conflict with profile.d scripts)
-sudo sed -i 's|!/bin/sh|!/bin/bash|g' /etc/xrdp/startwm.sh
+# # Fix for blank screen on DSVM (/sh -> /bash due to conflict with profile.d scripts)
+# sudo sed -i 's|!/bin/sh|!/bin/bash|g' /etc/xrdp/startwm.sh
 
-# Make sure xrdp service starts up with the system
-sudo systemctl enable xrdp
+# # Make sure xrdp service starts up with the system
+# sudo systemctl enable xrdp
 
 if [ "${SHARED_STORAGE_ACCESS}" -eq 1 ]; then
   # Install required packages
-  sudo apt-get install autofs -y
+  #sudo apt-get install autofs -y
 
   # Pass in required variables
   storageAccountName="${STORAGE_ACCOUNT_NAME}"
