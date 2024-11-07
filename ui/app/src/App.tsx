@@ -76,6 +76,7 @@ export const App: React.FunctionComponent = () => {
                     <TopNav />
                   </Stack.Item>
                   <Stack.Item grow={100} className='tre-body'>
+                    {/* here */}
                     <GenericErrorBoundary>
                       <CostsContext.Provider value={{
                         loadingState: costsLoadingState,
