@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# This script installs the Azure CLI on a Debian-based system.
+#
+# Key functionalities include:
+# - Updating the package list to ensure the latest package information.
+# - Installing necessary dependencies such as ca-certificates, curl, and gnupg.
+# - Adding the Microsoft package signing key to the list of trusted keys.
+# - Configuring the Azure CLI package repository based on the system's release code name.
+# - Installing a specific version of the Azure CLI.
+#
+
 set -o errexit
 set -o pipefail
 set -o nounset

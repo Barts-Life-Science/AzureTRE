@@ -1,3 +1,19 @@
+"""
+This module defines data models for managing resources within the application.
+These models represent the structure and types of data related to resources,
+including their types, history, available upgrades, and main resource attributes.
+
+Key functionalities include:
+- Defining enumerations for resource types.
+- Creating data models for resource history items and available upgrades.
+- Implementing the main Resource model, which includes fields for tracking the
+  resource's metadata, properties, status, and available upgrades.
+- Providing utility methods for generating resource request message payloads.
+
+Note: This module does not instantiate CosmosDB objects directly. It focuses on defining
+the data structures that may be stored in or retrieved from a CosmosDB database.
+"""
+
 from enum import Enum
 from typing import Optional, Union, List
 from pydantic import BaseModel, Field, validator

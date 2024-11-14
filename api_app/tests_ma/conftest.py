@@ -1,3 +1,18 @@
+"""
+This module sets up fixtures for testing the Azure TRE API application. It provides
+mocked configurations and data models to facilitate unit testing without requiring
+actual connections to external services like Azure CosmosDB.
+
+Key functionalities include:
+- Defining fixtures for various resource templates, user resources, and shared services.
+- Mocking CosmosDB interactions using `pytest_asyncio` and `unittest.mock` to simulate
+  database operations without connecting to a real CosmosDB instance.
+- Providing test data for users, operations, and resources to be used in test cases.
+
+Note: This module does not instantiate CosmosDB objects directly. Instead, it uses
+mocking to simulate interactions with CosmosDB for testing purposes.
+"""
+
 import pytest
 import pytest_asyncio
 from mock import AsyncMock, patch

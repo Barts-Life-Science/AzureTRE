@@ -1,3 +1,18 @@
+"""
+This module is responsible for processing resource requests using Azure Service Bus and Porter.
+It handles message reception, executes Porter commands, and manages the status of resource operations.
+
+Key functionalities include:
+- Setting up configuration by retrieving necessary environment variables.
+- Managing Azure Service Bus sessions to receive and process messages.
+- Executing Porter commands to perform actions like install, upgrade, and uninstall.
+- Sending status updates back to the Service Bus to notify about the progress and completion of operations.
+- Handling errors and retries for message processing and command execution.
+
+Note: This module does not instantiate or interact with CosmosDB objects. It is focused
+on logging configuration and management.
+"""
+
 from typing import Optional
 from multiprocessing import Process
 import json

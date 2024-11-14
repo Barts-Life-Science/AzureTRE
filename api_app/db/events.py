@@ -1,3 +1,17 @@
+"""
+This module is responsible for setting up and managing Azure CosmosDB containers
+required by the application. It ensures that necessary containers are created if
+they do not already exist.
+
+Key functionalities include:
+- Establishing a connection to Azure CosmosDB using the CosmosDBManagementClient.
+- Creating or updating SQL containers in the CosmosDB account with specified partition keys.
+- Handling exceptions and logging errors during the database bootstrap process.
+
+Note: CosmosDB objects such as CosmosDBManagementClient are instantiated in this module
+to manage CosmosDB resources.
+"""
+
 import asyncio
 from azure.mgmt.cosmosdb import CosmosDBManagementClient
 
@@ -28,7 +42,6 @@ async def bootstrap_database() -> bool:
 
 
 async def create_container_if_not_exists(db_mgmt_client, container, partition_key):
-
     db_mgmt_client.sql_resources.begin_create_update_sql_container(
         resource_group_name=RESOURCE_GROUP_NAME,
         account_name=COSMOSDB_ACCOUNT_NAME,

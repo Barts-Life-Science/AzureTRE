@@ -1,3 +1,14 @@
+# This Dockerfile sets up an environment with Python, Azure CLI, Porter, and Docker
+# for processing resource requests in a cloud infrastructure context.
+#
+# Key functionalities include:
+# - Installing a specific version of Python and setting up the environment.
+# - Installing Azure CLI for managing Azure resources.
+# - Installing both v0 and v1 versions of Porter for managing cloud infrastructure.
+# - Installing Docker to enable containerized operations.
+# - Configuring the environment for running the resource processor application.
+#
+
 # syntax=docker/dockerfile:1
 FROM python:3.8-slim-bullseye
 

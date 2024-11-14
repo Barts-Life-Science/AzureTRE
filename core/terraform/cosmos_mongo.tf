@@ -1,3 +1,21 @@
+/*
+This Terraform configuration file sets up Azure CosmosDB resources configured
+for MongoDB.
+It includes the creation of a CosmosDB account, a MongoDB database, and related networking
+and security configurations.
+
+Key functionalities include:
+- Creating a CosmosDB account with MongoDB API, specifying capabilities, consistency policy,
+  and geo-location settings.
+- Instantiating a MongoDB database within the CosmosDB account.
+- Configuring private DNS zones and private endpoints for secure access to the CosmosDB account.
+- Setting up a management lock to prevent accidental deletion of the MongoDB database.
+- Storing the connection string in Azure Key Vault for secure access.
+
+Note: CosmosDB objects such as `azurerm_cosmosdb_account` and `azurerm_cosmosdb_mongo_database`
+are instantiated in this file to manage MongoDB resources within Azure CosmosDB.
+*/
+
 resource "azurerm_cosmosdb_account" "mongo" {
   name                      = "cosmos-mongo-${var.tre_id}"
   location                  = azurerm_resource_group.core.location

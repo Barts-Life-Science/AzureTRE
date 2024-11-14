@@ -1,3 +1,20 @@
+"""
+This module is responsible for configuring the application by retrieving necessary
+environment variables and setting up configurations for various Azure services.
+
+Key functionalities include:
+- Defining API settings such as API prefix, project name, logging level, and version.
+- Configuring resource information including resource location and address spaces.
+- Setting up state store configuration for CosmosDB, including endpoint, SSL verification,
+  access key, and account name.
+- Configuring Azure Service Bus, Event Grid, and Managed Identity settings.
+- Defining cloud configuration settings such as AAD authority URL and resource manager endpoint.
+- Setting up monitoring and authentication configurations.
+
+Note: This module does not instantiate CosmosDB objects directly. It focuses on configuration
+management for Azure-related services, including CosmosDB settings.
+"""
+
 from typing import List
 from starlette.config import Config
 from _version import __version__
@@ -27,7 +44,7 @@ TRE_ADDRESS_SPACE: str = config("TRE_ADDRESS_SPACE", default="")
 STATE_STORE_ENDPOINT: str = config("STATE_STORE_ENDPOINT", default="")      # Cosmos DB endpoint
 STATE_STORE_SSL_VERIFY: bool = config("STATE_STORE_SSL_VERIFY", cast=bool, default=True)
 STATE_STORE_KEY: str = config("STATE_STORE_KEY", default="")                # Cosmos DB access key
-COSMOSDB_ACCOUNT_NAME: str = config("COSMOSDB_ACCOUNT_NAME", default="")                # Cosmos DB account name
+COSMOSDB_ACCOUNT_NAME: str = config("COSMOSDB_ACCOUNT_NAME", default="")    # Cosmos DB account name
 STATE_STORE_DATABASE = "AzureTRE"
 STATE_STORE_RESOURCES_CONTAINER = "Resources"
 STATE_STORE_RESOURCE_TEMPLATES_CONTAINER = "ResourceTemplates"
@@ -36,7 +53,6 @@ STATE_STORE_OPERATIONS_CONTAINER = "Operations"
 STATE_STORE_AIRLOCK_REQUESTS_CONTAINER = "Requests"
 SUBSCRIPTION_ID: str = config("SUBSCRIPTION_ID", default="")
 RESOURCE_GROUP_NAME: str = config("RESOURCE_GROUP_NAME", default="")
-
 
 # Service bus configuration
 SERVICE_BUS_FULLY_QUALIFIED_NAMESPACE: str = config("SERVICE_BUS_FULLY_QUALIFIED_NAMESPACE", default="")

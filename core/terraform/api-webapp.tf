@@ -1,3 +1,16 @@
+/*
+This Terraform configuration file sets up an Azure Linux Web App and related resources for hosting an API.
+It configures the service plan, web app settings, private endpoint, and diagnostic settings.
+
+Key functionalities include:
+- Defining a service plan using `azurerm_service_plan` for the web app.
+- Configuring the Azure Linux Web App with necessary settings, including app settings, identity, and site configuration.
+- Setting up a private endpoint for secure access to the web app.
+- Configuring diagnostic settings for monitoring and logging.
+
+Note: CosmosDB objects are referenced in the app settings to provide connection details and other configurations for the web app.
+*/
+
 data "local_file" "api_app_version" {
   filename = "${path.root}/../../api_app/_version.py"
 }

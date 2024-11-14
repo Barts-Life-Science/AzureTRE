@@ -1,3 +1,20 @@
+"""
+This module configures logging for the resource processor application. It sets up
+loggers with specific log levels, integrates with Azure Monitor for telemetry, and
+provides utility functions for logging shell command outputs.
+
+Key functionalities include:
+- Defining loggers that should only log errors and those that should be suppressed.
+- Configuring log levels for unwanted loggers to reduce noise in logs.
+- Initializing logging with a specified logging level and integrating with Azure Monitor
+  if an Application Insights connection string is provided.
+- Providing a utility function to log shell command outputs with specific formatting
+  and log levels.
+
+Note: This module does not instantiate or interact with CosmosDB objects. It is focused
+on logging configuration and management.
+"""
+
 import logging
 import os
 import re

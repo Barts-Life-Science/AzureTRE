@@ -1,3 +1,18 @@
+"""
+This script is responsible for sending messages to an Azure Service Bus queue.
+It utilizes a specified connection string, queue name, and correlation ID to
+send messages. The message content is read from a JSON file.
+
+Key functionalities include:
+- Reading message content from a JSON file.
+- Establishing a connection to Azure Service Bus using a connection string.
+- Sending a message to a specified queue with a unique correlation ID.
+- Handling exceptions and logging the status of message sending.
+
+Note: This module does not instantiate or interact with CosmosDB objects. It is focused
+on logging configuration and management.
+"""
+
 import os
 import uuid
 

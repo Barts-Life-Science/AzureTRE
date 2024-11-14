@@ -1,3 +1,19 @@
+"""
+This module constructs and executes Azure CLI and Porter commands for managing
+Azure resources. It handles authentication, credential application, and command
+building for resource operations.
+
+Key functionalities include:
+- Constructing Azure CLI login commands using either Managed Identity or Service Principal.
+- Applying Porter credential sets based on the execution context.
+- Building Porter commands for resource operations, including parameter handling and encoding.
+- Supporting command execution for Azure Container Registry (ACR) login.
+- Fetching Porter parameter keys by executing Porter explain commands.
+
+Note: This module does not instantiate or interact with CosmosDB objects. It is focused
+on logging configuration and management.
+"""
+
 import asyncio
 import json
 import base64

@@ -1,3 +1,15 @@
+/*
+This Terraform configuration file is responsible for setting up Azure resources related to identity and access management for an API.
+It includes the creation of a user-assigned identity and the assignment of various roles to this identity across different Azure services.
+
+Key functionalities include:
+- Creating a user-assigned identity using `azurerm_user_assigned_identity`.
+- Assigning roles to the identity for accessing Azure resources such as Resource Groups, Container Registries, Service Bus, and CosmosDB.
+- Defining and assigning a CosmosDB SQL role to allow data operations on a CosmosDB account.
+
+Note: CosmosDB objects are instantiated through role assignments and role definitions, allowing the user-assigned identity to interact with CosmosDB.
+*/
+
 resource "azurerm_user_assigned_identity" "id" {
   resource_group_name = azurerm_resource_group.core.name
   location            = azurerm_resource_group.core.location

@@ -1,4 +1,17 @@
-#!/bin/bash 
+#!/bin/bash
+
+# This script downloads and installs a specified version of Terraform.
+# It retrieves the latest release version from GitHub if no version is specified,
+# downloads the corresponding Terraform binary, and installs it to a specified directory.
+#
+# Key functionalities include:
+# - Fetching the latest Terraform release version from GitHub if no version is provided.
+# - Downloading the Terraform binary for the specified version.
+# - Installing Terraform to a user-specified directory, defaulting to $HOME/.local/bin.
+# - Displaying the installation path and version details after installation.
+#
+
+
 set -e
 
 get_latest_release() {

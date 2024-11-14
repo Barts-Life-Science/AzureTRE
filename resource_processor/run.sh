@@ -1,5 +1,16 @@
 #!/bin/bash
 
+# This script configures Azure storage and key vault for Porter, checks for existing Porter v0 state,
+# performs a migration if necessary, and starts the resource processor.
+#
+# Key functionalities include:
+# - Setting up configuration for the Porter Azure plugin.
+# - Logging into Azure using the Azure CLI with Managed Identity.
+# - Checking for the existence of Porter v0 state and performing a migration if needed.
+# - Creating a container to mark the completion of the migration process.
+# - Launching the resource processor to handle resource requests.
+#
+
 set -o errexit
 set -o pipefail
 set -o nounset

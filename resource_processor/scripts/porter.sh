@@ -1,4 +1,18 @@
 #!/bin/bash
+
+# This script sets up the Porter tool by downloading a specified version and installing
+# necessary mixins and plugins. Porter is a tool for managing cloud infrastructure.
+#
+# Key functionalities include:
+# - Creating necessary directories for Porter installation.
+# - Downloading the specified version of the Porter binary.
+# - Setting executable permissions for the Porter binary.
+# - Creating symbolic links for Porter runtime.
+# - Installing Porter mixins such as exec, terraform, and az.
+# - Installing the Azure plugin for Porter.
+#
+
+
 set -o errexit
 set -o pipefail
 set -o nounset

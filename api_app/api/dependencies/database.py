@@ -1,3 +1,17 @@
+"""
+This module provides a singleton class for managing connections to an Azure CosmosDB instance.
+It handles the instantiation and configuration of CosmosDB clients and proxies, ensuring that
+connections are established using either managed identity or a primary master key.
+
+Key functionalities include:
+- Establishing a connection to CosmosDB using the `CosmosClient`.
+- Retrieving the primary master key for CosmosDB if not provided.
+- Providing a method to get a `ContainerProxy` for interacting with specific containers in the database.
+- Implementing a singleton pattern to ensure only one instance of the database connection is used.
+
+Note: CosmosDB objects such as `CosmosClient` and `DatabaseProxy` are instantiated in this module.
+"""
+
 from azure.cosmos.aio import CosmosClient, DatabaseProxy, ContainerProxy
 from azure.mgmt.cosmosdb.aio import CosmosDBManagementClient
 

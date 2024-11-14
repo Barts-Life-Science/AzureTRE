@@ -1,5 +1,20 @@
 #!/bin/bash
 
+# This script is responsible for migrating Terraform-managed resources in an Azure environment.
+# It handles the initialization of Terraform, refreshes the state, and performs specific resource
+# migrations, including handling changes in resource types and configurations.
+#
+# Key functionalities include:
+# - Initializing Terraform with backend configuration.
+# - Refreshing Terraform state to ensure it reflects the current state of resources.
+# - Migrating specific Azure resources by removing old resource types from the state and importing
+#   new resource types using existing Azure Resource IDs.
+# - Handling special cases such as downgrading app service plans and changing subnet sizes.
+# - Checking for specific capabilities in CosmosDB and setting environment variables accordingly.
+#
+# Note: This script does not instantiate CosmosDB objects directly. It interacts with CosmosDB
+# by checking for capabilities and setting environment variables based on the state of CosmosDB resources.
+
 set -o errexit
 set -o pipefail
 set -o nounset

@@ -1,3 +1,17 @@
+"""
+This module is responsible for configuring the application by retrieving necessary
+environment variables and setting up configurations for various Azure services.
+
+Key functionalities include:
+- Fetching environment variables for Azure Service Bus, Key Vault, and other Azure resources.
+- Setting default values for certain configurations if environment variables are not provided.
+- Handling specific configurations for running in different environments, such as local development or within a VSCode devcontainer.
+- Preparing environment variables for use with Porter, a tool for managing cloud infrastructure.
+
+Note: This module does not instantiate or interact with CosmosDB objects. It is focused
+on logging configuration and management.
+"""
+
 import os
 from _version import __version__
 from shared.logging import logger, tracer

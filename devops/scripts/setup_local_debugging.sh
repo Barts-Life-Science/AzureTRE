@@ -1,4 +1,19 @@
 #!/bin/bash
+
+# This script configures local debugging for Azure resources by updating network rules
+# and role assignments. It primarily focuses on allowing local IP addresses to access
+# Azure resources such as CosmosDB, Service Bus, and Event Grid.
+#
+# Key functionalities include:
+# - Checking and setting environment variables required for resource access.
+# - Adding the local IP address to the allowed IP range for CosmosDB accounts.
+# - Updating network rules for Azure Service Bus namespaces to include the local IP address.
+# - Configuring Event Grid topics to allow access from the local IP address.
+# - Assigning necessary Azure roles to the currently logged-in identity or a service principal.
+#
+# Note: This script does not instantiate CosmosDB objects directly. It interacts with
+# existing CosmosDB accounts by updating their IP range filters to enable local access.
+
 set -e
 
 private_env_path="./core/private.env"

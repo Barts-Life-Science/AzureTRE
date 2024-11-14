@@ -1,3 +1,18 @@
+"""
+This test module verifies the behavior of the shell_output_logger function
+from the shared.logging module. It ensures that the logger outputs the correct
+messages based on different console outputs.
+
+Key functionalities include:
+- Testing the logger's response to an empty console output.
+- Verifying the logger's handling of messages indicating an image is not present locally.
+- Ensuring the logger correctly logs successful execution messages.
+- Checking the logger's behavior with normal log messages.
+
+Note: This module does not instantiate or interact with CosmosDB objects. It is focused
+on logging configuration and management.
+"""
+
 from mock import patch
 import logging
 from shared.logging import shell_output_logger

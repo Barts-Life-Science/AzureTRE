@@ -1,3 +1,18 @@
+"""
+This module defines data models for managing airlock requests within the application.
+These models represent the structure and types of data related to airlock requests,
+including their status, type, actions, files, reviews, and history.
+
+Key functionalities include:
+- Defining enumerations for airlock request statuses, types, actions, and review decisions.
+- Creating data models for airlock files, reviews, request history, and user resources.
+- Implementing the main AirlockRequest model, which includes fields for tracking the
+  request's metadata, status, associated files, and reviews.
+
+Note: This module does not instantiate CosmosDB objects directly. It focuses on defining
+the data structures that may be stored in or retrieved from a CosmosDB database.
+"""
+
 from enum import Enum
 from typing import List, Dict
 
