@@ -17,6 +17,7 @@ locals {
     tre_id                   = var.tre_id
     tre_workspace_id         = var.workspace_id
     tre_workspace_service_id = var.id
+    workspace = "${data.azurerm_resource_group.ws.tags["workspace"]}"
   }
   web_app_diagnostic_categories_enabled = [
     "AppServiceHTTPLogs", "AppServiceConsoleLogs", "AppServiceAppLogs",
