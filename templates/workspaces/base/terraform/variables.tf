@@ -8,6 +8,11 @@ variable "tre_resource_id" {
   description = "Resource ID"
 }
 
+variable "display_name" {
+  type        = string
+  description = "Display name for Base Workspace."
+}
+
 variable "shared_storage_quota" {
   type        = number
   default     = 50
