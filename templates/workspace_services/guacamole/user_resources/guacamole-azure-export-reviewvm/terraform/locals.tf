@@ -12,6 +12,8 @@ locals {
     tre_workspace_id         = var.workspace_id
     tre_workspace_service_id = var.parent_service_id
     tre_user_resource_id     = var.tre_resource_id
+    workspace = "${data.azurerm_resource_group.ws.tags["workspace"]}"
+
   }
 
   # Load VM SKU/image details from porter.yaml
