@@ -13,7 +13,6 @@ locals {
     tre_id                   = var.tre_id
     tre_workspace_id         = var.workspace_id
     tre_workspace_service_id = var.tre_resource_id
-    workspace = "${data.azurerm_resource_group.ws.tags["workspace"]}"
-
+    workspace                = "${data.azurerm_resource_group.ws.tags["workspace"]}"
   }
 }

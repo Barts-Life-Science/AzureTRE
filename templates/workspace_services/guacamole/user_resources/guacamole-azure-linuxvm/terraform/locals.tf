@@ -13,7 +13,7 @@ locals {
     tre_workspace_id         = var.workspace_id
     tre_workspace_service_id = var.parent_service_id
     tre_user_resource_id     = var.tre_resource_id
-    workspace = "${data.azurerm_resource_group.ws.tags["workspace"]}"
+    workspace                = "${data.azurerm_resource_group.ws.tags["workspace"]}"
   }
   nexus_proxy_url = "https://nexus-${data.azurerm_public_ip.app_gateway_ip.fqdn}"
   # Load VM SKU/image details from porter.yaml
