@@ -61,3 +61,35 @@ resource "azurerm_key_vault_secret" "db_password" {
 
   lifecycle { ignore_changes = [tags] }
 }
+
+
+#Connect the data platform to the MySQL server
+
+# Retrieve the existing Azure Data Factory
+data "azurerm_data_factory" "adf_core" {
+  name                = "adf-${var.tre_id}"
+  resource_group_name = "rg-${var.tre_id}"
+}
+
+# Create a private endpoint to the MySQL server from the data platform
+resource "azurerm_data_factory_managed_private_endpoint" "adf_mysql_pe" {
+  name               = "pe-adf-mysql-${local.workspace_resource_name_suffix}"
+  data_factory_id    = data.azurerm_data_factory.adf_core.id
+  target_resource_id = azurerm_mysql_flexible_server.mysql.id
+  subresource_name   = "mysqlServer"
+}
+
+resource "null_resource" "approve_private_endpoint" {
+  provisioner "local-exec" {
+    command = "sh approve_pe.sh '${azurerm_resource_group.ws.name}' '${azurerm_mysql_flexible_server.mysql.name}' '${local.workspace_resource_name_suffix}' '${var.arm_client_id}' '${var.arm_subscription_id}'"
+  }
+  depends_on = [azurerm_data_factory_managed_private_endpoint.adf_mysql_pe]
+}
+
+# Create a linked service in the data factory to the MySQL server
+resource "azurerm_data_factory_linked_service_mysql" "ls_mysql" {
+  name                     = "ls-adf-mysql-${local.workspace_resource_name_suffix}"
+  data_factory_id          = data.azurerm_data_factory.adf_core.id
+  connection_string        = "Server=${azurerm_mysql_flexible_server.mysql.fully_qualified_domain_name};Port=3306;Database=${var.mysql_database_name};Uid=${var.mysql_admin_username};Pwd=${var.mysql_admin_password};"
+  integration_runtime_name = "adf-ir-${var.tre_id}"
+}
