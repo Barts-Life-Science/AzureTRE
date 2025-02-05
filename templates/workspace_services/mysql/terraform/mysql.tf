@@ -77,7 +77,7 @@ resource "azurerm_data_factory_managed_private_endpoint" "adf_mysql_pe" {
 
 resource "null_resource" "approve_private_endpoint" {
   provisioner "local-exec" {
-    command = "sh approve_pe.sh '${azurerm_resource_group.ws.name}' '${azurerm_mysql_flexible_server.mysql.name}' '${local.workspace_resource_name_suffix}' '${var.arm_client_id}' '${var.arm_subscription_id}'"
+    command = "sh approve_pe.sh '${data.azurerm_resource_group.ws.name}' '${azurerm_mysql_flexible_server.mysql.name}' '${local.workspace_resource_name_suffix}' '${var.arm_client_id}' '${var.arm_subscription_id}'"
   }
   depends_on = [azurerm_data_factory_managed_private_endpoint.adf_mysql_pe]
 }
@@ -86,6 +86,6 @@ resource "null_resource" "approve_private_endpoint" {
 resource "azurerm_data_factory_linked_service_mysql" "ls_mysql" {
   name                     = "ls-adf-mysql-${local.workspace_resource_name_suffix}"
   data_factory_id          = data.azurerm_data_factory.adf_core.id
-  connection_string        = "Server=${azurerm_mysql_flexible_server.mysql.fully_qualified_domain_name};Port=3306;Database=${var.db_name};Uid=${"${azurerm_mysql_flexible_server.mysql.name}-administrator-password"};Pwd=${random_password.password.result};"
+  connection_string        = "Server=${"${azurerm_mysql_flexible_server.mysql.name}.mysql.database.azure.com"};Port=3306;Database=${var.db_name};Uid=${"${azurerm_mysql_flexible_server.mysql.name}-administrator-password"};Pwd=${random_password.password.result};"
   integration_runtime_name = "adf-ir-${var.tre_id}"
 }

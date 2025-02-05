@@ -13,6 +13,15 @@ variable "sql_sku" {
 variable "db_name" {
   type = string
 }
+variable "arm_environment" {
+  type = string
+}
+variable "arm_subscription_id" {
+  type = string
+}
+variable "arm_client_id" {
+  type = string
+}
 variable "storage_mb" {
   type = number
   validation {
@@ -20,14 +29,4 @@ variable "storage_mb" {
     error_message = "The storage value is out of range."
   }
 }
-variable "arm_environment" {
-  type = string
-}
-variable "arm_subscription_id" {
-  type        = string
-  description = "The Subscription ID of the TRE"
-}
-variable "arm_client_id" {
-  type        = string
-  description = "The Service Princiapl ID for managing Azure resources"
-}
+
