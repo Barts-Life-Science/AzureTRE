@@ -86,6 +86,6 @@ resource "null_resource" "approve_private_endpoint" {
 resource "azurerm_data_factory_linked_service_mysql" "ls_mysql" {
   name                     = "ls-adf-mysql-${local.workspace_resource_name_suffix}"
   data_factory_id          = data.azurerm_data_factory.adf_core.id
-  connection_string        = "Server=${azurerm_mysql_flexible_server.mysql.fully_qualified_domain_name};Port=3306;Database=${var.mysql_database_name};Uid=${var.mysql_admin_username};Pwd=${var.mysql_admin_password};"
+  connection_string        = "Server=${azurerm_mysql_flexible_server.mysql.fully_qualified_domain_name};Port=3306;Database=${var.db_name};Uid=${"${azurerm_mysql_flexible_server.mysql.name}-administrator-password"};Pwd=${random_password.password.result};"
   integration_runtime_name = "adf-ir-${var.tre_id}"
 }
