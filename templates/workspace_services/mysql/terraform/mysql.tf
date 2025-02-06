@@ -63,29 +63,20 @@ resource "azurerm_key_vault_secret" "db_password" {
 }
 
 data "azurerm_data_factory" "adf_core" {
-  name                = "adf-${var.tre_id}"
-  resource_group_name = "rg-${var.tre_id}"
+  name                = "adf-sdebeta"
+  resource_group_name = "rg-sdebeta"
 }
 
-# Create a private endpoint to the MySQL server from the data platform
-resource "azurerm_data_factory_managed_private_endpoint" "adf_mysql_pe" {
-  name               = "pe-adf-mysql-${local.workspace_resource_name_suffix}"
-  data_factory_id    = data.azurerm_data_factory.adf_core.id
-  target_resource_id = azurerm_mysql_flexible_server.mysql.id
-  subresource_name   = "mysqlServer"
-}
-
-resource "null_resource" "approve_private_endpoint" {
-  provisioner "local-exec" {
-    command = "sh approve_pe.sh '${data.azurerm_resource_group.ws.name}' '${azurerm_mysql_flexible_server.mysql.name}' '${local.workspace_resource_name_suffix}' '${var.arm_client_id}' '${var.arm_subscription_id}'"
-  }
-  depends_on = [azurerm_data_factory_managed_private_endpoint.adf_mysql_pe]
-}
-
-# Create a linked service in the data factory to the MySQL server
-resource "azurerm_data_factory_linked_service_mysql" "ls_mysql" {
+resource "azurerm_data_factory_linked_service_sql_server" "mysql_linked_service" {
   name                     = "ls-adf-mysql-${local.workspace_resource_name_suffix}"
   data_factory_id          = data.azurerm_data_factory.adf_core.id
-  connection_string        = "Server=${"${azurerm_mysql_flexible_server.mysql.name}.mysql.database.azure.com"};Port=3306;Database=${var.db_name};Uid=${"${azurerm_mysql_flexible_server.mysql.name}-administrator-password"};Pwd=${random_password.password.result};"
-  integration_runtime_name = "adf-ir-${var.tre_id}"
+  integration_runtime_name = "adf-ir-sdebeta"
+  connection_string        = <<EOT
+Server=${azurerm_mysql_flexible_server.mysql.fqdn};Database=${azurerm_mysql_flexible_database.db.name};User ID=${azurerm_mysql_flexible_server.mysql.administrator_login};Password=@Microsoft.KeyVault(VaultName=${data.azurerm_key_vault.ws.name};SecretName=${azurerm_key_vault_secret.db_password.name});Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
+EOT
+
+  depends_on = [
+    azurerm_private_endpoint.mysql_private_endpoint,
+    azurerm_key_vault_secret.db_password
+  ]
 }
