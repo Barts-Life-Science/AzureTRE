@@ -29,7 +29,13 @@ export const LeftNav: React.FunctionComponent = () => {
         url: '/shared-services',
         key: 'shared-services',
         icon: 'Puzzle'
-      });
+      },
+      {
+        name: 'Configuration',
+        url: '/configuration',
+        key: 'configuration',
+        icon: 'Settings'
+      })
   }
 
   return (

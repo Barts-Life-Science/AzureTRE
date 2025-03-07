@@ -17,6 +17,7 @@ import { ExceptionLayout } from '../shared/ExceptionLayout';
 import { AppRolesContext } from '../../contexts/AppRolesContext';
 import { CostsContext } from '../../contexts/CostsContext';
 import config from "../../config.json";
+import { TreAdminConfiguration } from '../versions/TreAdminConfiguration';
 
 export const RootLayout: React.FunctionComponent = () => {
   const [workspaces, setWorkspaces] = useState([] as Array<Workspace>);
@@ -146,6 +147,11 @@ export const RootLayout: React.FunctionComponent = () => {
                   <Route path=":sharedServiceId" element={<SecuredByRole element={<SharedServiceItem />} allowedAppRoles={[RoleName.TREAdmin]} errorString={"You must be a TRE Admin to access this area"}/>} />
                 </Routes>
               } />
+	      <Route path="/configuration/*" element={
+                <Routes>
+		  <Route path="/" element={<SecuredByRole element={<TreAdminConfiguration />} allowedAppRoles={[RoleName.TREAdmin]} errorString={"You must be a TRE Admin to access this area"} />} />
+                 </Routes>
+               } />
             </Routes>
           </Stack.Item>
         </Stack>

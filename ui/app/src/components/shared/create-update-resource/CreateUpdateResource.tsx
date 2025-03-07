@@ -42,6 +42,7 @@ export const CreateUpdateResource: React.FunctionComponent<CreateUpdateResourceP
   const [page, setPage] = useState('selectTemplate' as keyof PageTitle);
   const [selectedTemplate, setTemplate] = useState(props.updateResource?.templateName || '');
   const [deployOperation, setDeployOperation] = useState({} as Operation);
+  const [templateVersion, setTemplateVersion] = useState<string | undefined>(undefined);
   const navigate = useNavigate();
   const apiCall = useAuthApiCall();
   const dispatch = useAppDispatch();
@@ -128,11 +129,14 @@ export const CreateUpdateResource: React.FunctionComponent<CreateUpdateResourceP
   let currentPage;
   switch (page) {
     case 'selectTemplate':
-      currentPage = <SelectTemplate templatesPath={templateListPath} workspaceApplicationIdURI={workspaceApplicationIdURI} onSelectTemplate={selectTemplate} />; break;
+      currentPage = <SelectTemplate setTemplateVersion={setTemplateVersion} templatesPath={templateListPath} workspaceApplicationIdURI={workspaceApplicationIdURI} onSelectTemplate={selectTemplate} />; break;
+
     case 'resourceForm':
       currentPage = <ResourceForm
         templateName={selectedTemplate}
         templatePath={`${templateGetPath}/${selectedTemplate}`}
+        // Uncomment this line when versions are pulling through correctly and not using mocks
+        // templateVersion={templateVersion}
         resourcePath={resourcePath}
         onCreateResource={resourceCreating}
         workspaceApplicationIdURI={props.workspaceApplicationIdURI}

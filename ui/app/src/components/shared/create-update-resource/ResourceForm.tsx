@@ -13,6 +13,7 @@ import { ResourceTemplate, sanitiseTemplateForRJSF } from "../../../models/resou
 interface ResourceFormProps {
   templateName: string,
   templatePath: string,
+  templateVersion?: string,
   resourcePath: string,
   updateResource?: Resource,
   onCreateResource: (operation: Operation) => void,
@@ -30,8 +31,18 @@ export const ResourceForm: React.FunctionComponent<ResourceFormProps> = (props: 
   useEffect(() => {
     const getFullTemplate = async () => {
       try {
-        // Get the full resource template containing the required parameters
-        const templateResponse = (await apiCall(props.updateResource ? `${props.templatePath}?is_update=true&version=${props.updateResource.templateVersion}` : props.templatePath, HttpMethod.Get)) as ResourceTemplate;
+        // Determine if the templatePath includes "workspace-service-templates" and if a templateVersion exists
+        const versionQueryParam = props.templatePath.includes("workspace-service-templates") && props?.templateVersion
+          ? `?version=${props.templateVersion}`
+          : "";
+
+        // Construct the API call with the correct query parameters
+        const templateResponse = (await apiCall(
+          props.updateResource
+            ? `${props.templatePath}?is_update=true&version=${props.updateResource.templateVersion}`
+            : `${props.templatePath}${versionQueryParam}`,
+          HttpMethod.Get
+        )) as ResourceTemplate;
 
         // if it's an update, populate the form with the props that are available in the template
         if (props.updateResource) {
