@@ -70,7 +70,7 @@ data "azurerm_data_factory" "adf_core" {
 }
 
 resource "azurerm_data_factory_linked_service_azure_sql_database" "ls_azsql" {
-  name                     = "adf-test-azsql-${local.workspace_resource_name_suffix}"
+  name                     = "adf-prod-azsql-${local.workspace_resource_name_suffix}"
   data_factory_id          = data.azurerm_data_factory.adf_core.id
   integration_runtime_name = "adf-ir-sdebeta"
   connection_string        = "data source=${azurerm_mssql_server.azuresql.name}.privatelink.database.windows.net;initial catalog=${azurerm_mssql_database.azuresqldatabase.name};user id=${azurerm_mssql_server.azuresql.administrator_login};Password=${azurerm_mssql_server.azuresql.administrator_login_password};integrated security=False;encrypt=True;connection timeout=30"
