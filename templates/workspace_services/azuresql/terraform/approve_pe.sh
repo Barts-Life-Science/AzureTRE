@@ -1,19 +1,28 @@
 #!/bin/bash
-WS_NAME=$1
-WORKSPACE_RESOURCE_NAME_SUFFIX=$2
-KEYVAULT_NAME=$3
-ARM_CLIENT_ID=$4
-ARM_SUBSCRIPTION_ID=$5
+
+# Log commands and exit on errors
+set -ex
+
+# Assuming command line arguments for simplicity
+rg_name=$1
+sql_server_name=$2
+private_endpoint_name=$3
+arm_client_id=$4
+arm_subscription_id=$5
+data_factory_name=$6
 
 # Login using the Managed Identity
-az login --identity -u "$ARM_CLIENT_ID"
+az login --identity --client-id "$arm_client_id"
 
 # Get the name of the private-endpoint-connection
-az network private-endpoint-connection list -g "$WS_NAME" -n "$KEYVAULT_NAME" --type Microsoft.Keyvault/vaults
 name=$(az network private-endpoint-connection list \
-  --id "/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${WS_NAME}/providers/Microsoft.KeyVault/vaults/${KEYVAULT_NAME}" | \
-  jq -r "[.[] | select(.properties.privateLinkServiceConnectionState.status == \"Pending\") | \
-  select(.properties.privateEndpoint.id | endswith(\"${WORKSPACE_RESOURCE_NAME_SUFFIX}\"))] | first | .name")
+  --id "/subscriptions/${arm_subscription_id}/resourceGroups/${rg_name}/providers/Microsoft.Sql/servers/${sql_server_name}" \
+  --output json | jq -r \
+  --arg suffix "privateEndpoints/${data_factory_name}.${private_endpoint_name}" \
+  '.[]
+   | select(.properties.privateLinkServiceConnectionState.status == "Pending")
+   | select(.properties.privateEndpoint.id | endswith($suffix))
+   | .name')
 
 # Exit if name not found
 if [ -z "$name" ]; then
@@ -21,10 +30,10 @@ if [ -z "$name" ]; then
     exit 1
 fi
 
-# Approve the private-endpoint-connection
+#Approve the private-endpoint-connection
 az network private-endpoint-connection approve \
-  -g "$WS_NAME" \
+  -g "$rg_name" \
   -n "$name" \
-  --resource-name "$KEYVAULT_NAME" \
-  --type "Microsoft.KeyVault/vaults" \
-  --description "Auto-Approved-Terraform"
+  --resource-name "$sql_server_name" \
+  --type "Microsoft.Sql/servers" \
+  --description "Auto-Approved by custom script."

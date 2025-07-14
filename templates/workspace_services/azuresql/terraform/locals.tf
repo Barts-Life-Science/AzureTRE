@@ -15,6 +15,8 @@ locals {
   azuresql_administrator_login = "azuresqladmin"
   azuresql_collation           = "SQL_Latin1_General_CP1_CI_AS"
 
+
+
   azuresql_sku = {
     "S1 | 20 DTUs"  = { value = "S1" },
     "S2 | 50 DTUs"  = { value = "S2" },
