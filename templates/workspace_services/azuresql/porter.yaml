@@ -78,7 +78,6 @@ install:
         storage_gb: ${ bundle.parameters.storage_gb }
         db_name: ${ bundle.parameters.db_name }
         arm_environment: ${ bundle.parameters.arm_environment }
-        arm_client_id: ${ bundle.credentials.azure_client_id }
       backendConfig:
         resource_group_name: ${ bundle.parameters.tfstate_resource_group_name }
         storage_account_name: ${ bundle.parameters.tfstate_storage_account_name }
@@ -97,7 +96,6 @@ upgrade:
         storage_gb: ${ bundle.parameters.storage_gb }
         db_name: ${ bundle.parameters.db_name }
         arm_environment: ${ bundle.parameters.arm_environment }
-        arm_client_id: ${ bundle.credentials.azure_client_id }
       backendConfig:
         resource_group_name: ${ bundle.parameters.tfstate_resource_group_name }
         storage_account_name: ${ bundle.parameters.tfstate_storage_account_name }
@@ -116,7 +114,6 @@ uninstall:
         storage_gb: ${ bundle.parameters.storage_gb }
         db_name: ${ bundle.parameters.db_name }
         arm_environment: ${ bundle.parameters.arm_environment }
-        arm_client_id: ${ bundle.credentials.azure_client_id }
       backendConfig:
         resource_group_name: ${ bundle.parameters.tfstate_resource_group_name }
         storage_account_name: ${ bundle.parameters.tfstate_storage_account_name }
