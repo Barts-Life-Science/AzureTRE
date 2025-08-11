@@ -2,7 +2,6 @@
 set -o errexit
 set -o pipefail
 set -o nounset
-set -o xtrace
 
 if [[ -z ${DATA_SOURCE_CONFIG:-} ]] || [[ -z ${DATA_SOURCE_DIAMONS:-} ]]; then
   printf 'No data source or daimons configured.'
