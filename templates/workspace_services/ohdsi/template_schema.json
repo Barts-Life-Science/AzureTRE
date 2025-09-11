@@ -70,24 +70,29 @@
               },
               "source_name": {
                 "type": "string",
-                "title": "Source Name"
+                "title": "Source Name",
+                "default": "This could be the name of the project workspace."
               },
               "source_key": {
                 "type": "string",
                 "title": "Source Key",
+                "default": "This could also be the name of the project workspace and must be lower case and without any space.",
                 "description": "A unique source key"
               },
               "connection_string": {
                 "type": "string",
+                "default": "The database connection string.",
                 "title": "Connection String"
               },
               "username": {
                 "type": "string",
+                "default": "The database username.",
                 "title": "Username"
               },
               "password": {
                 "type": "string",
                 "title": "Password",
+                "default": "The database password.",
                 "format": "password"
               }
             },
@@ -108,26 +113,32 @@
             "properties": {
               "daimon_cdm": {
                 "type": "string",
+                "default": "Leave this as the word cdm.",
                 "title": "CDM"
               },
               "daimon_vocabulary": {
                 "type": "string",
+                "default": "Leave this as the word cdm.",
                 "title": "Vocabulary"
               },
               "daimon_results": {
                 "type": "string",
+                "default": "The results schema to copy. This schema must already exist in the database. e.g, results",
                 "title": "Results Schema to copy"
               },
               "daimon_cem": {
                 "type": "string",
+                "default": "The results schema to copy. This schema must already exist in the database. e.g, results",
                 "title": "CEM"
               },
               "daimon_cem_results": {
                 "type": "string",
+                "default": "This is not a mandatory field. If you have a separate schema for CEM results, provide the name here. Otherwise, leave it blank.",
                 "title": "CEMResults"
               },
               "daimon_temp": {
                 "type": "string",
+                "default": "The results schema to copy. This schema must already exist in the database. e.g, temp",
                 "title": "Temp Schema to copy"
               }
             },
