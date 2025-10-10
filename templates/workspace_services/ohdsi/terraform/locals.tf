@@ -8,6 +8,9 @@ locals {
   storage_name                   = lower(replace("stg${substr(local.workspace_resource_name_suffix, -8, -1)}", "-", ""))
   porter_yaml                    = yamldecode(file("${path.module}/../porter.yaml"))
 
+  #
+  # TODO These should be configurable parameters
+  #
   # Synapse Workspace
   synapse_workspace_name = "synapse-ws-omop-ohdsi-test"
   synapse_resource_group = "rg-omop-ohdsi-test"

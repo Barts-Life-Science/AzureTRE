@@ -17,7 +17,8 @@ do
         atlaspw=$(htpasswd -bnBC 4 "" "$i" | tr -d ':\n' | sed 's/$2y/$2a/')
         psql -v ON_ERROR_STOP=1 -e "$OHDSI_ADMIN_CONNECTION_STRING" -c "insert into webapi_security.security (email,password) values ('$username', E'$atlaspw');"
         # this step adds some required rows/ids in the db
-        curl "$WEB_API_URL/user/login/db" --data-urlencode "login=$username" --data-urlencode "password=$i" --fail
+        echo "curl ${WEB_API_URL}user/login/db --data-urlencode login=$username --data-urlencode password=$i --fail"
+        curl "${WEB_API_URL}user/login/db" --data-urlencode "login=$username" --data-urlencode "password=$i" --fail
 
         if [ "$count" = "2" ]; then
             psql -v ON_ERROR_STOP=1 -e "$OHDSI_ADMIN_CONNECTION_STRING" -c "insert into webapi.sec_user_role (user_id, role_id) values ((select id from webapi.sec_user where login='$username'),2);" #admin role

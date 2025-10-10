@@ -205,9 +205,8 @@ resource "terraform_data" "deployment_ohdsi_webapi_init" {
   provisioner "local-exec" {
 
     environment = {
-      MAIN_CONNECTION_STRING        = "host=${azurerm_postgresql_flexible_server.postgres.name}.postgres.database.azure.com port=5432 dbname=${local.postgres_webapi_database_name} user=${local.postgres_admin_username} password=${azurerm_key_vault_secret.postgres_admin_password.value} sslmode=require"
-      OHDSI_ADMIN_CONNECTION_STRING = "host=${azurerm_postgresql_flexible_server.postgres.name}.postgres.database.azure.com port=5432 dbname=${local.postgres_webapi_database_name} user=${local.postgres_webapi_admin_username} password=${azurerm_key_vault_secret.postgres_webapi_admin_password.value} sslmode=require"
-      SERVER_NAME                   = azurerm_postgresql_flexible_server.postgres.name
+      MAIN_CONNECTION_STRING        = "host=${azurerm_postgresql_flexible_server.postgres.fqdn} port=5432 dbname=${local.postgres_webapi_database_name} user=${local.postgres_admin_username} password=${azurerm_key_vault_secret.postgres_admin_password.value} sslmode=require"
+      OHDSI_ADMIN_CONNECTION_STRING = "host=${azurerm_postgresql_flexible_server.postgres.fqdn} port=5432 dbname=${local.postgres_webapi_database_name} user=${local.postgres_webapi_admin_username} password=${azurerm_key_vault_secret.postgres_webapi_admin_password.value} sslmode=require"
       DATABASE_NAME                 = local.postgres_webapi_database_name
       SCHEMA_NAME                   = local.postgres_schema_name
       OHDSI_ADMIN_PASSWORD          = azurerm_key_vault_secret.postgres_webapi_admin_password.value

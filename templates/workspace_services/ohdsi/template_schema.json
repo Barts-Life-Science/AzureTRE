@@ -104,7 +104,7 @@
             "type": "object",
             "title": "Source Daimons",
             "description": "Configure source daimons",
-            "default": null,
+            "default": "cdm",
             "properties": {
               "daimon_cdm": {
                 "type": "string",
@@ -112,11 +112,13 @@
               },
               "daimon_vocabulary": {
                 "type": "string",
-                "title": "Vocabulary"
+                "title": "Vocabulary",
+                "default": "cdm"
               },
               "daimon_results": {
                 "type": "string",
-                "title": "Results Schema to copy"
+                "title": "Results Schema to copy",
+                "default": "results"
               },
               "daimon_cem": {
                 "type": "string",

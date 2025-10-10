@@ -33,6 +33,7 @@ resource "terraform_data" "deployment_atlas_security" {
     terraform_data.deployment_ohdsi_webapi_init,
     terraform_data.postgres_core_dns_link,
     azurerm_private_endpoint.webapi_private_endpoint,
-    azurerm_subnet_network_security_group_association.postgres
+    azurerm_subnet_network_security_group_association.postgres,
+    azurerm_linux_web_app.ohdsi_webapi
   ]
 }
