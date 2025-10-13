@@ -8,13 +8,6 @@ locals {
   storage_name                   = lower(replace("stg${substr(local.workspace_resource_name_suffix, -8, -1)}", "-", ""))
   porter_yaml                    = yamldecode(file("${path.module}/../porter.yaml"))
 
-  #
-  # TODO These should be configurable parameters
-  #
-  # Synapse Workspace
-  synapse_workspace_name = "synapse-ws-omop-ohdsi-test"
-  synapse_resource_group = "rg-omop-ohdsi-test"
-
   # ATLAS Database
   postgres_admin_username        = "postgres_admin"
   postgres_webapi_admin_username = "ohdsi_admin_user"
@@ -74,4 +67,18 @@ locals {
   daimon_temp            = try(local.data_source_daimons.daimon_temp, null)
   results_schema_name    = local.is_synapse_data_source && local.daimon_results != null ? "${local.data_source_daimons.daimon_results}_${replace(var.tre_resource_id, "-", "_")}" : local.daimon_results
   temp_schema_name       = local.is_synapse_data_source && local.daimon_temp != null ? "${local.data_source_daimons.daimon_temp}_${replace(var.tre_resource_id, "-", "_")}" : local.daimon_temp
+
+  # Synapse Workspace - extract from data source config
+  synapse_workspace_name   = try(local.data_source_config.synapse_workspace_name, null)
+  synapse_resource_group   = try(local.data_source_config.synapse_resource_group, null)
+  synapse_database_name    = try(local.data_source_config.synapse_database_name, null)
+  synapse_subscription_id  = try(local.data_source_config.synapse_subscription_id, "") != "" ? local.data_source_config.synapse_subscription_id : data.azurerm_client_config.current.subscription_id
+
+  # Build connection string automatically for Synapse
+  synapse_connection_string = local.is_synapse_data_source && local.synapse_workspace_name != null && local.synapse_database_name != null ? (
+    "jdbc:sqlserver://${local.synapse_workspace_name}.privatelink.sql.azuresynapse.net:1433;database=${local.synapse_database_name};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.sql.azuresynapse.net;loginTimeout=30"
+  ) : null
+
+  # Use provided connection string or the derived one
+  final_connection_string = try(local.data_source_config.connection_string, null) != null && try(local.data_source_config.connection_string, "") != "" ? local.data_source_config.connection_string : local.synapse_connection_string
 }
