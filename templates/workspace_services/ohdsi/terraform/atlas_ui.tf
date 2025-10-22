@@ -11,6 +11,10 @@ resource "azurerm_role_assignment" "vmss_share_contributor" {
   scope                = data.azurerm_storage_account.stg.id # TODO TW: verify scope azurerm_storage_share.atlas_ui.id
   role_definition_name = "Storage File Data Privileged Contributor" # TODO TW: Not "Storage File Data SMB Share Contributor"
   principal_id         = data.azuread_service_principal.vmss_msi.object_id
+
+  lifecycle {
+    ignore_changes = all # TODO Would like to use 'ignore_existing = true' instead, but that needs terraform > 3.99.0
+  }
 }
 
 resource "local_file" "config_local" {

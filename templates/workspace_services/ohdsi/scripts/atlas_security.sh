@@ -4,7 +4,7 @@ set -o pipefail
 set -o nounset
 
 # Wait for WebAPI to be ready
-MAX_RETRIES=30
+MAX_RETRIES=90
 RETRY_DELAY=10
 retry_count=0
 
