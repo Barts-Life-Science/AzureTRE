@@ -74,6 +74,18 @@ resource "azurerm_network_security_group" "postgres" {
   }
 
   security_rule {
+    name                         = "AllowServicesToPostgres"
+    priority                     = 102
+    direction                    = "Inbound"
+    access                       = "Allow"
+    protocol                     = "Tcp"
+    source_port_range            = "*"
+    destination_port_range       = "5432"
+    source_address_prefixes      = [data.azurerm_subnet.services.address_prefix]
+    destination_address_prefixes = azurerm_subnet.postgres.address_prefixes
+  }
+
+  security_rule {
     name                       = "DenyInboundOverride"
     priority                   = 4096
     direction                  = "Inbound"

@@ -17,6 +17,20 @@ resource "azurerm_role_assignment" "vmss_share_contributor" {
   }
 }
 
+resource "terraform_data" "role_assignment_wait" {
+  triggers_replace = {
+    role_assignment_id = azurerm_role_assignment.vmss_share_contributor.id
+  }
+
+  provisioner "local-exec" {
+    command = "sleep 30"
+  }
+
+  depends_on = [
+    azurerm_role_assignment.vmss_share_contributor
+  ]
+}
+
 resource "local_file" "config_local" {
   content  = templatefile("${path.module}/config_local.tftpl", { OHDSI_WEBAPI_URL = local.ohdsi_webapi_url })
   filename = local.config_local_file_path
@@ -27,9 +41,13 @@ resource "azurerm_storage_share_file" "config_local" {
   storage_share_id = azurerm_storage_share.atlas_ui.url
   source           = local.config_local_file_path
 
+  lifecycle {
+    ignore_changes = [ source ]
+  }
+
   depends_on = [
     local_file.config_local,
-    azurerm_role_assignment.vmss_share_contributor
+    terraform_data.role_assignment_wait
   ]
 }
 
