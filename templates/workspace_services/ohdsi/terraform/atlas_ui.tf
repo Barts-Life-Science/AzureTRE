@@ -1,7 +1,16 @@
 resource "azurerm_storage_share" "atlas_ui" {
-  name                 = local.atlas_ui_storage_share_name
-  storage_account_name = data.azurerm_storage_account.stg.name
-  quota                = 1
+  name = local.atlas_ui_storage_share_name
+  # TODO remove
+  # storage_account_name = data.azurerm_storage_account.stg.name
+  storage_account_id = data.azurerm_storage_account.stg.id
+  quota              = 1
+}
+
+# ─── Allow the RP VMSS to write to the UI fileshare.
+resource "azurerm_role_assignment" "vmss_share_contributor" {
+  scope                = data.azurerm_storage_account.stg.id # TODO TW: verify scope azurerm_storage_share.atlas_ui.id
+  role_definition_name = "Storage File Data Privileged Contributor" # TODO TW: Not "Storage File Data SMB Share Contributor"
+  principal_id         = data.azuread_service_principal.vmss_msi.object_id
 }
 
 resource "local_file" "config_local" {
@@ -11,11 +20,12 @@ resource "local_file" "config_local" {
 
 resource "azurerm_storage_share_file" "config_local" {
   name             = "config-local.js"
-  storage_share_id = azurerm_storage_share.atlas_ui.id
+  storage_share_id = azurerm_storage_share.atlas_ui.url
   source           = local.config_local_file_path
 
   depends_on = [
-    local_file.config_local
+    local_file.config_local,
+    azurerm_role_assignment.vmss_share_contributor
   ]
 }
 

@@ -135,6 +135,10 @@ resource "azurerm_private_endpoint" "webapi_private_endpoint" {
     private_dns_zone_ids = [data.azurerm_private_dns_zone.azurewebsites.id]
   }
 
+  depends_on = [
+    data.azurerm_private_dns_zone.azurewebsites
+  ]
+
   lifecycle { ignore_changes = [tags] }
 }
 
