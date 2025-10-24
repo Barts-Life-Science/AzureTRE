@@ -60,3 +60,49 @@ resource "azurerm_private_dns_zone" "nexus" {
 
   lifecycle { ignore_changes = [tags] }
 }
+
+# Synapse and Postgres for the OHDSI workspace service. They may be deployed in
+# several workspaces, but they can't each deploy their own link.
+resource "azurerm_private_dns_zone_virtual_network_link" "postgres" {
+  resource_group_name   = azurerm_resource_group.core.name
+  virtual_network_id    = module.network.core_vnet_id
+  private_dns_zone_name = azurerm_private_dns_zone.non_core["privatelink.postgres.database.azure.com"].name
+  name                  = azurerm_private_dns_zone.non_core["privatelink.postgres.database.azure.com"].name
+  registration_enabled  = false
+  tags                  = local.tre_core_tags
+
+  lifecycle { ignore_changes = [tags] }
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "synapse_sql" {
+  resource_group_name   = azurerm_resource_group.core.name
+  virtual_network_id    = module.network.core_vnet_id
+  private_dns_zone_name = azurerm_private_dns_zone.non_core["privatelink.sql.azuresynapse.net"].name
+  name                  = azurerm_private_dns_zone.non_core["privatelink.sql.azuresynapse.net"].name
+  registration_enabled  = false
+  tags                  = local.tre_core_tags
+
+  lifecycle { ignore_changes = [tags] }
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "synapse_dev" {
+  resource_group_name   = azurerm_resource_group.core.name
+  virtual_network_id    = module.network.core_vnet_id
+  private_dns_zone_name = azurerm_private_dns_zone.non_core["privatelink.dev.azuresynapse.net"].name
+  name                  = azurerm_private_dns_zone.non_core["privatelink.dev.azuresynapse.net"].name
+  registration_enabled  = false
+  tags                  = local.tre_core_tags
+
+  lifecycle { ignore_changes = [tags] }
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "synapse" {
+  resource_group_name   = azurerm_resource_group.core.name
+  virtual_network_id    = module.network.core_vnet_id
+  private_dns_zone_name = azurerm_private_dns_zone.non_core["privatelink.azuresynapse.net"].name
+  name                  = azurerm_private_dns_zone.non_core["privatelink.azuresynapse.net"].name
+  registration_enabled  = false
+  tags                  = local.tre_core_tags
+
+  lifecycle { ignore_changes = [tags] }
+}

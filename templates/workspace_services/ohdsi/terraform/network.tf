@@ -65,19 +65,22 @@ resource "azurerm_private_dns_a_record" "synapse_sql" {
   ]
 }
 
-resource "azurerm_private_dns_zone_virtual_network_link" "postgres_core_vnet_link" {
-  name                  = "postgres-core-vnet-link"
-  resource_group_name   = local.core_resource_group_name
-  private_dns_zone_name = data.azurerm_private_dns_zone.postgres.name
-  virtual_network_id    = data.azurerm_virtual_network.core.id
-  registration_enabled  = false
-}
+# TODO TW: Remove this from here, it's going to the core
+# resource "azurerm_private_dns_zone_virtual_network_link" "postgres_core_vnet_link" {
+#   count                 = local.is_synapse_data_source ? 1 : 0
+#   name                  = "postgres-core-vnet-link"
+#   resource_group_name   = local.core_resource_group_name
+#   private_dns_zone_name = data.azurerm_private_dns_zone.postgres.name
+#   virtual_network_id    = data.azurerm_virtual_network.core.id
+#   registration_enabled  = false
+# }
 
-resource "azurerm_private_dns_zone_virtual_network_link" "synapse_sql_core_vnet_link" {
-  count                 = local.is_synapse_data_source ? 1 : 0
-  name                  = "synapse-sql-core-vnet-link"
-  resource_group_name   = local.core_resource_group_name
-  private_dns_zone_name = data.azurerm_private_dns_zone.synapse_sql[0].name
-  virtual_network_id    = data.azurerm_virtual_network.core.id
-  registration_enabled  = false
-}
+# TODO TW: Remove this from here, it's going to the core
+# resource "azurerm_private_dns_zone_virtual_network_link" "synapse_sql_core_vnet_link" {
+#   count                 = local.is_synapse_data_source ? 1 : 0
+#   name                  = "synapse-sql-core-vnet-link"
+#   resource_group_name   = local.core_resource_group_name
+#   private_dns_zone_name = data.azurerm_private_dns_zone.synapse_sql[0].name
+#   virtual_network_id    = data.azurerm_virtual_network.core.id
+#   registration_enabled  = false
+# }
