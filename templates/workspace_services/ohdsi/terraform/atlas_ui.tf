@@ -8,8 +8,8 @@ resource "azurerm_storage_share" "atlas_ui" {
 
 # ─── Allow the RP VMSS to write to the UI fileshare.
 resource "azurerm_role_assignment" "vmss_share_contributor" {
-  scope                = data.azurerm_storage_account.stg.id # TODO TW: verify scope azurerm_storage_share.atlas_ui.id
-  role_definition_name = "Storage File Data Privileged Contributor" # TODO TW: Not "Storage File Data SMB Share Contributor"
+  scope                = data.azurerm_storage_account.stg.id
+  role_definition_name = "Storage File Data Privileged Contributor"
   principal_id         = data.azuread_service_principal.vmss_msi.object_id
 
   lifecycle {
@@ -23,7 +23,7 @@ resource "terraform_data" "role_assignment_wait" {
   }
 
   provisioner "local-exec" {
-    command = "sleep 30"
+    command = "sleep 60"
   }
 
   depends_on = [

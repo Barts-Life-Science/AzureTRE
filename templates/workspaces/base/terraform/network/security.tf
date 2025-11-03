@@ -233,7 +233,19 @@ resource "azurerm_network_security_rule" "allow_inbound_from_webapp_to_services"
   source_port_range            = "*"
 }
 
-
+resource "azurerm_network_security_rule" "allow_outbound_to_synapse" {
+  access                       = "Allow"
+  destination_address_prefixes = data.azurerm_virtual_network.core.address_space
+  destination_port_range       = "1433"
+  direction                    = "Outbound"
+  name                         = "outbound-to-synapse"
+  network_security_group_name  = azurerm_network_security_group.ws.name
+  priority                     = 115
+  protocol                     = "Tcp"
+  resource_group_name          = var.ws_resource_group_name
+  source_address_prefix        = "*"
+  source_port_range            = "*"
+}
 
 moved {
   from = azurerm_network_security_rule.deny-outbound-overrid
