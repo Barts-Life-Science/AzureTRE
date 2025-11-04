@@ -3,6 +3,9 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
+# TODO TW: Clean this up
+env | sort >&2
+
 echo "...0" >&2
 if [[ -z ${DATA_SOURCE_CONFIG:-} ]] || [[ -z ${DATA_SOURCE_DIAMONS:-} ]]; then
   printf 'No data source or daimons configured.'
@@ -10,8 +13,14 @@ if [[ -z ${DATA_SOURCE_CONFIG:-} ]] || [[ -z ${DATA_SOURCE_DIAMONS:-} ]]; then
 else
   # Parse Data source
 echo "...1" >&2
+  echo "DATA_SOURCE_CONFIG = ${DATA_SOURCE_CONFIG}" >&2
+  echo "DATA_SOURCE_DIAMONS = ${DATA_SOURCE_DIAMONS}" >&2
+
   ds_config="$(echo "$DATA_SOURCE_CONFIG" | base64 --decode)"
   ds_daimons="$(echo "$DATA_SOURCE_DIAMONS" | base64 --decode)"
+  echo "ds_config = ${ds_config}" >&2
+  echo "ds_daimons = ${ds_daimons}" >&2
+
   dialect="$(jq -r '.dialect' <<< "$ds_config")"
 
   if [[ $dialect != "Azure Synapse" ]]; then
@@ -32,9 +41,11 @@ echo "...2" >&2
 echo "...3" >&2
   jdbc_connection_string="$(jq -r '.connection_string' <<< "$ds_config")"
 echo "...4" >&2
-  synapse_server="$([[ $jdbc_connection_string =~ jdbc:sqlserver://(.*):1433 ]] &&  echo "${BASH_REMATCH[1]}")"
+  # synapse_server="$([[ $jdbc_connection_string =~ jdbc:sqlserver://(.*):1433 ]] &&  echo "${BASH_REMATCH[1]}")"
+  synapse_server="$(jq -r '.synapse_workspace_name' <<< "$ds_config")"
 echo "...5" >&2
-  synapse_db="$([[ $jdbc_connection_string =~ database=(.*)(;user) ]] &&  echo "${BASH_REMATCH[1]}")"
+  # synapse_db="$([[ $jdbc_connection_string =~ database=(.*)(;user) ]] &&  echo "${BASH_REMATCH[1]}")"
+  synapse_db="$(jq -r '.synapse_database_name' <<< "$ds_config")"
 echo "...6" >&2
   origin_results_schema_name="$(jq -r '.daimon_results' <<< "$ds_daimons")"
 echo "...7" >&2
@@ -55,7 +66,7 @@ echo "...13" >&2
 
   printf 'Execute Synapse SQL script'
 echo "...14" >&2
-  sqlcmd -U "${admin_user}" -S "${synapse_server}" -d "${synapse_db}" -W -v RESULTS_SCHEMA_NAME="${results_schema_name}" -v TEMP_SCHEMA_NAME="${temp_schema_name}" -v ORIGIN_RESULTS_SCHEMA_NAME="${origin_results_schema_name}" -i "${SCRIPT_PATH}"
+  sqlcmd -U "${admin_user}" -S "${synapse_server}.sql.azuresynapse.net" -d "${synapse_db}" -W -v RESULTS_SCHEMA_NAME="${results_schema_name}" -v TEMP_SCHEMA_NAME="${temp_schema_name}" -v ORIGIN_RESULTS_SCHEMA_NAME="${origin_results_schema_name}" -i "${SCRIPT_PATH}"
 echo "...15" >&2
   printf 'Execute Synapse SQL script: done.'
 echo "...16" >&2
