@@ -133,7 +133,6 @@ data "azurerm_private_dns_zone" "databricks" {
   resource_group_name = local.core_resource_group_name
 }
 
-
 data "azurerm_private_dns_zone" "synapse_sql" {
   name                = module.terraform_azurerm_environment_configuration.private_links["privatelink.sql.azuresynapse.net"]
   resource_group_name = local.core_resource_group_name
