@@ -1,3 +1,5 @@
+data "azurerm_client_config" "current" {}
+
 data "azurerm_resource_group" "ws" {
   name = "rg-${var.tre_id}-ws-${local.short_workspace_id}"
 }
@@ -75,7 +77,13 @@ data "azurerm_private_dns_zone" "postgres" {
   resource_group_name = local.core_resource_group_name
 }
 
-data "azurerm_synapse_workspace" "synapse_cdm" {
-  name                = local.synapse_workspace_name
-  resource_group_name = local.synapse_resource_group
+data "azurerm_private_dns_zone" "synapse_sql" {
+  count               = local.is_synapse_data_source ? 1 : 0
+  name                = module.terraform_azurerm_environment_configuration.private_links["privatelink.sql.azuresynapse.net"]
+  resource_group_name = local.core_resource_group_name
+}
+
+# Need this to assign the storage role to the VMSS MSI so it can upload the UI config file.
+data "azuread_service_principal" "vmss_msi" {
+  display_name = "id-vmss-${var.tre_id}"
 }

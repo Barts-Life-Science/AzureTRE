@@ -68,6 +68,28 @@
                 ],
                 "updateable": true
               },
+              "synapse_subscription_id": {
+                "type": "string",
+                "title": "Synapse Subscription ID (Optional)",
+                "description": "Subscription ID containing the Synapse workspace. If not provided, the current subscription will be used.",
+                "default": ""
+              },
+              "synapse_workspace_name": {
+                "type": "string",
+                "title": "Synapse Workspace Name",
+                "description": "Name of the Azure Synapse workspace"
+              },
+              "synapse_resource_group": {
+                "type": "string",
+                "title": "Synapse Resource Group",
+                "description": "Resource group containing the Synapse workspace"
+              },
+              "synapse_database_name": {
+                "type": "string",
+                "title": "Synapse Database Name",
+                "description": "Name of the database in the Synapse workspace",
+                "default": "master"
+              },
               "source_name": {
                 "type": "string",
                 "title": "Source Name"
@@ -79,7 +101,8 @@
               },
               "connection_string": {
                 "type": "string",
-                "title": "Connection String"
+                "title": "Connection String (Optional)",
+                "description": "Override the auto-generated connection string if needed"
               },
               "username": {
                 "type": "string",
@@ -95,7 +118,9 @@
               "source_name",
               "dialect",
               "source_key",
-              "connection_string",
+              "synapse_workspace_name",
+              "synapse_resource_group",
+              "synapse_database_name",
               "username",
               "password"
             ]
@@ -104,19 +129,22 @@
             "type": "object",
             "title": "Source Daimons",
             "description": "Configure source daimons",
-            "default": null,
+            "default": "cdm",
             "properties": {
               "daimon_cdm": {
                 "type": "string",
-                "title": "CDM"
+                "title": "CDM",
+                "default": "cdm"
               },
               "daimon_vocabulary": {
                 "type": "string",
-                "title": "Vocabulary"
+                "title": "Vocabulary",
+                "default": "cdm"
               },
               "daimon_results": {
                 "type": "string",
-                "title": "Results Schema to copy"
+                "title": "Results Schema to copy",
+                "default": "results"
               },
               "daimon_cem": {
                 "type": "string",

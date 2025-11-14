@@ -1,7 +1,32 @@
 resource "azurerm_storage_share" "atlas_ui" {
-  name                 = local.atlas_ui_storage_share_name
-  storage_account_name = data.azurerm_storage_account.stg.name
-  quota                = 1
+  name               = local.atlas_ui_storage_share_name
+  storage_account_id = data.azurerm_storage_account.stg.id
+  quota              = 1
+}
+
+# ─── Allow the RP VMSS to write to the UI fileshare.
+resource "azurerm_role_assignment" "vmss_share_contributor" {
+  scope                = data.azurerm_storage_account.stg.id
+  role_definition_name = "Storage File Data Privileged Contributor"
+  principal_id         = data.azuread_service_principal.vmss_msi.object_id
+
+  lifecycle {
+    ignore_changes = all # TODO Would like to use 'ignore_existing = true' instead, but that needs terraform > 3.99.0
+  }
+}
+
+resource "terraform_data" "role_assignment_wait" {
+  triggers_replace = {
+    role_assignment_id = azurerm_role_assignment.vmss_share_contributor.id
+  }
+
+  provisioner "local-exec" {
+    command = "sleep 60"
+  }
+
+  depends_on = [
+    azurerm_role_assignment.vmss_share_contributor
+  ]
 }
 
 resource "local_file" "config_local" {
@@ -11,11 +36,16 @@ resource "local_file" "config_local" {
 
 resource "azurerm_storage_share_file" "config_local" {
   name             = "config-local.js"
-  storage_share_id = azurerm_storage_share.atlas_ui.id
+  storage_share_id = azurerm_storage_share.atlas_ui.url
   source           = local.config_local_file_path
 
+  lifecycle {
+    ignore_changes = [source]
+  }
+
   depends_on = [
-    local_file.config_local
+    local_file.config_local,
+    terraform_data.role_assignment_wait
   ]
 }
 
@@ -30,12 +60,12 @@ resource "azurerm_linux_web_app" "atlas_ui" {
   client_affinity_enabled = false
 
   site_config {
-    always_on  = false
-    ftps_state = "Disabled"
+    always_on           = false
+    ftps_state          = "Disabled"
+    minimum_tls_version = "1.3"
 
     application_stack {
-      docker_image     = "index.docker.io/${local.atlas_ui_docker_image_name}"
-      docker_image_tag = local.atlas_ui_docker_image_tag
+      docker_image_name = "index.docker.io/${local.atlas_ui_docker_image_name}:${local.atlas_ui_docker_image_tag}"
     }
   }
 

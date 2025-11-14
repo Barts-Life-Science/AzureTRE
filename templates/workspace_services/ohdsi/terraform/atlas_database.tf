@@ -69,7 +69,19 @@ resource "azurerm_network_security_group" "postgres" {
     protocol                     = "Tcp"
     source_port_range            = "*"
     destination_port_range       = "5432"
-    source_address_prefixes      = [data.azurerm_subnet.resource_processor.address_prefix]
+    source_address_prefixes      = data.azurerm_subnet.resource_processor.address_prefixes
+    destination_address_prefixes = azurerm_subnet.postgres.address_prefixes
+  }
+
+  security_rule {
+    name                         = "AllowServicesToPostgres"
+    priority                     = 102
+    direction                    = "Inbound"
+    access                       = "Allow"
+    protocol                     = "Tcp"
+    source_port_range            = "*"
+    destination_port_range       = "5432"
+    source_address_prefixes      = [data.azurerm_subnet.services.address_prefix]
     destination_address_prefixes = azurerm_subnet.postgres.address_prefixes
   }
 
@@ -96,7 +108,6 @@ resource "azurerm_network_security_group" "postgres" {
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
-
 }
 
 resource "azurerm_subnet" "postgres" {
@@ -120,19 +131,6 @@ resource "azurerm_subnet_network_security_group_association" "postgres" {
   network_security_group_id = azurerm_network_security_group.postgres.id
 }
 
-resource "terraform_data" "postgres_core_dns_link" {
-  provisioner "local-exec" {
-
-    environment = {
-      RESOURCE_GROUP = local.core_resource_group_name
-      DNS_ZONE_NAME  = data.azurerm_private_dns_zone.postgres.name
-      VNET           = data.azurerm_virtual_network.core.name
-    }
-
-    command = "../scripts/postgres_dns_link.sh"
-  }
-}
-
 resource "terraform_data" "postgres_subnet_wait" {
   provisioner "local-exec" {
     command = "sleep 30"
@@ -140,8 +138,7 @@ resource "terraform_data" "postgres_subnet_wait" {
 
   depends_on = [
     azurerm_subnet.postgres,
-    azurerm_subnet_network_security_group_association.postgres,
-    terraform_data.postgres_core_dns_link
+    azurerm_subnet_network_security_group_association.postgres
   ]
 }
 
@@ -161,12 +158,12 @@ resource "azurerm_postgresql_flexible_server" "postgres" {
   tags                          = local.tre_workspace_service_tags
 
   timeouts {
-    # If this doesn't complete in a realistic time, no point in waiting the full/default 60m
     create = "15m"
   }
 
   depends_on = [
     terraform_data.postgres_subnet_wait,
+    data.azurerm_private_dns_zone.postgres
   ]
 
   lifecycle { ignore_changes = [tags] }
@@ -205,9 +202,8 @@ resource "terraform_data" "deployment_ohdsi_webapi_init" {
   provisioner "local-exec" {
 
     environment = {
-      MAIN_CONNECTION_STRING        = "host=${azurerm_postgresql_flexible_server.postgres.name}.postgres.database.azure.com port=5432 dbname=${local.postgres_webapi_database_name} user=${local.postgres_admin_username} password=${azurerm_key_vault_secret.postgres_admin_password.value} sslmode=require"
-      OHDSI_ADMIN_CONNECTION_STRING = "host=${azurerm_postgresql_flexible_server.postgres.name}.postgres.database.azure.com port=5432 dbname=${local.postgres_webapi_database_name} user=${local.postgres_webapi_admin_username} password=${azurerm_key_vault_secret.postgres_webapi_admin_password.value} sslmode=require"
-      SERVER_NAME                   = azurerm_postgresql_flexible_server.postgres.name
+      MAIN_CONNECTION_STRING        = "host=${azurerm_postgresql_flexible_server.postgres.fqdn} port=5432 dbname=${local.postgres_webapi_database_name} user=${local.postgres_admin_username} password=${azurerm_key_vault_secret.postgres_admin_password.value} sslmode=require"
+      OHDSI_ADMIN_CONNECTION_STRING = "host=${azurerm_postgresql_flexible_server.postgres.fqdn} port=5432 dbname=${local.postgres_webapi_database_name} user=${local.postgres_webapi_admin_username} password=${azurerm_key_vault_secret.postgres_webapi_admin_password.value} sslmode=require"
       DATABASE_NAME                 = local.postgres_webapi_database_name
       SCHEMA_NAME                   = local.postgres_schema_name
       OHDSI_ADMIN_PASSWORD          = azurerm_key_vault_secret.postgres_webapi_admin_password.value
@@ -222,7 +218,8 @@ resource "terraform_data" "deployment_ohdsi_webapi_init" {
   }
 
   depends_on = [
-    terraform_data.postgres_core_dns_link,
-    azurerm_subnet_network_security_group_association.postgres
+    data.azurerm_private_dns_zone.postgres,
+    azurerm_subnet_network_security_group_association.postgres,
+    azurerm_postgresql_flexible_server.postgres
   ]
 }

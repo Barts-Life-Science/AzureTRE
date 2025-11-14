@@ -15,7 +15,7 @@ resource "terraform_data" "add_data_source" {
       DIALECT                = local.dialects[local.data_source_config.dialect]
       SOURCE_NAME            = local.data_source_config.source_name
       SOURCE_KEY             = local.data_source_config.source_key
-      CONNECTION_STRING      = local.data_source_config.connection_string
+      CONNECTION_STRING      = local.final_connection_string
       USERNAME               = local.data_source_config.username
       PASSWORD               = local.data_source_config.password
       DAIMON_CDM             = try(local.data_source_daimons.daimon_cdm, null)
