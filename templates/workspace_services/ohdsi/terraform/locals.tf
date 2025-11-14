@@ -29,7 +29,7 @@ locals {
   atlas_ui_storage_share_name = "atlas-${local.service_suffix}"
   atlas_ui_mount_path         = "/etc/atlas"
   atlas_ui_docker_image_name  = "ohdsi/atlas"
-  atlas_ui_docker_image_tag   = "2.14.0" # +2.12.1, 2.13.0, +2.14.0, -2.15.0
+  atlas_ui_docker_image_tag   = "2.14.0"
   config_local_file_path      = "/tmp/config-local.js"
   atals_ui_log_analytics_categories = [
     "AppServiceAppLogs",
@@ -37,16 +37,14 @@ locals {
     "AppServiceHTTPLogs"
   ]
 
-# 2.14.0 works with the old flyway.
-# 2.15.0 doesn't seem to work. Try 2.15.0 + 2.15.1
   # OHDSI WEB API
   ohdsi_webapi_name                 = "app-ohdsi-webapi-${local.service_suffix}"
   ohdsi_webapi_fqdn                 = "${local.ohdsi_webapi_name}.${module.terraform_azurerm_environment_configuration.web_app_suffix}"
   ohdsi_webapi_url                  = "https://${local.ohdsi_webapi_fqdn}/WebAPI/"
   ohdsi_webapi_url_auth_callback    = "${local.ohdsi_webapi_url}user/oauth/callback"
   ohdsi_api_docker_image_name       = "ohdsi/webapi"
-  ohdsi_api_docker_image_tag        = "2.14.0" # +2.12.1, 2.13.0, +2.14.0, -2.15.0, -2.15.1
-  ohdsi_api_flyway_baseline_version = "2.2.5.20180212152023" # "2.9.0.20210812164224" # for 2.15.0 # for 2.12.1 "2.2.5.20180212152023". ALso works for 2.14.0
+  ohdsi_api_docker_image_tag        = "2.14.0"
+  ohdsi_api_flyway_baseline_version = "2.2.5.20180212152023"
   ohdsi_api_log_analytics_categories = [
     "AppServiceAppLogs",
     "AppServiceConsoleLogs",
@@ -71,10 +69,10 @@ locals {
   temp_schema_name       = local.is_synapse_data_source && local.daimon_temp != null ? "${local.data_source_daimons.daimon_temp}_${replace(var.tre_resource_id, "-", "_")}" : local.daimon_temp
 
   # Synapse Workspace - extract from data source config
-  synapse_workspace_name   = try(local.data_source_config.synapse_workspace_name, null)
-  synapse_resource_group   = try(local.data_source_config.synapse_resource_group, null)
-  synapse_database_name    = try(local.data_source_config.synapse_database_name, null)
-  synapse_subscription_id  = try(local.data_source_config.synapse_subscription_id, "") != "" ? local.data_source_config.synapse_subscription_id : data.azurerm_client_config.current.subscription_id
+  synapse_workspace_name  = try(local.data_source_config.synapse_workspace_name, null)
+  synapse_resource_group  = try(local.data_source_config.synapse_resource_group, null)
+  synapse_database_name   = try(local.data_source_config.synapse_database_name, null)
+  synapse_subscription_id = try(local.data_source_config.synapse_subscription_id, "") != "" ? local.data_source_config.synapse_subscription_id : data.azurerm_client_config.current.subscription_id
 
   # Build connection string automatically for Synapse
   synapse_connection_string = local.is_synapse_data_source && local.synapse_workspace_name != null && local.synapse_database_name != null ? (

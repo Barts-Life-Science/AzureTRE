@@ -42,7 +42,7 @@ resource "azurerm_storage_share_file" "config_local" {
   source           = local.config_local_file_path
 
   lifecycle {
-    ignore_changes = [ source ]
+    ignore_changes = [source]
   }
 
   depends_on = [
