@@ -1,5 +1,5 @@
 resource "azurerm_storage_share" "atlas_ui" {
-  name = local.atlas_ui_storage_share_name
+  name               = local.atlas_ui_storage_share_name
   storage_account_id = data.azurerm_storage_account.stg.id
   quota              = 1
 }
