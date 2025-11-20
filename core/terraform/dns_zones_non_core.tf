@@ -60,15 +60,3 @@ resource "azurerm_private_dns_zone" "nexus" {
 
   lifecycle { ignore_changes = [tags] }
 }
-
-# Link core VNET to Postgres DNS zone
-# so ResourceProcessor can resolve workspace Postgres databases
-resource "azurerm_private_dns_zone_virtual_network_link" "postgres_core" {
-  resource_group_name   = azurerm_resource_group.core.name
-  virtual_network_id    = module.network.core_vnet_id
-  private_dns_zone_name = azurerm_private_dns_zone.non_core["privatelink.postgres.database.azure.com"].name
-  name                  = azurerm_private_dns_zone.non_core["privatelink.postgres.database.azure.com"].name
-  registration_enabled  = false
-  tags                  = local.tre_core_tags
-  lifecycle { ignore_changes = [tags] }
-}
