@@ -191,47 +191,22 @@
                   "value": "Your Airlock request was approved"
                 },
                 "runAfter": {
-                  "Set_recipients_as_researchers_emails": [
+                  "Set_recipient_as_submitter_email": [
                     "Succeeded"
                   ]
                 },
                 "type": "SetVariable"
               },
-              "Set_recipients_as_researchers_emails": {
+              "Set_recipient_as_submitter_email": {
                 "inputs": {
                   "name": "recipients",
-                  "value": "@body('Parse_JSON')?['data']?['recipient_emails_by_role']?['workspace_researcher']"
+                  "value": "@array(body('Parse_JSON')?['data']?['request']?['createdBy']?['email'])"
                 },
                 "runAfter": {},
                 "type": "SetVariable"
               }
             },
             "case": "approved"
-          },
-          "Case_in_review": {
-            "actions": {
-              "Set_in_review_message": {
-                "inputs": {
-                  "name": "message",
-                  "value": "An Airlock request needs your review"
-                },
-                "runAfter": {
-                  "Set_recipients_as_owners_emails": [
-                    "Succeeded"
-                  ]
-                },
-                "type": "SetVariable"
-              },
-              "Set_recipients_as_owners_emails": {
-                "inputs": {
-                  "name": "recipients",
-                  "value": "@body('Parse_JSON')?['data']?['recipient_emails_by_role']?['airlock_manager']"
-                },
-                "runAfter": {},
-                "type": "SetVariable"
-              }
-            },
-            "case": "in_review"
           }
         },
         "default": {
