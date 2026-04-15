@@ -47,10 +47,13 @@ $DaemonConfig = @"
 "@
 $DaemonConfig | Out-File -Encoding Ascii ( New-Item -Path $env:ProgramData\docker\config\daemon.json -Force )
 
-# R config
-# $RconfigFilePathWindows = C:\Progra~1\R\4.1.2\etc\Rprofile.site
-#Add-Content $RconfigFilePathWindows "local({`n    r <- getOption(`"repos`")`n    r[`"Nexus`"] <- `"${nexus_proxy_url}/repository/r-proxy/`"`n    options(repos = r)`n})"
-# echo "local({`n    r <- getOption(`"repos`")`n    r[`"Nexus`"] <- `"${nexus_proxy_url}/repository/r-proxy/`"`n    options(repos = r)`n})" > $RconfigFilePathWindows
+# R config - write to a fixed path and point R at it via R_PROFILE_SITE so the config
+# is version-independent and survives R upgrades.
+$RProfileDir = "C:\ProgramData\R"
+$RProfilePath = "$RProfileDir\Rprofile.site"
+if (-not (Test-Path $RProfileDir)) {
+    New-Item -Path $RProfileDir -ItemType Directory -Force | Out-Null
+}
 $RConfig = @"
 local({
     r <- getOption("repos")
@@ -58,7 +61,8 @@ local({
     options(repos = r)
 })
 "@
-$RConfig | Out-File -Encoding Ascii ( New-Item -Path $Env:ProgramFiles\R\R-4.1.2\etc\Rprofile.site -Force )
+$RConfig | Out-File -Encoding Ascii -FilePath $RProfilePath
+[System.Environment]::SetEnvironmentVariable("R_PROFILE_SITE", $RProfilePath, [System.EnvironmentVariableTarget]::Machine)
 
 #
 # The new 2025-03 images have a conda config that doesn't get cleaned up. Do that here.

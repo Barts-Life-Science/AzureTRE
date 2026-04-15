@@ -30,7 +30,7 @@ fi
 
 echo "System memory: ${mem_total_mb} MB. Java memory: ${java_mem} MB"
 
-docker run -d -p 80:8081 -p 443:8443 -p 8083:8083 -v /etc/nexus-data:/nexus-data \
+docker run -d -p 80:8081 -p 443:8443 -p 8083:8083 -p 8084:8084 -v /etc/nexus-data:/nexus-data \
     -e INSTALL4J_ADD_VM_PARAMS="-Xmx${java_mem}m -Xms${java_mem}m" \
     --restart always \
     --name nexus \

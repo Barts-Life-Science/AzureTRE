@@ -40,6 +40,7 @@ echo "init_vm.sh: Update OS"
 export DEBIAN_FRONTEND=noninteractive
 export DEBIAN_PRIORITY=critical
 apt upgrade -y
+apt remove -y microsoft-edge-dev
 apt-get update -y
 rm -f /etc/apt/sources.list.d/* # Again, because of VS Code
 apt install -y software-properties-common apt-transport-https wget dirmngr gdebi-core
@@ -119,37 +120,37 @@ if [ "${SHARED_STORAGE_ACCESS}" -eq 1 ]; then
 fi
 
 ## Python 3.8 and Jupyter
-echo "init_vm.sh: Jupyter, Edge"
-apt install -y jupyter-notebook microsoft-edge-dev
+echo "init_vm.sh: Jupyter"
+apt install -y jupyter-notebook
 
-tee /usr/share/applications/storage-explorer.desktop << END
-[Desktop Entry]
-Name=Storage Explorer
-Comment=Azure Storage Explorer
-Exec=/opt/storage-explorer/StorageExplorer
-Icon=/opt/storage-explorer/resources/app/out/app/icon.png
-Terminal=false
-Type=Application
-StartupNotify=false
-StartupWMClass=Code
-Categories=Development;
-END
+# tee /usr/share/applications/storage-explorer.desktop << END
+# [Desktop Entry]
+# Name=Storage Explorer
+# Comment=Azure Storage Explorer
+# Exec=/opt/storage-explorer/StorageExplorer
+# Icon=/opt/storage-explorer/resources/app/out/app/icon.png
+# Terminal=false
+# Type=Application
+# StartupNotify=false
+# StartupWMClass=Code
+# Categories=Development;
+# END
 
-# RStudio Desktop
-if [ "$VERSION_ID" == "24.04" ]; then
-  echo "init_vm.sh: RStudio"
-  echo "Sadly, this won't work, there's a problem with the proxy configuration for RStudio"
-  # # wget "${NEXUS_PROXY_URL}"/repository/r-studio-download/electron/jammy/amd64/rstudio-2023.12.1-402-amd64.deb -P /tmp/
-  # # wget "${NEXUS_PROXY_URL}"/repository/r-studio-download/electron/focal/amd64/rstudio-2023.12.1-402-amd64.deb -P /tmp/
-  # # gdebi --non-interactive /tmp/rstudio-2023.12.1-402-amd64.deb
+# # RStudio Desktop
+# if [ "$VERSION_ID" == "24.04" ]; then
+#   echo "init_vm.sh: RStudio"
+#   echo "Sadly, this won't work, there's a problem with the proxy configuration for RStudio"
+#   # # wget "${NEXUS_PROXY_URL}"/repository/r-studio-download/electron/jammy/amd64/rstudio-2023.12.1-402-amd64.deb -P /tmp/
+#   # # wget "${NEXUS_PROXY_URL}"/repository/r-studio-download/electron/focal/amd64/rstudio-2023.12.1-402-amd64.deb -P /tmp/
+#   # # gdebi --non-interactive /tmp/rstudio-2023.12.1-402-amd64.deb
 
-  # # https://download1.rstudio.org/electron/focal/amd64/rstudio-2024.04.2-764-amd64.deb
-  # wget "${NEXUS_PROXY_URL}"/repository/r-studio-download/electron/focal/amd64/rstudio-2024.04.2-764-amd64.deb -P /tmp/
-  # gdebi --non-interactive /tmp/rstudio-2024.04.2-764-amd64.deb
-fi
+#   # # https://download1.rstudio.org/electron/focal/amd64/rstudio-2024.04.2-764-amd64.deb
+#   # wget "${NEXUS_PROXY_URL}"/repository/r-studio-download/electron/focal/amd64/rstudio-2024.04.2-764-amd64.deb -P /tmp/
+#   # gdebi --non-interactive /tmp/rstudio-2024.04.2-764-amd64.deb
+# fi
 
 # R config
-echo -e "local({\n    r <- getOption(\"repos\")\n    r[\"Nexus\"] <- \"""${NEXUS_PROXY_URL}\"/repository/r-proxy/\"\n    options(repos = r)\n})" | tee /etc/R/Rprofile.site
+echo -e "local({\n    r <- getOption(\"repos\")\n    r[\"Nexus\"] <- \"${NEXUS_PROXY_URL}/repository/r-proxy/\"\n    options(repos = r)\n})" | tee /etc/R/Rprofile.site
 
 ### Anaconda Config
 if [ "${CONDA_CONFIG}" -eq 1 ]; then
@@ -195,6 +196,7 @@ update-alternatives --config x-www-browser
 
 echo "init_vm.sh: environment"
 echo "export NEXUS_PROXY_URL=${NEXUS_PROXY_URL}" > /etc/profile.d/99-sde-environment.sh
+echo "OLLAMA_REGISTRY=${NEXUS_PROXY_URL}:8084" >> /etc/environment
 
 ## Cleanup
 echo "init_vm.sh: Cleanup & restart"
