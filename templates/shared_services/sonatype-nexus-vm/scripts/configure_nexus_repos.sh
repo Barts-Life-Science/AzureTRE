@@ -69,3 +69,15 @@ status_code=$(curl -iu admin:"$1" -XPOST \
   -d @"$(dirname "${BASH_SOURCE[0]}")"/nexus_repos_config/vscode_extensions_proxy_conf.json \
   -k -s -w "%{http_code}" -o /dev/null)
 echo "Response received from Nexus: $status_code"
+
+# Create cleanup policy for Hugging Face - evict blobs not downloaded in 7 days.
+# The default nightly "Cleanup repositories using their associated policies" system
+# task will apply this; no additional task creation needed.
+echo 'Creating Hugging Face cleanup policy...'
+status_code=$(curl -iu admin:"$1" -XPOST \
+  'http://localhost/service/rest/v1/cleanup-policies' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{"name":"huggingface-cleanup","format":"huggingface","notes":"Evict HF blobs not downloaded in 7 days","criteria":{"lastDownloaded":"7"}}' \
+  -k -s -w "%{http_code}" -o /dev/null)
+echo "Response received from Nexus: $status_code"

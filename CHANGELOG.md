@@ -4,6 +4,7 @@
 
 ENHANCEMENTS:
 * Add A100 (Standard_NC24ads_A100_v4) and H100 (Standard_NC40ads_H100_v5) GPU VM sizes to Linux and Windows VM user resource templates ([guacamole-azure-linuxvm v1.2.10](templates/workspace_services/guacamole/user_resources/guacamole-azure-linuxvm), [guacamole-azure-windowsvm v1.2.12](templates/workspace_services/guacamole/user_resources/guacamole-azure-windowsvm))
+* Add Nexus Hugging Face proxy repo with 7-day cleanup policy; set `HF_ENDPOINT` on Linux and Windows VMs; increase Nexus disk from 64 GB to 128 GB; add `NEXUS_PROXY_URL` env var to Windows VMs ([sonatype-nexus v3.3.5](templates/shared_services/sonatype-nexus-vm), [guacamole-azure-linuxvm v1.2.16](templates/workspace_services/guacamole/user_resources/guacamole-azure-linuxvm), [guacamole-azure-windowsvm v1.2.15](templates/workspace_services/guacamole/user_resources/guacamole-azure-windowsvm))
 
 BUG FIXES:
 * Fix Windows VM R configuration to use version-independent `R_PROFILE_SITE` env var instead of hardcoded `R-4.1.2` path ([guacamole-azure-windowsvm v1.2.14](templates/workspace_services/guacamole/user_resources/guacamole-azure-windowsvm))

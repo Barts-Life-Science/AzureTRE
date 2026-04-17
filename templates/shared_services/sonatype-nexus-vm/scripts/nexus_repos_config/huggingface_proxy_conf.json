@@ -1,0 +1,35 @@
+{
+  "name": "huggingface-proxy",
+  "online": true,
+  "storage": {
+      "blobStoreName": "default",
+      "strictContentTypeValidation": false,
+      "write_policy": "ALLOW"
+  },
+  "proxy": {
+      "remoteUrl": "https://huggingface.co",
+      "contentMaxAge": 1440,
+      "metadataMaxAge": 1440
+  },
+  "cleanup": {
+      "policyNames": ["huggingface-cleanup"]
+  },
+  "negativeCache": {
+      "enabled": true,
+      "timeToLive": 1440
+  },
+  "httpClient": {
+      "blocked": false,
+      "autoBlock": false,
+      "connection": {
+          "retries": 0,
+          "userAgentSuffix": "string",
+          "timeout": 300,
+          "enableCircularRedirects": false,
+          "enableCookies": false,
+          "useTrustStore": false
+      }
+  },
+  "baseType": "huggingface",
+  "repoType": "proxy"
+}

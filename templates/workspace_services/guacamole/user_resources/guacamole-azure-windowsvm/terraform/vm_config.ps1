@@ -63,6 +63,8 @@ local({
 "@
 $RConfig | Out-File -Encoding Ascii -FilePath $RProfilePath
 [System.Environment]::SetEnvironmentVariable("R_PROFILE_SITE", $RProfilePath, [System.EnvironmentVariableTarget]::Machine)
+[System.Environment]::SetEnvironmentVariable("NEXUS_PROXY_URL", "${nexus_proxy_url}", [System.EnvironmentVariableTarget]::Machine)
+[System.Environment]::SetEnvironmentVariable("HF_ENDPOINT", "${nexus_proxy_url}/repository/huggingface-proxy", [System.EnvironmentVariableTarget]::Machine)
 
 #
 # The new 2025-03 images have a conda config that doesn't get cleaned up. Do that here.

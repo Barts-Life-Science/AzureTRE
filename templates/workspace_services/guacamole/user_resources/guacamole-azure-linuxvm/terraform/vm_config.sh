@@ -40,7 +40,7 @@ echo "init_vm.sh: Update OS"
 export DEBIAN_FRONTEND=noninteractive
 export DEBIAN_PRIORITY=critical
 apt upgrade -y
-apt remove -y microsoft-edge-dev
+apt remove -y microsoft-edge-dev || /bin/true
 apt-get update -y
 rm -f /etc/apt/sources.list.d/* # Again, because of VS Code
 apt install -y software-properties-common apt-transport-https wget dirmngr gdebi-core
@@ -197,6 +197,7 @@ update-alternatives --config x-www-browser
 echo "init_vm.sh: environment"
 echo "export NEXUS_PROXY_URL=${NEXUS_PROXY_URL}" > /etc/profile.d/99-sde-environment.sh
 echo "OLLAMA_REGISTRY=${NEXUS_PROXY_URL}:8084" >> /etc/environment
+echo "export HF_ENDPOINT=${NEXUS_PROXY_URL}/repository/huggingface-proxy" > /etc/profile.d/99-huggingface.sh
 
 ## Cleanup
 echo "init_vm.sh: Cleanup & restart"
