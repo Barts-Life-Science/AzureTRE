@@ -5,11 +5,9 @@ locals {
   nexus_allowed_fqdns_list        = distinct(compact(split(",", replace(local.nexus_allowed_fqdns, " ", ""))))
   # CRL endpoints for Let's Encrypt intermediates. Windows Schannel walks the full chain
   # and checks CRL for each cert, so all active intermediate CRL endpoints must be
-  # reachable over HTTP (port 80). OCSP (.o.lencr.org) was shut down 2025-08-06 and
-  # all .o. entries have been removed. R3 intermediate retired Jun 2024.
-  # Covers: ISRG Root X1, current ECDSA (E7, E8), current RSA (R12, R13),
-  # and Generation Y intermediates (YE1, YE2, YR1, YR2) deployed late 2025.
-  workspace_vm_allowed_fqdns      = "x1.c.lencr.org,e7.c.lencr.org,e8.c.lencr.org,ye1.c.lencr.org,ye2.c.lencr.org,r12.c.lencr.org,r13.c.lencr.org,yr1.c.lencr.org,yr2.c.lencr.org"
+  # reachable over HTTP (port 80). OCSP (.o.lencr.org) was shut down 2025-08-06.
+  # Wildcard covers all current and future LE intermediates; lencr.org is LE-only.
+  workspace_vm_allowed_fqdns      = "*.c.lencr.org"
   workspace_vm_allowed_fqdns_list = distinct(compact(split(",", replace(local.workspace_vm_allowed_fqdns, " ", ""))))
   storage_account_name            = lower(replace("stg-${var.tre_id}", "-", ""))
   tre_shared_service_tags = {
