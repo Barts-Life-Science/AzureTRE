@@ -1,0 +1,103 @@
+---
+# Fork-aware dependency licence and vulnerability scan (PharosAI-BH #87).
+#
+# Barts-Life-Science/AzureTRE is a fork of microsoft/AzureTRE. For commercial-use
+# licence assurance we only own the dependencies WE changed, not Microsoft's
+# upstream tree. This workflow scans only the dependency manifests that diverge
+# from upstream/main, so pure-upstream manifests produce no noise.
+#
+# Licence resolution and direct-vs-transitive scoping live in
+# .github/scripts/trivy_license_scan.sh (see header there for the why).
+
+name: "Trivy licence scan"
+
+on: # yamllint disable-line rule:truthy
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main, development]
+  schedule:
+    - cron: "23 4 * * 1"
+  workflow_dispatch:
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.head_ref || github.ref }}"
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  TRIVY_VERSION: "0.71.0"
+
+jobs:
+  scan:
+    name: Scan Barts-touched manifests
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout fork (full history)
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Add upstream remote and fetch
+        run: |
+          git remote add upstream https://github.com/microsoft/AzureTRE.git
+          git fetch --quiet upstream main
+
+      - name: Compute Barts-touched dependency manifests
+        id: manifests
+        run: |
+          set -euo pipefail
+          # Manifest filenames Trivy understands; anchored to path end.
+          pattern='(^|/)(requirements[^/]*\.txt|package\.json|package-lock\.json|yarn\.lock|pyproject\.toml|poetry\.lock|Pipfile|Pipfile\.lock|go\.mod|go\.sum|pom\.xml|build\.gradle|build\.gradle\.kts|Gemfile|Gemfile\.lock|composer\.json|composer\.lock|Cargo\.toml|Cargo\.lock|[^/]*\.csproj|packages\.config)$'
+          base=$(git merge-base upstream/main HEAD)
+          # Manifests added or modified on the Barts side vs the merge-base.
+          git diff --name-only --diff-filter=AM "${base}" HEAD \
+            | grep -vE '(^|/)(node_modules|vendor|\.venv|site-packages)/' \
+            | grep -iE "${pattern}" | sort -u > barts_manifests.txt || true
+          count=$(wc -l < barts_manifests.txt)
+          echo "count=${count}" >> "${GITHUB_OUTPUT}"
+          if [ "${count}" -eq 0 ]; then
+            echo "No Barts-touched dependency manifests in this diff."
+          else
+            echo "Barts-touched manifests:"
+            sed 's/^/  /' barts_manifests.txt
+          fi
+
+      - name: Set up Python
+        if: steps.manifests.outputs.count != '0'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Set up Node.js
+        if: steps.manifests.outputs.count != '0'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Trivy (pinned)
+        if: steps.manifests.outputs.count != '0'
+        run: |
+          set -euo pipefail
+          curl -fsSL "https://raw.githubusercontent.com/aquasecurity/trivy/v${TRIVY_VERSION}/contrib/install.sh" \
+            | sh -s -- -b /usr/local/bin "v${TRIVY_VERSION}"
+          trivy --version
+
+      - name: Scan (SBOM + direct-dep licence gate + vuln report)
+        if: steps.manifests.outputs.count != '0'
+        env:
+          OUTDIR: reports
+        run: |
+          chmod +x .github/scripts/trivy_license_scan.sh
+          .github/scripts/trivy_license_scan.sh barts_manifests.txt
+
+      - name: Upload SBOM and scan reports
+        if: steps.manifests.outputs.count != '0' && always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-licence-scan-reports
+          path: reports/
+          if-no-files-found: ignore
