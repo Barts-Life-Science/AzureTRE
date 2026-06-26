@@ -45,6 +45,27 @@
         "ZRS"
       ]
     },
+    "archive_cool_days": {
+      "type": "integer",
+      "title": "Archive container: days until Cool tier",
+      "description": "Days after last modification before a blob in the workspace archive container moves to the Cool tier.",
+      "default": 30,
+      "updateable": true
+    },
+    "archive_cold_days": {
+      "type": "integer",
+      "title": "Archive container: days until Cold tier",
+      "description": "Days after last modification before a blob in the workspace archive container moves to the Cold tier. Must be greater than 'Archive container: days until Cool tier'.",
+      "default": 90,
+      "updateable": true
+    },
+    "archive_archive_days": {
+      "type": "integer",
+      "title": "Archive container: days until Archive tier",
+      "description": "Days after last modification before a blob in the workspace archive container moves to the Archive tier. Blobs on the Archive tier are offline and must be rehydrated before reading. Must be greater than 'Archive container: days until Cold tier'.",
+      "default": 180,
+      "updateable": true
+    },
     "address_space_size": {
       "type": "string",
       "title": "Address space size",
