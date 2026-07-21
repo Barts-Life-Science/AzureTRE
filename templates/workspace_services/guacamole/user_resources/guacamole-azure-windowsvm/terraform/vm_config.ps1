@@ -1,3 +1,35 @@
+# =============================================================================
+# IMPORTANT - READ BEFORE EDITING (humans and AI tools alike):
+#
+# This file is NOT run directly. Terraform renders it through the templatefile()
+# function (see windowsvm.tf) BEFORE it is base64-encoded and injected as the VM
+# custom_data. It is plain-text template substitution and ignores quoting, so
+# the rule below applies EVERYWHERE, including inside here-strings.
+#
+# A token of the form  dollar-sign + {NAME}  is a Terraform TEMPLATE variable,
+# substituted at deploy time. ONLY names present in the templatefile() map in
+# windowsvm.tf are valid. Current keys:
+#     nexus_proxy_url, SharedStorageAccess, StorageAccountName,
+#     StorageAccountKey1, StorageAccountKey2, StorageAccountFileHost,
+#     FileShareName, CondaConfig
+#
+# Any OTHER dollar-brace (or percent-brace) token makes Terraform FAIL the
+# render with "vars map does not contain key ...". You therefore CANNOT invent
+# arbitrary variables using brace syntax - not even in a comment like this one.
+#
+# CAUTION - PowerShell's own variable syntax uses the same brace form, so it
+# COLLIDES with Terraform:
+#   * Bare PowerShell vars with NO braces - $CondaRc, $RProfilePath, $env:PATH -
+#     are safe; Terraform ignores them and PowerShell expands them on the VM.
+#   * A PowerShell variable that needs braces at RUNTIME must double the dollar
+#     sign to escape it (two dollars, then the brace); the rendered script then
+#     contains a single dollar plus brace token that PowerShell evaluates.
+#   * To pass a NEW deploy-time value, add it to the templatefile() map in
+#     windowsvm.tf first, then reference it here.
+#
+# ASCII ONLY - no Unicode anywhere in this file (encoding-sensitive when run via
+# CustomScriptExtension).
+# =============================================================================
 Remove-Item -LiteralPath "C:\AzureData" -Force -Recurse
 $ErrorActionPreference = "Stop"
 
@@ -42,6 +74,8 @@ custom_channels:
   bioconda: ${nexus_proxy_url}/repository/conda-mirror/
   defaults: ${nexus_proxy_url}/repository/conda-mirror/
 "@
+  # Validated: the 2026-04 Windows images ship Miniconda at C:\Miniconda3, so its base
+  # .condarc lives here (conda info --base == C:\Miniconda3).
   $CondaRc | Out-File -Encoding Ascii -FilePath "C:\Miniconda3\.condarc"
 }
 

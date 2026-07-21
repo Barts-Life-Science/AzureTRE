@@ -1,6 +1,9 @@
 locals {
   core_vnet                       = "vnet-${var.tre_id}"
   core_resource_group_name        = "rg-${var.tre_id}"
+  # *.6aa30f8b08e16409b46e0173d6de2f56.r2.cloudflarestorage.com is Docker Hub's Cloudflare R2
+  # blob backend (image-layer storage). Docker moved distribution to R2, so it must be whitelisted
+  # alongside *.docker.com/*.docker.io or `docker pull` fails. See microsoft/AzureTRE#4895.
   nexus_allowed_fqdns             = "pypi.org,*.pypi.org,files.pythonhosted.org,security.ubuntu.com,archive.ubuntu.com,keyserver.ubuntu.com,repo.anaconda.com,*.docker.com,*.docker.io,*.6aa30f8b08e16409b46e0173d6de2f56.r2.cloudflarestorage.com,conda.anaconda.org,azure.archive.ubuntu.com,packages.microsoft.com,repo.almalinux.org,download-ib01.fedoraproject.org,cran.r-project.org,cloud.r-project.org,download1.rstudio.org,*.snapcraftcontent.com,download.microsoft.com,marketplace.visualstudio.com"
   nexus_allowed_fqdns_list        = distinct(compact(split(",", replace(local.nexus_allowed_fqdns, " ", ""))))
   # CRL endpoints for Let's Encrypt intermediates. Windows Schannel walks the full chain

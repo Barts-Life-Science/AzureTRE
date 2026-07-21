@@ -1,5 +1,36 @@
 #!/bin/bash
 
+# =============================================================================
+# IMPORTANT - READ BEFORE EDITING (humans and AI tools alike):
+#
+# This file is NOT run directly. Terraform renders it through
+# `data "template_file"` (see linuxvm.tf) BEFORE it is injected as the VM's
+# custom_data / cloud-init script. It is plain-text template substitution and
+# ignores shell quoting, so the rule below applies EVERYWHERE, including inside
+# heredocs (quoted or not).
+#
+# A token of the form  dollar-sign + {NAME}  is a Terraform TEMPLATE variable,
+# substituted at deploy time. ONLY names present in the template_file `vars`
+# map are valid. Current keys:
+#     INSTALL_UI, SHARED_STORAGE_ACCESS, STORAGE_ACCOUNT_NAME,
+#     STORAGE_ACCOUNT_KEY, HTTP_ENDPOINT, FILESHARE_NAME, NEXUS_PROXY_URL,
+#     CONDA_CONFIG, VM_USER
+#
+# Any OTHER dollar-brace (or percent-brace) token makes Terraform FAIL the
+# render with "vars map does not contain key ...". You therefore CANNOT invent
+# arbitrary shell variables using brace syntax - not even in a comment like this
+# one (which is exactly why the examples here are spelled out in words).
+#
+# Safe patterns for variables you need at RUNTIME on the VM:
+#   * Bare shell vars with NO braces - $HOME, $f, $(cmd), $1 - Terraform leaves
+#     them alone and the shell expands them on the VM.
+#   * If you genuinely need brace syntax at runtime, double the dollar sign to
+#     escape it (two dollars, then the brace); the rendered script then contains
+#     a single dollar plus brace token.
+#   * To pass a NEW deploy-time value, add it to the `vars` map in linuxvm.tf
+#     first, then reference it here.
+# =============================================================================
+
 set -o errexit
 set -o pipefail
 set -o nounset
@@ -129,9 +160,8 @@ echo -e "local({\n    r <- getOption(\"repos\")\n    r[\"Nexus\"] <- \"${NEXUS_P
 ### Anaconda Config
 if [ "${CONDA_CONFIG}" -eq 1 ]; then
 
-  ## TODO: VALIDATE THIS
-  ## Need to distinguish between Anaconda and Miniconda
-  ## For miniconda:
+  # Distinguish Miniconda from the (deprecated) Anaconda layout. Validated: the 2026-04
+  # images ship Miniconda at /opt/miniconda, so write channel config to its .condarc.
   if [ -d /opt/miniconda ]; then
     echo "init_vm.sh: Miniconda"
     cat <<EOF >/opt/miniconda/.condarc
@@ -144,7 +174,7 @@ custom_channels:
     defaults: ${NEXUS_PROXY_URL}/repository/conda-mirror/
 EOF
   fi
-  if [ -d "/anaconda" ]; then ## TODO: This is deprecated, now using Miniconda.
+  if [ -d "/anaconda" ]; then # Deprecated legacy Anaconda path, superseded by Miniconda.
     echo "init_vm.sh: Anaconda"
     export PATH="/anaconda/condabin:/anaconda/bin:$/anaconda/envs/py38_default/bin":$PATH
   fi
@@ -178,26 +208,52 @@ systemctl daemon-reload
 systemctl restart docker
 
 
-# Application desktop launcher metadata
+# Application desktop launcher metadata.
+# XFCE marks .desktop files on the Desktop as "untrusted" until per-user gio metadata
+# (metadata::trusted + metadata::xfce-exe-checksum) is set. That metadata lives in the
+# user's gvfs store and can only be written from inside a running user session (D-Bus +
+# gvfsd-metadata), which does not exist at provisioning time. So install a proper XDG
+# autostart *.desktop* entry (autostart runs .desktop files, not raw scripts) that runs a
+# helper on login, as the user, once the session is up.
 echo "init_vm.sh: desktop metadata"
-/bin/rm -f /home/"${VM_USER}"/.config/autostart/trust-desktop-launchers.desktop
-fix_metadata_file="/home/${VM_USER}/.config/autostart/fix-desktop-metadata.sh"
-cat > "$fix_metadata_file" << 'EOF'
+
+# NOTE: this file is rendered by Terraform's template_file, so ${...} is a template var
+# (only keys in the vars map are valid). ${VM_USER} is a real var and is substituted here
+# at deploy time. The helper below uses only bare $HOME/$f so Terraform leaves it alone
+# and it evaluates at login inside the user session.
+mkdir -p "/home/${VM_USER}/.config/autostart" "/home/${VM_USER}/.local/bin"
+# Remove earlier non-functional attempts (a raw .sh in autostart never ran).
+/bin/rm -f "/home/${VM_USER}/.config/autostart/trust-desktop-launchers.desktop" \
+           "/home/${VM_USER}/.config/autostart/fix-desktop-metadata.sh"
+
+cat > "/home/${VM_USER}/.local/bin/fix-desktop-metadata.sh" << 'EOF'
 #!/bin/bash
-FLAG="/home/${VM_USER}/.desktop-trust-fixed"
-if [ ! -f "$FLAG" ]; then
-  echo "Fixing desktop metadata for ${VM_USER}"
-  for f in "/home/${VM_USER}/Desktop"/*.desktop; do
-    [ -f "$f" ] || continue
-    gio set "$f" metadata::trusted true 2>/dev/null
-    h=$(sha256sum "$f" | awk '{print $1}')
-    gio set "$f" metadata::xfce-exe-checksum "$h" 2>/dev/null
-  done
-  xfdesktop --reload 2>/dev/null || true
-fi
-# touch "$FLAG"
+# Give the session and gvfsd-metadata a moment to come up before touching gio metadata.
+sleep 5
+shopt -s nullglob
+for f in "$HOME"/Desktop/*.desktop; do
+  chmod +x "$f"
+  gio set "$f" metadata::trusted true 2>/dev/null
+  h=$(sha256sum "$f" | awk '{print $1}')
+  gio set "$f" metadata::xfce-exe-checksum "$h" 2>/dev/null
+done
+xfdesktop --reload 2>/dev/null || true
 EOF
-chmod 755 "$fix_metadata_file"
+chmod 755 "/home/${VM_USER}/.local/bin/fix-desktop-metadata.sh"
+
+# Autostart entry. XDG autostart runs *.desktop files, not raw scripts, so this .desktop
+# is what actually launches the helper at login.
+cat > "/home/${VM_USER}/.config/autostart/fix-desktop-metadata.desktop" << EOF
+[Desktop Entry]
+Type=Application
+Name=Fix desktop launcher trust
+Exec=/home/${VM_USER}/.local/bin/fix-desktop-metadata.sh
+OnlyShowIn=XFCE;
+X-GNOME-Autostart-enabled=true
+NoDisplay=true
+EOF
+
+chown -Rf "${VM_USER}":"${VM_USER}" "/home/${VM_USER}/.config" "/home/${VM_USER}/.local"
 
 echo "init_vm.sh: odds and ends"
 
