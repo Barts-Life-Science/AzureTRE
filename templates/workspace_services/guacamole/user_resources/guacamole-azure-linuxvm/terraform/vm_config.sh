@@ -41,7 +41,7 @@ export DEBIAN_FRONTEND=noninteractive
 export DEBIAN_PRIORITY=critical
 apt upgrade -y
 apt remove -y microsoft-edge-dev || /bin/true
-apt-get update -y
+apt-get update -y || /bin/true # TODO Microsoft repos aren't signed properly, this gives non-zero RC.
 rm -f /etc/apt/sources.list.d/* # Again, because of VS Code
 apt install -y software-properties-common apt-transport-https wget dirmngr gdebi-core
 # apt-get update || true
@@ -123,57 +123,48 @@ fi
 echo "init_vm.sh: Jupyter"
 apt install -y jupyter-notebook
 
-# tee /usr/share/applications/storage-explorer.desktop << END
-# [Desktop Entry]
-# Name=Storage Explorer
-# Comment=Azure Storage Explorer
-# Exec=/opt/storage-explorer/StorageExplorer
-# Icon=/opt/storage-explorer/resources/app/out/app/icon.png
-# Terminal=false
-# Type=Application
-# StartupNotify=false
-# StartupWMClass=Code
-# Categories=Development;
-# END
-
-# # RStudio Desktop
-# if [ "$VERSION_ID" == "24.04" ]; then
-#   echo "init_vm.sh: RStudio"
-#   echo "Sadly, this won't work, there's a problem with the proxy configuration for RStudio"
-#   # # wget "${NEXUS_PROXY_URL}"/repository/r-studio-download/electron/jammy/amd64/rstudio-2023.12.1-402-amd64.deb -P /tmp/
-#   # # wget "${NEXUS_PROXY_URL}"/repository/r-studio-download/electron/focal/amd64/rstudio-2023.12.1-402-amd64.deb -P /tmp/
-#   # # gdebi --non-interactive /tmp/rstudio-2023.12.1-402-amd64.deb
-
-#   # # https://download1.rstudio.org/electron/focal/amd64/rstudio-2024.04.2-764-amd64.deb
-#   # wget "${NEXUS_PROXY_URL}"/repository/r-studio-download/electron/focal/amd64/rstudio-2024.04.2-764-amd64.deb -P /tmp/
-#   # gdebi --non-interactive /tmp/rstudio-2024.04.2-764-amd64.deb
-# fi
-
 # R config
 echo -e "local({\n    r <- getOption(\"repos\")\n    r[\"Nexus\"] <- \"${NEXUS_PROXY_URL}/repository/r-proxy/\"\n    options(repos = r)\n})" | tee /etc/R/Rprofile.site
 
 ### Anaconda Config
 if [ "${CONDA_CONFIG}" -eq 1 ]; then
-  echo "init_vm.sh: Anaconda"
-  if [ -d "/anaconda" ]; then
+
+  ## TODO: VALIDATE THIS
+  ## Need to distinguish between Anaconda and Miniconda
+  ## For miniconda:
+  if [ -d /opt/miniconda ]; then
+    echo "init_vm.sh: Miniconda"
+    cat <<EOF >/opt/miniconda/.condarc
+channels:
+  - "${NEXUS_PROXY_URL}/repository/conda-repo/main/"
+  - "${NEXUS_PROXY_URL}/repository/conda-mirror/main/"
+custom_channels:
+    conda-forge: ${NEXUS_PROXY_URL}/repository/conda-mirror/
+    bioconda: ${NEXUS_PROXY_URL}/repository/conda-mirror/
+    defaults: ${NEXUS_PROXY_URL}/repository/conda-mirror/
+EOF
+  fi
+  if [ -d "/anaconda" ]; then ## TODO: This is deprecated, now using Miniconda.
+    echo "init_vm.sh: Anaconda"
     export PATH="/anaconda/condabin:/anaconda/bin:$/anaconda/envs/py38_default/bin":$PATH
   fi
   if [ -d "/opt/anaconda" ]; then
+    echo "init_vm.sh: Anaconda 2"
     export PATH="/opt/anaconda/condabin:/opt/anaconda/bin":$PATH
-  fi
-  which conda
-  set +o errexit # Don't exit on error if one of these fails
-  conda config --add channels "${NEXUS_PROXY_URL}"/repository/conda-mirror/main/ --system
-  conda config --add channels "${NEXUS_PROXY_URL}"/repository/conda-repo/main/ --system
-  conda config --remove channels defaults --system
-  conda config --set channel_alias "${NEXUS_PROXY_URL}"/repository/conda-mirror/ --system
+    which conda
+    set +o errexit # Don't exit on error if one of these fails
+    conda config --add channels "${NEXUS_PROXY_URL}"/repository/conda-mirror/main/ --system
+    conda config --add channels "${NEXUS_PROXY_URL}"/repository/conda-repo/main/ --system
+    conda config --remove channels defaults --system
+    conda config --set channel_alias "${NEXUS_PROXY_URL}"/repository/conda-mirror/ --system
 
-  for repo in $(conda config --show-sources | grep repo.anaconda.com | sort | uniq | awk '{ print $NF }')
-  do
-    echo "Remove $repo from global config"
-    conda config --remove channels $repo --system
-  done
-  set -o errexit
+    for repo in $(conda config --show-sources | grep repo.anaconda.com | sort | uniq | awk '{ print $NF }')
+    do
+      echo "Remove $repo from global config"
+      conda config --remove channels $repo --system
+    done
+    set -o errexit
+  fi
 fi
 
 # Docker install and config
@@ -186,18 +177,38 @@ jq -n --arg proxy "${NEXUS_PROXY_URL}:8083" '{"registry-mirrors": [$proxy]}' > /
 systemctl daemon-reload
 systemctl restart docker
 
+
+# Application desktop launcher metadata
+echo "init_vm.sh: desktop metadata"
+/bin/rm -f /home/"${VM_USER}"/.config/autostart/trust-desktop-launchers.desktop
+fix_metadata_file="/home/${VM_USER}/.config/autostart/fix-desktop-metadata.sh"
+cat > "$fix_metadata_file" << 'EOF'
+#!/bin/bash
+FLAG="/home/${VM_USER}/.desktop-trust-fixed"
+if [ ! -f "$FLAG" ]; then
+  echo "Fixing desktop metadata for ${VM_USER}"
+  for f in "/home/${VM_USER}/Desktop"/*.desktop; do
+    [ -f "$f" ] || continue
+    gio set "$f" metadata::trusted true 2>/dev/null
+    h=$(sha256sum "$f" | awk '{print $1}')
+    gio set "$f" metadata::xfce-exe-checksum "$h" 2>/dev/null
+  done
+  xfdesktop --reload 2>/dev/null || true
+fi
+# touch "$FLAG"
+EOF
+chmod 755 "$fix_metadata_file"
+
 echo "init_vm.sh: odds and ends"
 
+echo "init_vm.sh: environment"
+echo "export NEXUS_PROXY_URL=${NEXUS_PROXY_URL}" > /etc/profile.d/99-nexus-proxy.sh
+
 # Jupiter Notebook Config
-sed -i -e 's/Terminal=true/Terminal=false/g' /usr/share/applications/jupyter-notebook.desktop
+[ -f /usr/share/applications/jupyter-notebook.desktop ] && sed -i -e 's/Terminal=true/Terminal=false/g' /usr/share/applications/jupyter-notebook.desktop
 
 # Default Browser
 update-alternatives --config x-www-browser
-
-echo "init_vm.sh: environment"
-echo "export NEXUS_PROXY_URL=${NEXUS_PROXY_URL}" > /etc/profile.d/99-sde-environment.sh
-echo "OLLAMA_REGISTRY=${NEXUS_PROXY_URL}:8084" >> /etc/environment
-echo "export HF_ENDPOINT=${NEXUS_PROXY_URL}/repository/huggingface-proxy" > /etc/profile.d/99-huggingface.sh
 
 ## Cleanup
 echo "init_vm.sh: Cleanup & restart"

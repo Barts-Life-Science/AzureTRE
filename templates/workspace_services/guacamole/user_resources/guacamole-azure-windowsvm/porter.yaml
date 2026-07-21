@@ -1,7 +1,7 @@
 ---
 schemaVersion: 1.0.0
 name: tre-service-guacamole-windowsvm
-version: 1.2.15
+version: 1.2.18
 description: "An Azure TRE User Resource Template for Guacamole (Windows 10)"
 dockerfile: Dockerfile.tmpl
 registry: azuretre
@@ -23,59 +23,26 @@ custom:
     "24 CPU | 220GB RAM | 1 x A100 80GB GPU": Standard_NC24ads_A100_v4 # 3306
     "40 CPU | 320GB RAM | 1 x H100 80GB GPU": Standard_NC40ads_H100_v5 # 5065
   image_options:
-    "(deprecated) Windows 10":
-      source_image_reference:
-        publisher: MicrosoftWindowsDesktop
-        offer: Windows-10
-        sku: win10-22h2-pro-g2
-        version: latest
-      conda_config: false
-      secure_boot_enabled: true
-      vtpm_enabled: true
-    "(deprecated) Windows 11":
-      source_image_reference:
-        publisher: microsoftwindowsdesktop
-        offer: windows-11
-        sku: win11-24h2-pro
-        version: latest
-      conda_config: false
-      secure_boot_enabled: true
-      vtpm_enabled: true
-    "(deprecated) Server 2019 Data Science VM":
-      source_image_reference:
-        publisher: microsoft-dsvm
-        offer: dsvm-win-2019
-        sku: winserver-2019
-        version: latest
-      conda_config: true
-      secure_boot_enabled: false # dsvm-win-2019 is not a gen2 image
-      vtpm_enabled: false
     # For information on using custom images, see README.me in the guacamole/user-resources folder
-    "Custom Windows 11":
-      source_image_name: imgdef-windows11-dsvm-rpython
-      conda_config: true
-    "Custom Windows 10":
-      source_image_name: imgdef-windows10-dsvm-rpython
-      conda_config: true
-    "(2025-03) Custom Windows 10":
+    "(deprecated 2025-03) Custom Windows 10":
       source_image_name: windows-10-2025-03
       conda_config: true
-    "(2025-03) Custom Windows 11":
+    "(deprecated 2025-03) Custom Windows 11":
       source_image_name: windows-11-2025-03
       conda_config: true
-    "(2025-03) Custom Windows 2019 Data Science VM":
+    "(deprecated 2025-03) Custom Windows 2019 Data Science VM":
       source_image_name: windows-19-DS-2025-03
       conda_config: true
-    "test 1 do not use":
+    "(2026-04) Custom Windows 10":
       source_image_name: windows-10-2026-04
       conda_config: true
-    "test 2 do not use":
+    "(2026-04) Custom Windows 11":
       source_image_name: windows-11-2026-04
       conda_config: true
-    "test 3 do not use":
+    "(2026-04) Custom Windows 19-DS":
       source_image_name: windows-19-DS-2026-04
       conda_config: true
-    "test 4 do not use":
+    "(2026-04) Custom Windows 25-DS":
       source_image_name: windows-25-DS-2026-04
       conda_config: true
 
@@ -107,7 +74,8 @@ parameters:
     env: PARENT_SERVICE_ID
   - name: image_gallery_id
     type: string
-    description: Azure resource ID for the compute image gallery to pull images from (if specifying custom images by name)
+    description: Azure resource ID for the compute image gallery to pull images from
+      (if specifying custom images by name)
     default: ""
   - name: id
     type: string
