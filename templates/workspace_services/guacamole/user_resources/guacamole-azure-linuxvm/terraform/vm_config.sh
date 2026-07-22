@@ -191,7 +191,7 @@ EOF
     for repo in $(conda config --show-sources | grep repo.anaconda.com | sort | uniq | awk '{ print $NF }')
     do
       echo "Remove $repo from global config"
-      conda config --remove channels $repo --system
+      conda config --remove channels "$repo" --system
     done
     set -o errexit
   fi
