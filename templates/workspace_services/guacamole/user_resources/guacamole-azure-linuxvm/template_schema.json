@@ -33,10 +33,12 @@
       "title": "Linux image",
       "description": "Select Linux image to use for VM",
       "enum": [
-        "(2025-03) Custom Ubuntu 24.04 LTS",
-        "(2025-03) Custom Ubuntu 22.04 LTS",
-        "(deprecated) Custom Ubuntu 24.04 LTS",
-        "(deprecated) Custom Ubuntu 22.04 LTS"
+        "(2025-12) Custom Ubuntu 24.04 LTS",
+        "(2025-12) Custom Ubuntu 22.04 LTS",
+        "(deprecated 2025-03) Custom Ubuntu 24.04 LTS",
+        "(deprecated 2025-03) Custom Ubuntu 22.04 LTS",
+	"test 1 do not use",
+	"test 2 do not use"
       ]
     },
     "vm_size": {
@@ -55,7 +57,9 @@
         "12 CPU | 110GB RAM | 1/3 x A10 GPU",
         "18 CPU | 220GB RAM | 1/2 x A10 GPU",
         "36 CPU | 440GB | 1 x A10 GPU",
-        "36 CPU | 880GB | 1 x A10 GPU"
+        "36 CPU | 880GB | 1 x A10 GPU",
+        "24 CPU | 220GB RAM | 1 x A100 80GB GPU",
+        "40 CPU | 320GB RAM | 1 x H100 80GB GPU"
       ],
       "updateable": true
     },
