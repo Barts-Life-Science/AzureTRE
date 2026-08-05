@@ -33,12 +33,11 @@
       "title": "Linux image",
       "description": "Select Linux image to use for VM",
       "enum": [
-        "(2025-12) Custom Ubuntu 24.04 LTS",
-        "(2025-12) Custom Ubuntu 22.04 LTS",
-        "(deprecated 2025-03) Custom Ubuntu 24.04 LTS",
-        "(deprecated 2025-03) Custom Ubuntu 22.04 LTS",
-	"test 1 do not use",
-	"test 2 do not use"
+        "(2026-04) Custom Ubuntu 26.04 LTS",
+        "(2026-04) Custom Ubuntu 24.04 LTS",
+        "(2026-04) Custom Ubuntu 22.04 LTS",
+        "(deprecated 2025-12) Custom Ubuntu 24.04 LTS",
+        "(deprecated 2025-12) Custom Ubuntu 22.04 LTS"
       ]
     },
     "vm_size": {
@@ -97,7 +96,7 @@
             "title": "Shutdown Time",
             "description": "Time of day to shutdown the VM (HHmm format), e.g. 1800",
             "pattern": "^([01]?[0-9]|2[0-3])[0-5][0-9]$",
-            "default": "1800"
+            "default": "2200"
           },
           "shutdown_timezone": {
             "type": "string",
