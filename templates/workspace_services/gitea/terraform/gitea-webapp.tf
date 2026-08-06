@@ -30,6 +30,7 @@ resource "azurerm_linux_web_app" "gitea" {
   https_only                      = true
   key_vault_reference_identity_id = azurerm_user_assigned_identity.gitea_id.id
   virtual_network_subnet_id       = data.azurerm_subnet.web_apps.id
+  public_network_access_enabled   = false
   tags                            = local.workspace_service_tags
 
   app_settings = {
