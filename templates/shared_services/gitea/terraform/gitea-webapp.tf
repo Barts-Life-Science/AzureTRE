@@ -27,6 +27,7 @@ resource "azurerm_linux_web_app" "gitea" {
   virtual_network_subnet_id                      = data.azurerm_subnet.web_app.id
   ftp_publish_basic_authentication_enabled       = false
   webdeploy_publish_basic_authentication_enabled = false
+  public_network_access_enabled                  = false
   tags                                           = local.tre_shared_service_tags
 
   app_settings = {
