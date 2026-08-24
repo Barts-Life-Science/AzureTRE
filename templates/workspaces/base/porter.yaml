@@ -1,7 +1,7 @@
 ---
 schemaVersion: 1.0.0
 name: tre-workspace-base
-version: 2.0.3
+version: 2.1.0
 description: "A base Azure TRE workspace"
 dockerfile: Dockerfile.tmpl
 registry: azuretre
@@ -57,6 +57,18 @@ parameters:
   - name: shared_storage_quota
     type: integer
     default: 50
+  - name: archive_cool_days
+    type: integer
+    default: 30
+    description: "Days since last modification before a blob in the archive container moves to the Cool tier."
+  - name: archive_cold_days
+    type: integer
+    default: 90
+    description: "Days since last modification before a blob in the archive container moves to the Cold tier."
+  - name: archive_archive_days
+    type: integer
+    default: 180
+    description: "Days since last modification before a blob in the archive container moves to the Archive tier (offline; requires rehydration)."
   - name: enable_local_debugging
     type: boolean
     default: false
@@ -175,6 +187,9 @@ install:
         location: ${ bundle.parameters.azure_location }
         address_spaces: ${ bundle.parameters.address_spaces }
         shared_storage_quota: ${ bundle.parameters.shared_storage_quota }
+        archive_cool_days: ${ bundle.parameters.archive_cool_days }
+        archive_cold_days: ${ bundle.parameters.archive_cold_days }
+        archive_archive_days: ${ bundle.parameters.archive_archive_days }
         enable_local_debugging: ${ bundle.parameters.enable_local_debugging }
         register_aad_application: ${ bundle.parameters.register_aad_application }
         create_aad_groups: ${ bundle.parameters.create_aad_groups }
@@ -220,6 +235,9 @@ upgrade:
         location: ${ bundle.parameters.azure_location }
         address_spaces: ${ bundle.parameters.address_spaces }
         shared_storage_quota: ${ bundle.parameters.shared_storage_quota }
+        archive_cool_days: ${ bundle.parameters.archive_cool_days }
+        archive_cold_days: ${ bundle.parameters.archive_cold_days }
+        archive_archive_days: ${ bundle.parameters.archive_archive_days }
         enable_local_debugging: ${ bundle.parameters.enable_local_debugging }
         register_aad_application: ${ bundle.parameters.register_aad_application }
         create_aad_groups: ${ bundle.parameters.create_aad_groups }
@@ -289,6 +307,9 @@ uninstall:
         location: ${ bundle.parameters.azure_location }
         address_spaces: ${ bundle.parameters.address_spaces }
         shared_storage_quota: ${ bundle.parameters.shared_storage_quota }
+        archive_cool_days: ${ bundle.parameters.archive_cool_days }
+        archive_cold_days: ${ bundle.parameters.archive_cold_days }
+        archive_archive_days: ${ bundle.parameters.archive_archive_days }
         enable_local_debugging: ${ bundle.parameters.enable_local_debugging }
         register_aad_application: ${ bundle.parameters.register_aad_application }
         create_aad_groups: ${ bundle.parameters.create_aad_groups }
