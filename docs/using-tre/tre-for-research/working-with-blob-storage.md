@@ -1,29 +1,31 @@
 # Working with Blob Storage from your workspace VM
 
-Every workspace has an **`archive` blob container** on its shared storage account — meant for **cold / archive data**, i.e. datasets you want to keep but rarely access. Files you put in start on the Hot tier and the storage account automatically moves them to cheaper tiers (Cool → Cold → Archive) as time passes, so the longer data sits untouched, the less it costs.
+The **Blob Storage workspace service** gives your project a dedicated Azure storage account for **cold / archive data** — datasets you want to keep but rarely access. Files you put in start on the Hot tier and the storage account automatically moves them to cheaper tiers (Cool → Cold → Archive) as time passes, so the longer data sits untouched, the less it costs.
 
-This page is for the **researcher already inside a workspace VM** who wants to push data into the `archive` container and pull it back out.
+This page is for the **researcher already inside a workspace VM** who wants to push data into that storage and pull it back out.
 
 ## Prerequisites
 
-- A workspace deployed from the base workspace template (version 2.1.0 or later). The `archive` container and lifecycle policy come with it — there is **no separate workspace service to deploy**.
-- A workspace VM (Linux or Windows) deployed via Guacamole, with `Shared Storage Access` enabled (the default). You are connected to it through the Guacamole desktop.
+- A workspace with the **Blob Storage** workspace service deployed.
+- A workspace VM (Linux or Windows) deployed via Guacamole. You are connected to it through the Guacamole desktop.
+- Your workspace owner has granted the VM's identity access to the storage account (one-time, per workspace).
 
-You do **not** need to know any storage account keys, set up a SAS token, or `az login` interactively. The VM authenticates as itself via its system-assigned managed identity, which is granted access to the storage automatically when the VM is provisioned.
+You do **not** need to know any storage account keys, set up a SAS token, or `az login --identity`. The VM authenticates as itself.
 
 ## Step 1 — Find your storage account name
 
 In the TRE UI:
 
 1. Open your workspace.
-2. Open the workspace **Outputs** tab (or **Properties** → **Outputs**, depending on UI version).
-3. Copy the value of `storage_account_name` (something like `stgworkspc270e`). This is the same storage account that hosts the workspace shared file-share.
+2. Click **Workspace Services** → **Blob Storage**.
+3. Open the **Outputs** tab.
+4. Copy the value of `storage_account_name` (something like `stgblobsvcc857`).
 
-Set it as an environment variable on the VM so you don't have to retype it:
+You'll use this name in every command below. Set it as an environment variable on the VM so you don't have to retype it:
 
 ```bash
-STG=stgworkspc270e          # paste the value from Outputs
-CONTAINER=archive           # always "archive" — this is the container with the lifecycle policy
+STG=stgblobsvcc857
+CONTAINER=archive
 ```
 
 ## Step 2 — Confirm you're on the workspace network
@@ -36,8 +38,8 @@ nslookup $STG.blob.core.windows.net
 
 You should see an answer like:
 
-```
-Name:    stgworkspc270e.privatelink.blob.core.windows.net
+```text
+Name:    stgblobsvcc857.privatelink.blob.core.windows.net
 Address: 10.1.4.27
 ```
 
@@ -68,7 +70,7 @@ The `az account show` output should include:
 
 That's it — you can now use the storage.
 
-> Why not `az login` as yourself? In a TRE, your workspace VM is meant to be the actor that touches research data, not your laptop or your user account. Using the VM identity means everything you do is auditable as coming from *this specific VM*, and it sidesteps tenant sign-in policies that block interactive auth on workspace networks.
+**Why not `az login` as yourself?** In a TRE, your workspace VM is meant to be the actor that touches research data, not your laptop or your user account. Using the VM identity means everything you do is auditable as coming from this specific VM, and it sidesteps tenant sign-in policies that block interactive auth on workspace networks.
 
 ## Step 4 — Upload a file
 
@@ -225,10 +227,10 @@ Rehydration with `Standard` priority can take **up to 15 hours**. `High` priorit
 | Symptom | Likely cause | What to do |
 |---|---|---|
 | `az login --identity` fails: "No identity available" | The VM doesn't have a managed identity (older bundle, or it was disabled). | Ask the workspace owner to enable system-assigned identity on the VM, then redeploy or restart. |
-| `403 AuthorizationPermissionMismatch` on blob operations | The role assignment was just created and hasn't propagated yet, or `Shared Storage Access` was disabled on the VM. | Wait 2–5 minutes for role propagation. If still failing after 10 min, check that `Shared Storage Access` is enabled on the VM user resource — if it isn't, the role assignment is skipped by design. |
+| `403 AuthorizationPermissionMismatch` on blob operations | The VM's identity doesn't have the right role yet, or it was granted in the last few minutes. | Wait 2–5 minutes for role propagation. If still failing after 10 min, ask the workspace owner to confirm **Storage Blob Data Contributor** is assigned to the VM identity on the storage account. |
 | `403 AuthorizationFailure` | You forgot `--auth-mode login` (it tried key auth, which is disabled), or you're running the command from outside the workspace network. | Add `--auth-mode login` to every `az storage blob …` command. Run from the workspace VM. |
 | `nslookup` returns a public IP (`20.x.x.x`) | You're not on the workspace network — likely your laptop or dev container. | Open the VM via Guacamole and run the commands there. |
-| `az storage blob download` returns 409 `BlobArchived` | The blob has been tiered to Archive and is offline. | Rehydrate it first — see [Retrieving archived data](#retrieving-archived-data). |
+| `az storage blob download` returns `409 BlobArchived` | The blob has been tiered to Archive and is offline. | Rehydrate it first — see [Retrieving archived data](#retrieving-archived-data). |
 | `azcopy` says it doesn't have permission | You ran `az login --identity` but not `azcopy login --identity`. | Run `azcopy login --identity` once per session. |
 
 ## Quick reference
