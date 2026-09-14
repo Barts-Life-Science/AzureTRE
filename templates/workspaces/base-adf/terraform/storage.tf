@@ -62,6 +62,44 @@ resource "azurerm_storage_container" "stgcontainer" {
   ]
 }
 
+# Long-term cold/archive container for workspace data that researchers want to
+# retain but rarely access. Lifecycle policy below tiers blobs down to Cool,
+# Cold, then Archive based on the configured thresholds.
+resource "azurerm_storage_container" "archive" {
+  name                  = "archive"
+  storage_account_name  = azurerm_storage_account.stg.name
+  container_access_type = "private"
+
+  depends_on = [
+    azurerm_private_endpoint.stgblobpe,
+    azurerm_storage_account_network_rules.stgrules
+  ]
+}
+
+resource "azurerm_storage_management_policy" "archive_lifecycle" {
+  storage_account_id = azurerm_storage_account.stg.id
+
+  rule {
+    name    = "tier-down-archive-container"
+    enabled = true
+
+    filters {
+      prefix_match = ["${azurerm_storage_container.archive.name}/"]
+      blob_types   = ["blockBlob"]
+    }
+
+    actions {
+      base_blob {
+        tier_to_cool_after_days_since_modification_greater_than    = var.archive_cool_days
+        tier_to_cold_after_days_since_modification_greater_than    = var.archive_cold_days
+        tier_to_archive_after_days_since_modification_greater_than = var.archive_archive_days
+      }
+    }
+  }
+
+  depends_on = [azurerm_storage_container.archive]
+}
+
 resource "azurerm_storage_account_network_rules" "stgrules" {
   storage_account_id = azurerm_storage_account.stg.id
 

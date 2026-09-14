@@ -144,3 +144,20 @@ variable "arm_subscription_id" {
   description = "The Subscription ID of the TRE"
 }
 
+variable "archive_cool_days" {
+  type        = number
+  default     = 30
+  description = "Days since last modification before a blob in the archive container is moved to the Cool tier."
+}
+
+variable "archive_cold_days" {
+  type        = number
+  default     = 90
+  description = "Days since last modification before a blob in the archive container is moved to the Cold tier. Must be greater than archive_cool_days."
+}
+
+variable "archive_archive_days" {
+  type        = number
+  default     = 180
+  description = "Days since last modification before a blob in the archive container is moved to the Archive tier (offline; requires rehydration to read). Must be greater than archive_cold_days."
+}
