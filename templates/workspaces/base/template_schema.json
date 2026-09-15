@@ -47,6 +47,7 @@
     },
     "archive_cool_days": {
       "type": "integer",
+      "minimum": 1,
       "title": "Archive container: days until Cool tier",
       "description": "Days after last modification before a blob in the workspace archive container moves to the Cool tier.",
       "default": 30,
@@ -54,6 +55,7 @@
     },
     "archive_cold_days": {
       "type": "integer",
+      "minimum": 1,
       "title": "Archive container: days until Cold tier",
       "description": "Days after last modification before a blob in the workspace archive container moves to the Cold tier. Must be greater than 'Archive container: days until Cool tier'.",
       "default": 90,
@@ -61,6 +63,7 @@
     },
     "archive_archive_days": {
       "type": "integer",
+      "minimum": 1,
       "title": "Archive container: days until Archive tier",
       "description": "Days after last modification before a blob in the workspace archive container moves to the Archive tier. Blobs on the Archive tier are offline and must be rehydrated before reading. Must be greater than 'Archive container: days until Cold tier'.",
       "default": 180,

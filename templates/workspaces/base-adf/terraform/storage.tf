@@ -90,10 +90,25 @@ resource "azurerm_storage_management_policy" "archive_lifecycle" {
 
     actions {
       base_blob {
-        tier_to_cool_after_days_since_modification_greater_than    = var.archive_cool_days
-        tier_to_cold_after_days_since_modification_greater_than    = var.archive_cold_days
-        tier_to_archive_after_days_since_modification_greater_than = var.archive_archive_days
+        tier_to_cool_after_days_since_modification_greater_than = var.archive_cool_days
+        tier_to_cold_after_days_since_modification_greater_than = var.archive_cold_days
+
+        # Azure supports the Archive tier only on LRS/GRS/RA-GRS accounts, so the
+        # archive action is omitted when the workspace storage account is ZRS.
+        # Blobs in a ZRS workspace tier down to Cold and stop there.
+        tier_to_archive_after_days_since_modification_greater_than = var.storage_account_redundancy == "ZRS" ? null : var.archive_archive_days
       }
+    }
+  }
+
+  lifecycle {
+    precondition {
+      condition = (
+        var.archive_cool_days >= 1
+        && var.archive_cold_days > var.archive_cool_days
+        && var.archive_archive_days > var.archive_cold_days
+      )
+      error_message = "Archive tiering thresholds must each be at least 1 day and strictly increasing: archive_cool_days < archive_cold_days < archive_archive_days."
     }
   }
 

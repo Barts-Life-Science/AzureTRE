@@ -145,6 +145,16 @@ outputs:
     applyTo:
       - install
       - upgrade
+  - name: storage_account_name
+    type: string
+    applyTo:
+      - install
+      - upgrade
+  - name: archive_container_name
+    type: string
+    applyTo:
+      - install
+      - upgrade
   - name: app_role_id_workspace_researcher
     type: string
     applyTo:
@@ -226,6 +236,8 @@ install:
         - name: client_id
         - name: scope_id
         - name: sp_id
+        - name: storage_account_name
+        - name: archive_container_name
 
 upgrade:
   - terraform:
@@ -275,6 +287,8 @@ upgrade:
         - name: client_id
         - name: scope_id
         - name: sp_id
+        - name: storage_account_name
+        - name: archive_container_name
   - az:
       description: "Set Azure Cloud Environment"
       arguments:
