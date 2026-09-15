@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../../assets/ms_icon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1429,6 +1429,8 @@
       
         
       
+        
+      
     
     
     
@@ -1549,6 +1551,34 @@
     
   
     Reviewing Airlock Requests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../using-tre/tre-for-research/working-with-blob-storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working with Blob Storage
   
 
     
@@ -4497,12 +4527,12 @@
 </code></pre></div>
 <p>Deploying a new Azure TRE instance takes approximately 30 minutes.</p>
 <p>Once the deployment is completed, you will be presented with a few output variables similar to the ones below:</p>
-<div class="highlight"><pre><span></span><code>app_gateway_name = &quot;agw-mytre&quot;
-azure_tre_fqdn = &quot;mytre.westeurope.cloudapp.azure.com&quot;
-core_resource_group_name = &quot;rg-mytre&quot;
-keyvault_name = &quot;kv-mytre&quot;
-log_analytics_name = &quot;log-mytre&quot;
-static_web_storage = &quot;stwebmytre&quot;
+<div class="highlight"><pre><span></span><code>app_gateway_name = "agw-mytre"
+azure_tre_fqdn = "mytre.westeurope.cloudapp.azure.com"
+core_resource_group_name = "rg-mytre"
+keyvault_name = "kv-mytre"
+log_analytics_name = "log-mytre"
+static_web_storage = "stwebmytre"
 </code></pre></div>
 <p>The Azure TRE instance is initially deployed with an invalid self-signed SSL certificate. This certificate needs to be replaced with one valid for your configured domain name. To use a certificate from <a href="https://letsencrypt.org/">Let's Encrypt</a>, run the command:</p>
 <div class="highlight"><pre><span></span><code>make<span class="w"> </span>letsencrypt
@@ -4522,21 +4552,21 @@ static_web_storage = &quot;stwebmytre&quot;
 </code></pre></div>
 <p>The expected response is:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;services&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="nt">"services"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;service&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Cosmos DB&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;OK&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">      </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cosmos DB"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OK"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span>
 <span class="w">    </span><span class="p">},</span>
 <span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;service&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Service Bus&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;OK&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">      </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Service Bus"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OK"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span>
 <span class="w">    </span><span class="p">},</span>
 <span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;service&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Resource Processor&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;OK&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">      </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Resource Processor"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OK"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">]</span>
 <span class="p">}</span>
@@ -4601,7 +4631,7 @@ static_web_storage = &quot;stwebmytre&quot;
       <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.indexes"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

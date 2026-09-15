@@ -12,31 +12,31 @@
         <meta name="author" content="Microsoft">
       
       
-        <link rel="canonical" href="https://microsoft.github.io/AzureTRE/unreleased/tre-admins/auth/">
+        <link rel="canonical" href="https://microsoft.github.io/AzureTRE/unreleased/using-tre/tre-for-research/working-with-blob-storage/">
       
       
-        <link rel="prev" href="../tear-down/">
+        <link rel="prev" href="../review-airlock-request/">
       
       
-        <link rel="next" href="../identities/auth-manual/">
+        <link rel="next" href="../../../tre-templates/workspaces/base/">
       
       
         
       
       
-      <link rel="icon" href="../../assets/ms_icon.png">
+      <link rel="icon" href="../../../assets/ms_icon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>Introduction - Azure TRE</title>
+        <title>Working with Blob Storage - Azure TRE</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -55,7 +55,7 @@
       
     
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
 <script type="text/javascript">
   (function(c,l,a,r,i,t,y){
@@ -83,7 +83,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#introduction-to-authentication-and-authorization" class="md-skip">
+        <a href="#working-with-blob-storage-from-your-workspace-vm" class="md-skip">
           Skip to content
         </a>
       
@@ -98,13 +98,13 @@
             <div class="md-banner__inner md-grid md-typeset">
               
   You're not viewing the latest version.
-  <a href="../../..">
+  <a href="../../../..">
     <strong>Click here to go to latest.</strong>
   </a>
 </script>
 
             </div>
-            <script>var el=document.querySelector("[data-md-component=outdated]"),base=new URL("../.."),outdated=__md_get("__outdated",sessionStorage,base);!0===outdated&&el&&(el.hidden=!1)</script>
+            <script>var el=document.querySelector("[data-md-component=outdated]"),base=new URL("../../.."),outdated=__md_get("__outdated",sessionStorage,base);!0===outdated&&el&&(el.hidden=!1)</script>
           </aside>
         
       </div>
@@ -116,9 +116,9 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="Azure TRE" class="md-header__button md-logo" aria-label="Azure TRE" data-md-component="logo">
+    <a href="../../.." title="Azure TRE" class="md-header__button md-logo" aria-label="Azure TRE" data-md-component="logo">
       
-  <img src="../../assets/ms_icon.png" alt="logo">
+  <img src="../../../assets/ms_icon.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -135,7 +135,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Introduction
+              Working with Blob Storage
             
           </span>
         </div>
@@ -225,9 +225,9 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Azure TRE" class="md-nav__button md-logo" aria-label="Azure TRE" data-md-component="logo">
+    <a href="../../.." title="Azure TRE" class="md-nav__button md-logo" aria-label="Azure TRE" data-md-component="logo">
       
-  <img src="../../assets/ms_icon.png" alt="logo">
+  <img src="../../../assets/ms_icon.png" alt="logo">
 
     </a>
     Azure TRE
@@ -280,7 +280,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../.." class="md-nav__link ">
+            <a href="../../.." class="md-nav__link ">
               
   
   
@@ -324,7 +324,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../azure-tre-overview/user-roles/" class="md-nav__link">
+      <a href="../../../azure-tre-overview/user-roles/" class="md-nav__link">
         
   
   
@@ -411,7 +411,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../azure-tre-overview/architecture/" class="md-nav__link">
+      <a href="../../../azure-tre-overview/architecture/" class="md-nav__link">
         
   
   
@@ -439,7 +439,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../azure-tre-overview/networking/" class="md-nav__link">
+      <a href="../../../azure-tre-overview/networking/" class="md-nav__link">
         
   
   
@@ -467,7 +467,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../azure-tre-overview/tre-resources-breakdown/" class="md-nav__link">
+      <a href="../../../azure-tre-overview/tre-resources-breakdown/" class="md-nav__link">
         
   
   
@@ -495,7 +495,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../azure-tre-overview/airlock/" class="md-nav__link">
+      <a href="../../../azure-tre-overview/airlock/" class="md-nav__link">
         
   
   
@@ -523,7 +523,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../azure-tre-overview/cost-reporting/" class="md-nav__link">
+      <a href="../../../azure-tre-overview/cost-reporting/" class="md-nav__link">
         
   
   
@@ -559,7 +559,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../using-tre/terms-definitions/" class="md-nav__link">
+      <a href="../../terms-definitions/" class="md-nav__link">
         
   
   
@@ -587,7 +587,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../azure-tre-overview/case-studies/" class="md-nav__link">
+      <a href="../../../azure-tre-overview/case-studies/" class="md-nav__link">
         
   
   
@@ -656,7 +656,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../setup-instructions/" class="md-nav__link ">
+            <a href="../../../tre-admins/setup-instructions/" class="md-nav__link ">
               
   
   
@@ -700,7 +700,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../setup-instructions/prerequisites/" class="md-nav__link">
+      <a href="../../../tre-admins/setup-instructions/prerequisites/" class="md-nav__link">
         
   
   
@@ -728,7 +728,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../setup-instructions/deployment-repo/" class="md-nav__link">
+      <a href="../../../tre-admins/setup-instructions/deployment-repo/" class="md-nav__link">
         
   
   
@@ -756,7 +756,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../setup-instructions/ad-tenant-choices/" class="md-nav__link">
+      <a href="../../../tre-admins/setup-instructions/ad-tenant-choices/" class="md-nav__link">
         
   
   
@@ -784,7 +784,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../setup-instructions/setup-auth-entities/" class="md-nav__link">
+      <a href="../../../tre-admins/setup-instructions/setup-auth-entities/" class="md-nav__link">
         
   
   
@@ -918,7 +918,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../setup-instructions/manual-pre-deployment-steps/" class="md-nav__link">
+      <a href="../../../tre-admins/setup-instructions/manual-pre-deployment-steps/" class="md-nav__link">
         
   
   
@@ -946,7 +946,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../setup-instructions/manual-deployment/" class="md-nav__link">
+      <a href="../../../tre-admins/setup-instructions/manual-deployment/" class="md-nav__link">
         
   
   
@@ -1035,7 +1035,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../setup-instructions/cicd-pre-deployment-steps/" class="md-nav__link">
+      <a href="../../../tre-admins/setup-instructions/cicd-pre-deployment-steps/" class="md-nav__link">
         
   
   
@@ -1063,7 +1063,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../setup-instructions/cicd-deployment/" class="md-nav__link">
+      <a href="../../../tre-admins/setup-instructions/cicd-deployment/" class="md-nav__link">
         
   
   
@@ -1107,7 +1107,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../setup-instructions/configuring-shared-services/" class="md-nav__link">
+      <a href="../../../tre-admins/setup-instructions/configuring-shared-services/" class="md-nav__link">
         
   
   
@@ -1135,7 +1135,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../setup-instructions/ui-install-base-workspace/" class="md-nav__link">
+      <a href="../../../tre-admins/setup-instructions/ui-install-base-workspace/" class="md-nav__link">
         
   
   
@@ -1163,7 +1163,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../setup-instructions/ui-install-ws-and-ur/" class="md-nav__link">
+      <a href="../../../tre-admins/setup-instructions/ui-install-ws-and-ur/" class="md-nav__link">
         
   
   
@@ -1195,6 +1195,8 @@
       
   
   
+    
+  
   
   
     
@@ -1212,15 +1214,15 @@
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../using-tre/" class="md-nav__link ">
+            <a href="../../" class="md-nav__link ">
               
   
   
@@ -1244,7 +1246,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1264,7 +1266,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../using-tre/templates/" class="md-nav__link">
+      <a href="../../templates/" class="md-nav__link">
         
   
   
@@ -1289,6 +1291,8 @@
                 
   
   
+    
+  
   
   
     
@@ -1310,15 +1314,15 @@
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../using-tre/tre-for-research/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   
@@ -1342,7 +1346,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1362,7 +1366,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../using-tre/tre-for-research/using-vms/" class="md-nav__link">
+      <a href="../using-vms/" class="md-nav__link">
         
   
   
@@ -1390,7 +1394,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../using-tre/tre-for-research/importing-exporting-data-airlock/" class="md-nav__link">
+      <a href="../importing-exporting-data-airlock/" class="md-nav__link">
         
   
   
@@ -1418,7 +1422,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../using-tre/tre-for-research/review-airlock-request/" class="md-nav__link">
+      <a href="../review-airlock-request/" class="md-nav__link">
         
   
   
@@ -1443,10 +1447,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../using-tre/tre-for-research/working-with-blob-storage/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working with Blob Storage
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1462,6 +1493,169 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-find-your-storage-account-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1 — Find your storage account name
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-confirm-youre-on-the-workspace-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2 — Confirm you're on the workspace network
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-sign-in-as-the-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3 — Sign in as the VM
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-upload-a-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4 — Upload a file
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-list-whats-there" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5 — List what's there
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6-download-a-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6 — Download a file
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-7-upload-a-whole-folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 7 — Upload a whole folder
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-8-large-datasets-use-azcopy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 8 — Large datasets: use azcopy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-happens-to-your-data-over-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What happens to your data over time
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retrieving-archived-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Retrieving archived data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1601,7 +1795,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-templates/workspaces/base/" class="md-nav__link">
+      <a href="../../../tre-templates/workspaces/base/" class="md-nav__link">
         
   
   
@@ -1629,7 +1823,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-templates/workspaces/unrestricted/" class="md-nav__link">
+      <a href="../../../tre-templates/workspaces/unrestricted/" class="md-nav__link">
         
   
   
@@ -1657,7 +1851,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-templates/workspaces/airlock-import-review/" class="md-nav__link">
+      <a href="../../../tre-templates/workspaces/airlock-import-review/" class="md-nav__link">
         
   
   
@@ -1760,7 +1954,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-templates/workspace-services/azure-ml/" class="md-nav__link">
+      <a href="../../../tre-templates/workspace-services/azure-ml/" class="md-nav__link">
         
   
   
@@ -1788,7 +1982,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-templates/workspace-services/gitea/" class="md-nav__link">
+      <a href="../../../tre-templates/workspace-services/gitea/" class="md-nav__link">
         
   
   
@@ -1816,7 +2010,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-templates/workspace-services/guacamole/" class="md-nav__link">
+      <a href="../../../tre-templates/workspace-services/guacamole/" class="md-nav__link">
         
   
   
@@ -1844,7 +2038,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-templates/workspace-services/health_services/" class="md-nav__link">
+      <a href="../../../tre-templates/workspace-services/health_services/" class="md-nav__link">
         
   
   
@@ -1872,7 +2066,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-templates/workspace-services/databricks/" class="md-nav__link">
+      <a href="../../../tre-templates/workspace-services/databricks/" class="md-nav__link">
         
   
   
@@ -1900,7 +2094,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-templates/workspace-services/ohdsi/" class="md-nav__link">
+      <a href="../../../tre-templates/workspace-services/ohdsi/" class="md-nav__link">
         
   
   
@@ -1928,7 +2122,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-templates/workspace-services/mysql/" class="md-nav__link">
+      <a href="../../../tre-templates/workspace-services/mysql/" class="md-nav__link">
         
   
   
@@ -1956,7 +2150,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-templates/workspace-services/azuresql/" class="md-nav__link">
+      <a href="../../../tre-templates/workspace-services/azuresql/" class="md-nav__link">
         
   
   
@@ -1984,7 +2178,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-templates/workspace-services/openai/" class="md-nav__link">
+      <a href="../../../tre-templates/workspace-services/openai/" class="md-nav__link">
         
   
   
@@ -2077,7 +2271,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-templates/shared-services/gitea/" class="md-nav__link">
+      <a href="../../../tre-templates/shared-services/gitea/" class="md-nav__link">
         
   
   
@@ -2105,7 +2299,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-templates/shared-services/nexus/" class="md-nav__link">
+      <a href="../../../tre-templates/shared-services/nexus/" class="md-nav__link">
         
   
   
@@ -2133,7 +2327,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-templates/shared-services/cyclecloud/" class="md-nav__link">
+      <a href="../../../tre-templates/shared-services/cyclecloud/" class="md-nav__link">
         
   
   
@@ -2161,7 +2355,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-templates/shared-services/airlock-notifier/" class="md-nav__link">
+      <a href="../../../tre-templates/shared-services/airlock-notifier/" class="md-nav__link">
         
   
   
@@ -2254,7 +2448,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-templates/user-resources/guacamole-windows-vm/" class="md-nav__link">
+      <a href="../../../tre-templates/user-resources/guacamole-windows-vm/" class="md-nav__link">
         
   
   
@@ -2282,7 +2476,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-templates/user-resources/guacamole-linux-vm/" class="md-nav__link">
+      <a href="../../../tre-templates/user-resources/guacamole-linux-vm/" class="md-nav__link">
         
   
   
@@ -2310,7 +2504,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-templates/user-resources/import-reviewvm/" class="md-nav__link">
+      <a href="../../../tre-templates/user-resources/import-reviewvm/" class="md-nav__link">
         
   
   
@@ -2338,7 +2532,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-templates/user-resources/export-reviewvm/" class="md-nav__link">
+      <a href="../../../tre-templates/user-resources/export-reviewvm/" class="md-nav__link">
         
   
   
@@ -2378,10 +2572,8 @@
       
   
   
-    
   
   
-  
     
     
       
@@ -2397,11 +2589,11 @@
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
@@ -2422,7 +2614,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -2437,10 +2629,8 @@
                 
   
   
-    
   
   
-  
     
     
       
@@ -2474,11 +2664,11 @@
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1" >
         
           
           <label class="md-nav__link" for="__nav_5_1" id="__nav_5_1_label" tabindex="0">
@@ -2499,7 +2689,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_1">
             <span class="md-nav__icon md-icon"></span>
             
@@ -2517,7 +2707,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../start-stop/" class="md-nav__link">
+      <a href="../../../tre-admins/start-stop/" class="md-nav__link">
         
   
   
@@ -2545,7 +2735,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../environment-variables/" class="md-nav__link">
+      <a href="../../../tre-admins/environment-variables/" class="md-nav__link">
         
   
   
@@ -2573,7 +2763,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tear-down/" class="md-nav__link">
+      <a href="../../../tre-admins/tear-down/" class="md-nav__link">
         
   
   
@@ -2598,10 +2788,8 @@
                 
   
   
-    
   
   
-  
     
     
       
@@ -2615,11 +2803,11 @@
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1_4" >
         
           
           <label class="md-nav__link" for="__nav_5_1_4" id="__nav_5_1_4_label" tabindex="0">
@@ -2640,7 +2828,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_1_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_1_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_1_4">
             <span class="md-nav__icon md-icon"></span>
             
@@ -2655,37 +2843,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Introduction
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../tre-admins/auth/" class="md-nav__link">
         
   
   
@@ -2701,93 +2862,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#pre-requisites" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Pre-requisites
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#create-authentication-assets" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Create Authentication assets
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Create Authentication assets">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#using-a-separate-microsoft-entra-id-tenant" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Using a separate Microsoft Entra ID tenant
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#app-registrations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        App registrations
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="App registrations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#enabling-users" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Enabling users
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -2800,7 +2874,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../identities/auth-manual/" class="md-nav__link">
+      <a href="../../../tre-admins/identities/auth-manual/" class="md-nav__link">
         
   
   
@@ -2887,7 +2961,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../identities/application_admin/" class="md-nav__link">
+      <a href="../../../tre-admins/identities/application_admin/" class="md-nav__link">
         
   
   
@@ -2915,7 +2989,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../identities/api/" class="md-nav__link">
+      <a href="../../../tre-admins/identities/api/" class="md-nav__link">
         
   
   
@@ -2943,7 +3017,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../identities/client/" class="md-nav__link">
+      <a href="../../../tre-admins/identities/client/" class="md-nav__link">
         
   
   
@@ -2971,7 +3045,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../identities/test-account/" class="md-nav__link">
+      <a href="../../../tre-admins/identities/test-account/" class="md-nav__link">
         
   
   
@@ -2999,7 +3073,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../identities/workspace/" class="md-nav__link">
+      <a href="../../../tre-admins/identities/workspace/" class="md-nav__link">
         
   
   
@@ -3043,7 +3117,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../registering-templates/" class="md-nav__link">
+      <a href="../../../tre-admins/registering-templates/" class="md-nav__link">
         
   
   
@@ -3124,7 +3198,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../setup-instructions/installing-base-workspace/" class="md-nav__link">
+      <a href="../../../tre-admins/setup-instructions/installing-base-workspace/" class="md-nav__link">
         
   
   
@@ -3152,7 +3226,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../setup-instructions/installing-workspace-service-and-user-resource/" class="md-nav__link">
+      <a href="../../../tre-admins/setup-instructions/installing-workspace-service-and-user-resource/" class="md-nav__link">
         
   
   
@@ -3188,7 +3262,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../upgrading-tre/" class="md-nav__link">
+      <a href="../../../tre-admins/upgrading-tre/" class="md-nav__link">
         
   
   
@@ -3216,7 +3290,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../upgrading-resources/" class="md-nav__link">
+      <a href="../../../tre-admins/upgrading-resources/" class="md-nav__link">
         
   
   
@@ -3244,7 +3318,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../configure-airlock-review/" class="md-nav__link">
+      <a href="../../../tre-admins/configure-airlock-review/" class="md-nav__link">
         
   
   
@@ -3272,7 +3346,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../supported-clouds/" class="md-nav__link">
+      <a href="../../../tre-admins/supported-clouds/" class="md-nav__link">
         
   
   
@@ -3300,7 +3374,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../customer-managed-keys/" class="md-nav__link">
+      <a href="../../../tre-admins/customer-managed-keys/" class="md-nav__link">
         
   
   
@@ -3328,7 +3402,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../custom-domain/" class="md-nav__link">
+      <a href="../../../tre-admins/custom-domain/" class="md-nav__link">
         
   
   
@@ -3356,7 +3430,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../configure-firewall-force-tunneling/" class="md-nav__link">
+      <a href="../../../tre-admins/configure-firewall-force-tunneling/" class="md-nav__link">
         
   
   
@@ -3447,7 +3521,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../using-tre/local-development/local-development/" class="md-nav__link">
+      <a href="../../local-development/local-development/" class="md-nav__link">
         
   
   
@@ -3509,7 +3583,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tre-developers/" class="md-nav__link ">
+            <a href="../../../tre-developers/" class="md-nav__link ">
               
   
   
@@ -3553,7 +3627,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-developers/api/" class="md-nav__link">
+      <a href="../../../tre-developers/api/" class="md-nav__link">
         
   
   
@@ -3581,7 +3655,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-developers/ui/" class="md-nav__link">
+      <a href="../../../tre-developers/ui/" class="md-nav__link">
         
   
   
@@ -3609,7 +3683,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-developers/resource-processor/" class="md-nav__link">
+      <a href="../../../tre-developers/resource-processor/" class="md-nav__link">
         
   
   
@@ -3637,7 +3711,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-developers/end-to-end-tests/" class="md-nav__link">
+      <a href="../../../tre-developers/end-to-end-tests/" class="md-nav__link">
         
   
   
@@ -3665,7 +3739,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-developers/letsencrypt/" class="md-nav__link">
+      <a href="../../../tre-developers/letsencrypt/" class="md-nav__link">
         
   
   
@@ -3693,7 +3767,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-developers/release/" class="md-nav__link">
+      <a href="../../../tre-developers/release/" class="md-nav__link">
         
   
   
@@ -3721,7 +3795,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../setup-instructions/workflows/" class="md-nav__link">
+      <a href="../../../tre-admins/setup-instructions/workflows/" class="md-nav__link">
         
   
   
@@ -3749,7 +3823,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-developers/github-pr-bot-commands/" class="md-nav__link">
+      <a href="../../../tre-developers/github-pr-bot-commands/" class="md-nav__link">
         
   
   
@@ -3840,7 +3914,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-workspace-authors/authoring-workspace-templates/" class="md-nav__link">
+      <a href="../../../tre-workspace-authors/authoring-workspace-templates/" class="md-nav__link">
         
   
   
@@ -3868,7 +3942,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-workspace-authors/firewall-rules/" class="md-nav__link">
+      <a href="../../../tre-workspace-authors/firewall-rules/" class="md-nav__link">
         
   
   
@@ -3949,7 +4023,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-templates/pipeline-templates/overview/" class="md-nav__link">
+      <a href="../../../tre-templates/pipeline-templates/overview/" class="md-nav__link">
         
   
   
@@ -3977,7 +4051,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-templates/pipeline-templates/pipeline-schema/" class="md-nav__link">
+      <a href="../../../tre-templates/pipeline-templates/pipeline-schema/" class="md-nav__link">
         
   
   
@@ -4029,7 +4103,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tre-developers/CLI/" class="md-nav__link">
+      <a href="../../../tre-developers/CLI/" class="md-nav__link">
         
   
   
@@ -4091,7 +4165,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../troubleshooting-faq/" class="md-nav__link ">
+            <a href="../../../troubleshooting-faq/" class="md-nav__link ">
               
   
   
@@ -4135,7 +4209,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../troubleshooting-faq/debug-logs/" class="md-nav__link">
+      <a href="../../../troubleshooting-faq/debug-logs/" class="md-nav__link">
         
   
   
@@ -4163,7 +4237,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../troubleshooting-faq/api-logs-deployment-center/" class="md-nav__link">
+      <a href="../../../troubleshooting-faq/api-logs-deployment-center/" class="md-nav__link">
         
   
   
@@ -4191,7 +4265,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../troubleshooting-faq/troubleshooting-sb/" class="md-nav__link">
+      <a href="../../../troubleshooting-faq/troubleshooting-sb/" class="md-nav__link">
         
   
   
@@ -4219,7 +4293,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../troubleshooting-faq/app-insights-logs/" class="md-nav__link">
+      <a href="../../../troubleshooting-faq/app-insights-logs/" class="md-nav__link">
         
   
   
@@ -4247,7 +4321,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../troubleshooting-faq/troubleshooting-rp/" class="md-nav__link">
+      <a href="../../../troubleshooting-faq/troubleshooting-rp/" class="md-nav__link">
         
   
   
@@ -4275,7 +4349,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../troubleshooting-faq/airlock-troubleshooting/" class="md-nav__link">
+      <a href="../../../troubleshooting-faq/airlock-troubleshooting/" class="md-nav__link">
         
   
   
@@ -4303,7 +4377,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../troubleshooting-faq/manually-editing-resources/" class="md-nav__link">
+      <a href="../../../troubleshooting-faq/manually-editing-resources/" class="md-nav__link">
         
   
   
@@ -4331,7 +4405,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../troubleshooting-faq/cloud-init/" class="md-nav__link">
+      <a href="../../../troubleshooting-faq/cloud-init/" class="md-nav__link">
         
   
   
@@ -4374,7 +4448,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../contributing/" class="md-nav__link">
+      <a href="../../../contributing/" class="md-nav__link">
         
   
   
@@ -4421,10 +4495,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#pre-requisites" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pre-requisites
+        Prerequisites
       
     </span>
   </a>
@@ -4432,58 +4506,134 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#create-authentication-assets" class="md-nav__link">
+  <a href="#step-1-find-your-storage-account-name" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Create Authentication assets
+        Step 1 — Find your storage account name
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Create Authentication assets">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#using-a-separate-microsoft-entra-id-tenant" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Using a separate Microsoft Entra ID tenant
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#app-registrations" class="md-nav__link">
+  <a href="#step-2-confirm-youre-on-the-workspace-network" class="md-nav__link">
     <span class="md-ellipsis">
       
-        App registrations
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="App registrations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#enabling-users" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Enabling users
+        Step 2 — Confirm you're on the workspace network
       
     </span>
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-sign-in-as-the-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3 — Sign in as the VM
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-upload-a-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4 — Upload a file
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-list-whats-there" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5 — List what's there
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6-download-a-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6 — Download a file
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-7-upload-a-whole-folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 7 — Upload a whole folder
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-8-large-datasets-use-azcopy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 8 — Large datasets: use azcopy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-happens-to-your-data-over-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What happens to your data over time
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retrieving-archived-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Retrieving archived data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick reference
+      
+    </span>
+  </a>
   
 </li>
       
@@ -4504,159 +4654,248 @@
 
 
 
-<h1 id="introduction-to-authentication-and-authorization">Introduction to Authentication and Authorization</h1>
-<p><a href="https://learn.microsoft.com/en-us/entra/fundamentals/whatis">Microsoft Entra ID</a> is the backbone of Authentication and Authorization in the Trusted Research Environment. Microsoft Entra ID holds the identities of all the TRE/workspace users, including administrators, and connects the identities with applications which define the permissions for each user role.</p>
-<p>It is common that the Azure Administrator is not necessarily the Microsoft Entra ID Administrator. Due to this, this step may have to be carried out by a different individual/team. We have automated this into a simple command, but should you wish, you can run these steps manually.</p>
-<p>This page describes the automated Auth setup for TRE.</p>
-<h2 id="pre-requisites">Pre-requisites</h2>
-<p>The automation utilises a <code>make</code> command, which reads a few environment variables and creates the Microsoft Entra ID assets. The following values are needed to be in place before you run the creation process. (<code>/config.yaml</code>)</p>
-<table>
-<thead>
-<tr>
-<th>Key</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>TRE_ID</td>
-<td>This is used to build up the name of the identities</td>
-</tr>
-<tr>
-<td>AAD_TENANT_ID</td>
-<td>The tenant id of where your Microsoft Entra ID identities will be placed. This can be different to the tenant where your Azure resources are created.</td>
-</tr>
-<tr>
-<td>LOCATION</td>
-<td>Where your Azure assets will be provisioned (eg. westeurope). This is used to add a redirect URI from the Swagger UI to the API Application.</td>
-</tr>
-<tr>
-<td>AUTO_WORKSPACE_APP_REGISTRATION</td>
-<td>Default of <code>false</code>. Setting this to true grants the <code>Application.ReadWrite.All</code> and <code>Directory.Read.All</code> permission to the <em>Application Admin</em> identity. This identity is used to manage other Microsoft Entra ID applications that it owns, e.g. Workspaces. If you do not set this, the identity will have <code>Application.ReadWrite.OwnedBy</code>. Further information can be found&nbsp;<a href="../identities/application_admin/">here</a>.</td>
-</tr>
-<tr>
-<td>AUTO_WORKSPACE_GROUP_CREATION</td>
-<td>Set to <code>false</code> by default. Setting this to <code>true</code> grants the <code>Group.ReadWrite.All</code> permission to the <em>Application Admin</em> identity. This identity can then create security groups aligned to each applciation role. Microsoft Entra ID licencing implications need to be considered as Group assignment is a premium feature. <a href="https://docs.microsoft.com/en-us/azure/architecture/multitenant-identity/app-roles#roles-using-azure-ad-app-roles">You can read mode about Group Assignment here</a>.</td>
-</tr>
-<tr>
-<td>AUTO_GRANT_WORKSPACE_CONSENT</td>
-<td>Default of <code>false</code>.  Setting this to <code>true</code> will remove the need for users to manually grant consent when creating new workspaces. The identity will be granted <code>Application.ReadWrite.All</code> and <code>DelegatedPermissionGrant.ReadWrite.All</code> permissions.</td>
-</tr>
-</tbody>
-</table>
-<h2 id="create-authentication-assets">Create Authentication assets</h2>
-<p>You can build all of the Identity assets by running the following at the command line
-<div class="highlight"><pre><span></span><code>make<span class="w"> </span>auth
+<h1 id="working-with-blob-storage-from-your-workspace-vm">Working with Blob Storage from your workspace VM</h1>
+<p>The <strong>Blob Storage workspace service</strong> gives your project a dedicated Azure storage account for <strong>cold / archive data</strong> — datasets you want to keep but rarely access. Files you put in start on the Hot tier and the storage account automatically moves them to cheaper tiers (Cool → Cold → Archive) as time passes, so the longer data sits untouched, the less it costs.</p>
+<p>This page is for the <strong>researcher already inside a workspace VM</strong> who wants to push data into that storage and pull it back out.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>A workspace with the <strong>Blob Storage</strong> workspace service deployed.</li>
+<li>A workspace VM (Linux or Windows) deployed via Guacamole. You are connected to it through the Guacamole desktop.</li>
+<li>Your workspace owner has granted the VM's identity access to the storage account (one-time, per workspace).</li>
+</ul>
+<p>You do <strong>not</strong> need to know any storage account keys, set up a SAS token, or <code>az login</code> as yourself. The VM authenticates non-interactively as itself, via its managed identity (see <a href="#step-3--sign-in-as-the-vm">Step 3</a>).</p>
+<h2 id="step-1-find-your-storage-account-name">Step 1 — Find your storage account name</h2>
+<p>In the TRE UI:</p>
+<ol>
+<li>Open your workspace.</li>
+<li>Click <strong>Workspace Services</strong> → <strong>Blob Storage</strong>.</li>
+<li>Open the <strong>Outputs</strong> tab.</li>
+<li>Copy the value of <code>storage_account_name</code> (something like <code>stgblobsvcc857</code>).</li>
+</ol>
+<p>You'll use this name in every command below. Set it as an environment variable on the VM so you don't have to retype it:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">STG</span><span class="o">=</span>stgblobsvcc857
+<span class="nv">CONTAINER</span><span class="o">=</span>archive
 </code></pre></div>
-This will create five identities, and if successful will write the outputs to athentication section in <code>config.yaml</code> file. If you are building locally, these values will be used when building your TRE. If you are setting this up for CI/CD, then these values will be needed by your Build Orchestrator.</p>
-<p>The contents of your authentication section in <code>config.yaml</code> file should contain :</p>
+<p>The Blob Storage service always creates a container named <code>archive</code>, and the lifecycle policy is attached to that container, so <code>CONTAINER</code> is always this value.</p>
+<h2 id="step-2-confirm-youre-on-the-workspace-network">Step 2 — Confirm you're on the workspace network</h2>
+<p>The storage account is unreachable from the public internet — it can only be talked to from inside your workspace vnet. A quick check:</p>
+<div class="highlight"><pre><span></span><code>nslookup<span class="w"> </span><span class="nv">$STG</span>.blob.core.windows.net
+</code></pre></div>
+<p>You should see an answer like:</p>
+<div class="highlight"><pre><span></span><code>Name:    stgblobsvcc857.privatelink.blob.core.windows.net
+Address: 10.1.4.27
+</code></pre></div>
+<p>Two things to look for:</p>
+<ul>
+<li>The CNAME points to something with <code>privatelink</code> in the name.</li>
+<li>The address starts with <code>10.</code> (a private IP inside your workspace).</li>
+</ul>
+<p>If you see a public address (e.g. <code>20.x.x.x</code>) or the lookup fails, you're not on the workspace network — open Guacamole and connect to the workspace VM.</p>
+<h2 id="step-3-sign-in-as-the-vm">Step 3 — Sign in as the VM</h2>
+<p>The VM has its own identity (a <strong>system-assigned managed identity</strong>) that the storage account recognises. You log in <em>as the VM</em>, not as yourself — no passwords, no codes, no browser:</p>
+<div class="highlight"><pre><span></span><code>az<span class="w"> </span>login<span class="w"> </span>--identity
+az<span class="w"> </span>account<span class="w"> </span>show
+</code></pre></div>
+<p>The <code>az account show</code> output should include:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"systemAssignedIdentity"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"servicePrincipal"</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>That's it — you can now use the storage.</p>
+<p><strong>Why not <code>az login</code> as yourself?</strong> In a TRE, your workspace VM is meant to be the actor that touches research data, not your laptop or your user account. Using the VM identity means everything you do is auditable as coming from this specific VM, and it sidesteps tenant sign-in policies that block interactive auth on workspace networks.</p>
+<h2 id="step-4-upload-a-file">Step 4 — Upload a file</h2>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">"hello from </span><span class="k">$(</span>hostname<span class="k">)</span><span class="s2"> at </span><span class="k">$(</span>date<span class="k">)</span><span class="s2">"</span><span class="w"> </span>&gt;<span class="w"> </span>demo.txt
+
+az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>upload<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--account-name<span class="w"> </span><span class="nv">$STG</span><span class="w"> </span>--container-name<span class="w"> </span><span class="nv">$CONTAINER</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--auth-mode<span class="w"> </span>login<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--file<span class="w"> </span>./demo.txt<span class="w"> </span>--name<span class="w"> </span>demo.txt
+</code></pre></div>
+<p><code>--name</code> is what the file will be called inside the container. You can use a path-like name to organise into pseudo-folders:</p>
+<div class="highlight"><pre><span></span><code>az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>upload<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--account-name<span class="w"> </span><span class="nv">$STG</span><span class="w"> </span>--container-name<span class="w"> </span><span class="nv">$CONTAINER</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--auth-mode<span class="w"> </span>login<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--file<span class="w"> </span>./results.csv<span class="w"> </span>--name<span class="w"> </span><span class="m">2026</span>-06/study1/results.csv
+</code></pre></div>
+<h2 id="step-5-list-whats-there">Step 5 — List what's there</h2>
+<div class="highlight"><pre><span></span><code>az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>list<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--account-name<span class="w"> </span><span class="nv">$STG</span><span class="w"> </span>--container-name<span class="w"> </span><span class="nv">$CONTAINER</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--auth-mode<span class="w"> </span>login<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span>table
+</code></pre></div>
+<p>Just the names:</p>
+<div class="highlight"><pre><span></span><code>az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>list<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--account-name<span class="w"> </span><span class="nv">$STG</span><span class="w"> </span>--container-name<span class="w"> </span><span class="nv">$CONTAINER</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--auth-mode<span class="w"> </span>login<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--query<span class="w"> </span><span class="s2">"[].name"</span><span class="w"> </span>-o<span class="w"> </span>tsv
+</code></pre></div>
+<p>Only under one prefix (the slash-separated names act like folders):</p>
+<div class="highlight"><pre><span></span><code>az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>list<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--account-name<span class="w"> </span><span class="nv">$STG</span><span class="w"> </span>--container-name<span class="w"> </span><span class="nv">$CONTAINER</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--auth-mode<span class="w"> </span>login<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--prefix<span class="w"> </span><span class="s2">"2026-06/"</span><span class="w"> </span>-o<span class="w"> </span>table
+</code></pre></div>
+<h2 id="step-6-download-a-file">Step 6 — Download a file</h2>
+<div class="highlight"><pre><span></span><code>az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>download<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--account-name<span class="w"> </span><span class="nv">$STG</span><span class="w"> </span>--container-name<span class="w"> </span><span class="nv">$CONTAINER</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--auth-mode<span class="w"> </span>login<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span>demo.txt<span class="w"> </span>--file<span class="w"> </span>./demo-out.txt
+
+cat<span class="w"> </span>./demo-out.txt
+</code></pre></div>
+<h2 id="step-7-upload-a-whole-folder">Step 7 — Upload a whole folder</h2>
+<div class="highlight"><pre><span></span><code>az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>upload-batch<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--account-name<span class="w"> </span><span class="nv">$STG</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--destination<span class="w"> </span><span class="nv">$CONTAINER</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--auth-mode<span class="w"> </span>login<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--source<span class="w"> </span>/path/to/local/folder
+</code></pre></div>
+<p>This preserves the directory structure under the container. Re-running it is safe if a session drops, but it does <strong>not</strong> skip files that are already uploaded — matching blobs are overwritten and re-transferred. Add <code>--overwrite false</code> if you would rather the command fail than overwrite an existing blob.</p>
+<h2 id="step-8-large-datasets-use-azcopy">Step 8 — Large datasets: use <code>azcopy</code></h2>
+<p>For more than a few GB, the <code>az storage blob</code> commands work but <code>azcopy</code> is much faster (parallel, resumable):</p>
+<div class="highlight"><pre><span></span><code>azcopy<span class="w"> </span>login<span class="w"> </span>--identity<span class="w">      </span><span class="c1"># signs in as the VM, same as az login --identity</span>
+
+azcopy<span class="w"> </span>copy<span class="w"> </span><span class="s2">"/path/to/local/folder"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">"https://</span><span class="nv">$STG</span><span class="s2">.blob.core.windows.net/</span><span class="nv">$CONTAINER</span><span class="s2">/"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--recursive<span class="o">=</span><span class="nb">true</span>
+</code></pre></div>
+<p>If <code>azcopy</code> isn't installed:</p>
+<div class="highlight"><pre><span></span><code>wget<span class="w"> </span>https://aka.ms/downloadazcopy-v10-linux<span class="w"> </span>-O<span class="w"> </span>/tmp/azcopy.tgz
+tar<span class="w"> </span>-xf<span class="w"> </span>/tmp/azcopy.tgz<span class="w"> </span>--strip-components<span class="o">=</span><span class="m">1</span><span class="w"> </span>-C<span class="w"> </span>/tmp
+sudo<span class="w"> </span>install<span class="w"> </span>/tmp/azcopy<span class="w"> </span>/usr/local/bin/
+</code></pre></div>
+<p>For multi-hour transfers, run it in the background so a Guacamole disconnect doesn't kill it:</p>
+<div class="highlight"><pre><span></span><code>nohup<span class="w"> </span>azcopy<span class="w"> </span>copy<span class="w"> </span><span class="s2">"/path/to/local/folder"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">"https://</span><span class="nv">$STG</span><span class="s2">.blob.core.windows.net/</span><span class="nv">$CONTAINER</span><span class="s2">/"</span><span class="w"> </span>--recursive<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>&gt;<span class="w"> </span>~/azcopy.log<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">&amp;</span>
+
+tail<span class="w"> </span>-f<span class="w"> </span>~/azcopy.log
+</code></pre></div>
+<h2 id="what-happens-to-your-data-over-time">What happens to your data over time</h2>
+<p>Every blob you upload starts on the <strong>Hot</strong> tier (fastest access, highest cost). A lifecycle policy on the storage account automatically moves it down through cheaper tiers based on the last time the blob was modified:</p>
 <table>
 <thead>
 <tr>
-<th>Variable</th>
-<th>Description</th>
+<th>Days since last modified</th>
+<th>Tier</th>
+<th>Behaviour</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>APPLICATION_ADMIN_CLIENT_ID</code></td>
-<td>This client will administer Microsoft Entra ID Applications for TRE</td>
+<td>0 – 30</td>
+<td><strong>Hot</strong></td>
+<td>Fastest reads/writes, highest storage cost.</td>
 </tr>
 <tr>
-<td><code>APPLICATION_ADMIN_CLIENT_SECRET</code></td>
-<td>This client will administer Microsoft Entra ID Applications for TRE</td>
+<td>30 – 90</td>
+<td><strong>Cool</strong></td>
+<td>Cheaper storage, very slightly higher read cost. Still milliseconds to access.</td>
 </tr>
 <tr>
-<td><code>TEST_ACCOUNT_CLIENT_ID</code></td>
-<td>This will be created by default, but can be disabled by editing <code>/devops/scripts/create_aad_assets.sh</code>. This is the user that will run the tests for you</td>
+<td>90 – 180</td>
+<td><strong>Cold</strong></td>
+<td>Cheaper still. Still online — milliseconds to access, but higher read cost.</td>
 </tr>
 <tr>
-<td><code>TEST_ACCOUNT_CLIENT_SECRET</code></td>
-<td>This will be created by default, but can be disabled by editing <code>/devops/scripts/create_aad_assets.sh</code>. This is the user that will run the tests for you</td>
-</tr>
-<tr>
-<td><code>API_CLIENT_ID</code></td>
-<td>API application (client) ID.</td>
-</tr>
-<tr>
-<td><code>API_CLIENT_SECRET</code></td>
-<td>API application client secret.</td>
-</tr>
-<tr>
-<td><code>SWAGGER_UI_CLIENT_ID</code></td>
-<td>Swagger (OpenAPI) UI application (client) ID.</td>
-</tr>
-<tr>
-<td><code>WORKSPACE_API_CLIENT_ID</code></td>
-<td>Each workspace is secured behind it's own AD Application</td>
-</tr>
-<tr>
-<td><code>WORKSPACE_API_CLIENT_SECRET</code></td>
-<td>Each workspace is secured behind it's own AD Application. This is the secret for that application.</td>
+<td>180+</td>
+<td><strong>Archive</strong></td>
+<td>Cheapest storage. <strong>Blob is offline</strong> — you must rehydrate it before reading (see below).</td>
 </tr>
 </tbody>
 </table>
-<h3 id="using-a-separate-microsoft-entra-id-tenant">Using a separate Microsoft Entra ID tenant</h3>
-<div class="admonition caution">
-<p class="admonition-title">Caution</p>
-<p>This section is only relevant it you are setting up a separate Microsoft Entra ID tenant for use.
-This is only recommended for development environments when you don't have the required permissions to register applications in Microsoft Entra ID.
-Using a separate Microsoft Entra ID tenant will prevent you from using certain Microsoft Entra ID integrated services.
-For production deployments, work with your Microsoft Entra ID administrator to perform the required registration</p>
-</div>
-<ol>
-<li>
-<p>Create an Microsoft Entra ID tenant
-    To create a new Microsoft Entra ID tenant, <a href="https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-create-new-tenant">follow the steps here</a></p>
-</li>
-<li>
-<p>Follow the steps outlined above. <code>make auth</code> should logon to the correct tenant. Make sure you logon back to the correct tenant before running <code>make all</code>.</p>
-</li>
-</ol>
-<h2 id="app-registrations">App registrations</h2>
-<p>App registrations (represented by service principals) define the various access permissions to the TRE system. There are a total of five main Applications of interest.</p>
+<p>(Exact thresholds may be configured differently in your workspace — check the workspace service Outputs.)</p>
+<p>If you know a file should start cheap, you can skip Hot when uploading:</p>
+<div class="highlight"><pre><span></span><code>az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>upload<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--account-name<span class="w"> </span><span class="nv">$STG</span><span class="w"> </span>--container-name<span class="w"> </span><span class="nv">$CONTAINER</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--auth-mode<span class="w"> </span>login<span class="w"> </span>--tier<span class="w"> </span>Cool<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--file<span class="w"> </span>./oldproject.tar<span class="w"> </span>--name<span class="w"> </span>oldproject.tar
+</code></pre></div>
+<p><code>--tier</code> accepts <code>Hot</code>, <code>Cool</code>, <code>Cold</code>, or <code>Archive</code>. Be careful with <code>Archive</code> — the blob is immediately offline and you'll need to rehydrate it to read.</p>
+<h2 id="retrieving-archived-data">Retrieving archived data</h2>
+<p>A blob that has reached the Archive tier is <strong>offline</strong> — <code>az storage blob download</code> will fail with a 409 error. To read it, you have to ask Azure to bring it back online (called <strong>rehydration</strong>):</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Trigger rehydration — moves the blob back to Hot (or Cool)</span>
+az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>set-tier<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--account-name<span class="w"> </span><span class="nv">$STG</span><span class="w"> </span>--container-name<span class="w"> </span><span class="nv">$CONTAINER</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--auth-mode<span class="w"> </span>login<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span>big-old-dataset.tar<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tier<span class="w"> </span>Hot<span class="w"> </span>--rehydrate-priority<span class="w"> </span>Standard
+
+<span class="c1"># 2. Check progress</span>
+az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>show<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--account-name<span class="w"> </span><span class="nv">$STG</span><span class="w"> </span>--container-name<span class="w"> </span><span class="nv">$CONTAINER</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--auth-mode<span class="w"> </span>login<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span>big-old-dataset.tar<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--query<span class="w"> </span><span class="s2">"{tier:properties.blobTier, status:properties.rehydrationStatus}"</span>
+
+<span class="c1"># 3. Once status is "rehydrate-pending-to-hot" → "Hot" you can download as normal.</span>
+</code></pre></div>
+<p>Rehydration with <code>Standard</code> priority can take <strong>up to 15 hours</strong>. <code>High</code> priority is faster (typically under 1 hour) but costs more — use it only for blobs under 10 GB.</p>
+<p><a href="https://learn.microsoft.com/azure/storage/blobs/archive-rehydrate-overview">Azure docs: Rehydrate an archived blob</a>.</p>
+<h2 id="troubleshooting">Troubleshooting</h2>
 <table>
 <thead>
 <tr>
-<th>Microsoft Entra ID Application</th>
-<th>Description</th>
+<th>Symptom</th>
+<th>Likely cause</th>
+<th>What to do</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>TRE API application</td>
-<td>This is the main application and used to secure access to the <a href="../../tre-developers/api/">TRE API</a>.</td>
+<td><code>az login --identity</code> fails: "No identity available"</td>
+<td>The VM doesn't have a managed identity (older bundle, or it was disabled).</td>
+<td>Ask the workspace owner to enable system-assigned identity on the VM, then redeploy or restart.</td>
 </tr>
 <tr>
-<td>TRE UX</td>
-<td>This is the client application that will authenticate to the TRE/Workspace APIs.</td>
+<td><code>403 AuthorizationPermissionMismatch</code> on blob operations</td>
+<td>The VM's identity doesn't have the right role yet, or it was granted in the last few minutes.</td>
+<td>Wait 2–5 minutes for role propagation. If still failing after 10 min, ask the workspace owner to confirm <strong>Storage Blob Data Contributor</strong> is assigned to the VM identity on the storage account.</td>
 </tr>
 <tr>
-<td>Application Admin</td>
-<td>There are times when workspace services need to update the Microsoft Entra ID Application. For example, Guacamole needs to add a redirect URI to the Workspace Microsoft Entra ID Application. This identity is used to manage Microsoft Entra ID Applications.</td>
+<td><code>403 AuthorizationFailure</code></td>
+<td>You forgot <code>--auth-mode login</code> (it tried key auth, which is disabled), or you're running the command from outside the workspace network.</td>
+<td>Add <code>--auth-mode login</code> to every <code>az storage blob …</code> command. Run from the workspace VM.</td>
 </tr>
 <tr>
-<td>Automation App</td>
-<td>This application is created so that you can run the tests or any CI/CD capability without the need to divulge a user password. This is particularly important if your tenant is MFA enabled.</td>
+<td><code>nslookup</code> returns a public IP (<code>20.x.x.x</code>)</td>
+<td>You're not on the workspace network — likely your laptop or dev container.</td>
+<td>Open the VM via Guacamole and run the commands there.</td>
 </tr>
 <tr>
-<td>Workspace API</td>
-<td>Typically you would have an application securing one or more workspaces that are created by TRE.</td>
+<td><code>az storage blob download</code> returns <code>409 BlobArchived</code></td>
+<td>The blob has been tiered to Archive and is offline.</td>
+<td>Rehydrate it first — see <a href="#retrieving-archived-data">Retrieving archived data</a>.</td>
+</tr>
+<tr>
+<td><code>azcopy</code> says it doesn't have permission</td>
+<td>You ran <code>az login --identity</code> but not <code>azcopy login --identity</code>.</td>
+<td>Run <code>azcopy login --identity</code> once per session.</td>
 </tr>
 </tbody>
 </table>
-<p>Some of the applications require <strong>admin consent</strong> to allow them to validate users against the Microsoft Entra ID. Check the Microsoft Docs on <a href="https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/configure-admin-consent-workflow">Configure the admin consent workflow</a> on how to request admin consent and handle admin consent requests.</p>
-<p>We strongly recommend that you use <code>make auth</code> to create the Microsoft Entra ID assets as this has been tested extensively. Should you wish to create these manually via the <a href="https://learn.microsoft.com/en-gb/entra/identity-platform/quickstart-register-app">Azure Portal</a>; more information can be found <a href="../identities/auth-manual/">here</a>.</p>
-<h3 id="enabling-users">Enabling users</h3>
-<p>For a user to gain access to the system, they have to:</p>
-<ol>
-<li>Have an identity in Microsoft Entra ID</li>
-<li>Be linked with an app registration and assigned a role</li>
-</ol>
-<p>When these requirements are met, the user can sign-in using their credentials and use their privileges to use the API, login to workspace environment etc. based on their specific roles.</p>
-<p><img alt="User linked with app registrations" src="../../assets/aad-user-linked-with-app-regs.png" /></p>
-<p>The users can also be linked via the Enterprise application view:</p>
-<p><img alt="Adding users to Enterprise application" src="../../assets/adding-users-to-enterprise-application.png" /></p>
+<h2 id="quick-reference">Quick reference</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># variables</span>
+<span class="nv">STG</span><span class="o">=</span>&lt;your-storage-account-name&gt;
+<span class="nv">CONTAINER</span><span class="o">=</span>archive
+
+<span class="c1"># one-time per session</span>
+az<span class="w"> </span>login<span class="w"> </span>--identity
+
+<span class="c1"># common operations</span>
+az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>upload<span class="w">   </span>--account-name<span class="w"> </span><span class="nv">$STG</span><span class="w"> </span>--container-name<span class="w"> </span><span class="nv">$CONTAINER</span><span class="w"> </span>--auth-mode<span class="w"> </span>login<span class="w"> </span>--name<span class="w"> </span>&lt;blob&gt;<span class="w"> </span>--file<span class="w"> </span>&lt;local&gt;
+az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>list<span class="w">     </span>--account-name<span class="w"> </span><span class="nv">$STG</span><span class="w"> </span>--container-name<span class="w"> </span><span class="nv">$CONTAINER</span><span class="w"> </span>--auth-mode<span class="w"> </span>login<span class="w"> </span>-o<span class="w"> </span>table
+az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>download<span class="w"> </span>--account-name<span class="w"> </span><span class="nv">$STG</span><span class="w"> </span>--container-name<span class="w"> </span><span class="nv">$CONTAINER</span><span class="w"> </span>--auth-mode<span class="w"> </span>login<span class="w"> </span>--name<span class="w"> </span>&lt;blob&gt;<span class="w"> </span>--file<span class="w"> </span>&lt;local&gt;
+az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>delete<span class="w">   </span>--account-name<span class="w"> </span><span class="nv">$STG</span><span class="w"> </span>--container-name<span class="w"> </span><span class="nv">$CONTAINER</span><span class="w"> </span>--auth-mode<span class="w"> </span>login<span class="w"> </span>--name<span class="w"> </span>&lt;blob&gt;
+
+<span class="c1"># whole folders</span>
+az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>upload-batch<span class="w"> </span>--account-name<span class="w"> </span><span class="nv">$STG</span><span class="w"> </span>--destination<span class="w"> </span><span class="nv">$CONTAINER</span><span class="w"> </span>--auth-mode<span class="w"> </span>login<span class="w"> </span>--source<span class="w"> </span>&lt;folder&gt;
+
+<span class="c1"># big data</span>
+azcopy<span class="w"> </span>login<span class="w"> </span>--identity
+azcopy<span class="w"> </span>copy<span class="w"> </span><span class="s2">"&lt;folder&gt;"</span><span class="w"> </span><span class="s2">"https://</span><span class="nv">$STG</span><span class="s2">.blob.core.windows.net/</span><span class="nv">$CONTAINER</span><span class="s2">/"</span><span class="w"> </span>--recursive<span class="o">=</span><span class="nb">true</span>
+</code></pre></div>
 
 
 
@@ -4706,10 +4945,10 @@ For production deployments, work with your Microsoft Entra ID administrator to p
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.indexes"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.indexes"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

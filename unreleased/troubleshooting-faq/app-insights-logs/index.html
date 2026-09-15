@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/ms_icon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1304,6 +1304,8 @@
       
         
       
+        
+      
     
     
     
@@ -1424,6 +1426,34 @@
     
   
     Reviewing Airlock Requests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../using-tre/tre-for-research/working-with-blob-storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working with Blob Storage
   
 
     
@@ -4370,18 +4400,18 @@
 <p><img alt="App Insights Queries" src="../app_insights_queries.png" /></p>
 <p>A manual query can also be created such as:</p>
 <div class="highlight"><pre><span></span><code><span class="n">traces</span><span class="w"> </span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">cloud_RoleName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;resource_processor&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">cloud_RoleName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"resource_processor"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">timestamp</span><span class="w"> </span><span class="n">desc</span><span class="w"> </span>
 </code></pre></div>
 <h2 id="check-the-logs-for-a-specific-deployment">Check the logs for a specific deployment</h2>
 <p>You can run the following example query to get the logs for a specific deployment.</p>
-<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">tracking_id</span><span class="p">=</span><span class="s">&quot;&lt;workspace_id&gt;&quot;</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">tracking_id</span><span class="p">=</span><span class="s">"&lt;workspace_id&gt;"</span><span class="p">;</span>
 <span class="n">AppTraces</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Message</span><span class="w"> </span><span class="k">has</span><span class="w"> </span><span class="n">tracking_id</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">OperationId</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="n">tracking_id</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="k">sort</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
 <p><a href="../../assets/app_insights.png"><img alt="App Insights" src="../../assets/app_insights.png" /></a></p>
 <p>For a successful deployment you should see a message similiar to:</p>
-<div class="highlight"><pre><span></span><code>Received deployment status update message with correlation ID 70b09db1-30c4-475c-b1a1-8f9599a5a2f4: {&#39;id&#39;: &#39;70b09db1-30c4-475c-b1a1-8f9599a5a2f4&#39;, &#39;status&#39;: &#39;deployed&#39;, &#39;message&#39;: &#39;cse-msr-dev-b7f6: Workspace was deployed successfully...&#39;}
+<div class="highlight"><pre><span></span><code>Received deployment status update message with correlation ID 70b09db1-30c4-475c-b1a1-8f9599a5a2f4: {'id': '70b09db1-30c4-475c-b1a1-8f9599a5a2f4', 'status': 'deployed', 'message': 'cse-msr-dev-b7f6: Workspace was deployed successfully...'}
 </code></pre></div>
 <p>It should also be evident from the message flow where the current processing is stuck or failed. Failed deployment status should also be available in the <code>GET /api/workspaces/{workspace_id}</code> and this is just another way to confirm it.</p>
 
@@ -4436,7 +4466,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.indexes"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../../../assets/ms_icon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1300,6 +1300,8 @@
       
         
       
+        
+      
     
     
     
@@ -1420,6 +1422,34 @@
     
   
     Reviewing Airlock Requests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../using-tre/tre-for-research/working-with-blob-storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working with Blob Storage
   
 
     
@@ -4375,13 +4405,13 @@
 <h2 id="initial-setup">Initial setup</h2>
 <p>Provision an InnerEye workspace by invoking a POST to <code>https://&lt;treid&gt;.&lt;region&gt;.cloudapp.azure.com/api/workspaces</code> with the following payload:</p>
 <div class="highlight"><pre><span></span><code><span class="w">    </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;templateName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tre-workspace-innereye&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;display_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;InnerEye&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;InnerEyer workspace&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;client_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;WORKSPACE_API_CLIENT_ID&gt;&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;inference_sp_client_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;spn_client_id&gt;&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;inference_sp_client_secret&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;spn_client_secret&gt;&quot;</span>
+<span class="w">    </span><span class="nt">"templateName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tre-workspace-innereye"</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"InnerEye"</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"InnerEyer workspace"</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;WORKSPACE_API_CLIENT_ID&gt;"</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">"inference_sp_client_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;spn_client_id&gt;"</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">"inference_sp_client_secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;spn_client_secret&gt;"</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 </code></pre></div>
@@ -4485,10 +4515,10 @@ cd InnerEye-Inference
 <li>
 <p>Test the service by sending a GET or POST command using curl or Invoke-WebRequest where API_AUTH_SECRET is the random GUID generated for CUSTOMCONNSTR_API_AUTH_SECRET above:</p>
 <p>Simple ping:</p>
-<div class="highlight"><pre><span></span><code>Invoke-WebRequest https://yourservicename.azurewebsites.net/v1/ping -Headers @{&#39;Accept&#39; = &#39;application/json&#39;; &#39;API_AUTH_SECRET&#39; = &#39;your-secret-1234-1123445&#39;}
+<div class="highlight"><pre><span></span><code>Invoke-WebRequest https://yourservicename.azurewebsites.net/v1/ping -Headers @{'Accept' = 'application/json'; 'API_AUTH_SECRET' = 'your-secret-1234-1123445'}
 </code></pre></div>
 <p>Test connection with AML:</p>
-<div class="highlight"><pre><span></span><code>Invoke-WebRequest https://yourservicename.azurewebsites.net/v1/model/start/HelloWorld:1 -Method POST -Headers @{&#39;Accept&#39; = &#39;application/json&#39;; &#39;API_AUTH_SECRET&#39; = &#39;your-secret-1234-1123445&#39;}
+<div class="highlight"><pre><span></span><code>Invoke-WebRequest https://yourservicename.azurewebsites.net/v1/model/start/HelloWorld:1 -Method POST -Headers @{'Accept' = 'application/json'; 'API_AUTH_SECRET' = 'your-secret-1234-1123445'}
 </code></pre></div>
 </li>
 </ol>
@@ -4544,7 +4574,7 @@ cd InnerEye-Inference
       <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.indexes"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
