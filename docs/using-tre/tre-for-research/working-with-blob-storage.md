@@ -10,7 +10,7 @@ This page is for the **researcher already inside a workspace VM** who wants to p
 - A workspace VM (Linux or Windows) deployed via Guacamole. You are connected to it through the Guacamole desktop.
 - Your workspace owner has granted the VM's identity access to the storage account (one-time, per workspace).
 
-You do **not** need to know any storage account keys, set up a SAS token, or `az login --identity`. The VM authenticates as itself.
+You do **not** need to know any storage account keys, set up a SAS token, or `az login` as yourself. The VM authenticates non-interactively as itself, via its managed identity (see [Step 3](#step-3--sign-in-as-the-vm)).
 
 ## Step 1 — Find your storage account name
 
@@ -27,6 +27,8 @@ You'll use this name in every command below. Set it as an environment variable o
 STG=stgblobsvcc857
 CONTAINER=archive
 ```
+
+The Blob Storage service always creates a container named `archive`, and the lifecycle policy is attached to that container, so `CONTAINER` is always this value.
 
 ## Step 2 — Confirm you're on the workspace network
 
@@ -140,7 +142,7 @@ az storage blob upload-batch \
   --source /path/to/local/folder
 ```
 
-This preserves the directory structure under the container. It's **idempotent** — re-running it will skip files that are already there and only upload anything new or changed. Safe to retry if a session drops.
+This preserves the directory structure under the container. Re-running it is safe if a session drops, but it does **not** skip files that are already uploaded — matching blobs are overwritten and re-transferred. Add `--overwrite false` if you would rather the command fail than overwrite an existing blob.
 
 ## Step 8 — Large datasets: use `azcopy`
 
