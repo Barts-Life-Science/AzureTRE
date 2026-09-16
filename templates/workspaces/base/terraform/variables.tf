@@ -139,3 +139,36 @@ variable "storage_account_redundancy" {
   default     = "GRS"
   description = "The redundancy option for the storage account in the workspace: GRS (Geo-Redundant Storage) or ZRS (Zone-Redundant Storage)."
 }
+
+variable "archive_cool_days" {
+  type        = number
+  default     = 30
+  description = "Days since last modification before a blob in the archive container is moved to the Cool tier."
+
+  validation {
+    condition     = var.archive_cool_days >= 1
+    error_message = "archive_cool_days must be at least 1 day."
+  }
+}
+
+variable "archive_cold_days" {
+  type        = number
+  default     = 90
+  description = "Days since last modification before a blob in the archive container is moved to the Cold tier. Must be greater than archive_cool_days (enforced by a precondition in storage.tf)."
+
+  validation {
+    condition     = var.archive_cold_days >= 1
+    error_message = "archive_cold_days must be at least 1 day."
+  }
+}
+
+variable "archive_archive_days" {
+  type        = number
+  default     = 180
+  description = "Days since last modification before a blob in the archive container is moved to the Archive tier (offline; requires rehydration to read). Must be greater than archive_cold_days (enforced by a precondition in storage.tf). Ignored when storage_account_redundancy is ZRS, which Azure does not support for the Archive tier."
+
+  validation {
+    condition     = var.archive_archive_days >= 1
+    error_message = "archive_archive_days must be at least 1 day."
+  }
+}
