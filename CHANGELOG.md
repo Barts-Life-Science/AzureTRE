@@ -4,10 +4,16 @@
 
 ENHANCEMENTS:
 * Add A100 (Standard_NC24ads_A100_v4) and H100 (Standard_NC40ads_H100_v5) GPU VM sizes to Linux and Windows VM user resource templates ([guacamole-azure-linuxvm v1.2.10](templates/workspace_services/guacamole/user_resources/guacamole-azure-linuxvm), [guacamole-azure-windowsvm v1.2.12](templates/workspace_services/guacamole/user_resources/guacamole-azure-windowsvm))
+* Increase Nexus disk from 64 GB to 128 GB; add `NEXUS_PROXY_URL` env var to Windows VMs ([sonatype-nexus v3.3.6](templates/shared_services/sonatype-nexus-vm), [guacamole-azure-windowsvm v1.2.18](templates/workspace_services/guacamole/user_resources/guacamole-azure-windowsvm))
+* Refresh custom image catalogue with 2026-04 images (Ubuntu 26.04/24.04/22.04; Windows 25-DS/11/19-DS/10) and mark previous sets deprecated ([guacamole-azure-linuxvm v1.2.27](templates/workspace_services/guacamole/user_resources/guacamole-azure-linuxvm), [guacamole-azure-windowsvm v1.2.18](templates/workspace_services/guacamole/user_resources/guacamole-azure-windowsvm))
+* Linux VM: remove the Microsoft Edge install (unsigned Microsoft apt repo) and move Anaconda/Miniconda channel configuration to a Miniconda `.condarc`; change the default auto-shutdown time from 18:00 to 22:00 ([guacamole-azure-linuxvm v1.2.27](templates/workspace_services/guacamole/user_resources/guacamole-azure-linuxvm))
 
 BUG FIXES:
+* Fix Windows VM R configuration for Nexus proxy: set `download.file.extra=--ssl-no-revoke` to bypass Schannel revocation-check failures, and point R at a version-independent `Rprofile.site` via the `R_PROFILE` env var instead of a hardcoded `R-4.1.2` path ([guacamole-azure-windowsvm v1.2.18](templates/workspace_services/guacamole/user_resources/guacamole-azure-windowsvm))
+* Collapse the workspace VM Let's Encrypt CRL allowlist to the `*.c.lencr.org` wildcard so Windows Schannel chain revocation checks reach all current and future LE intermediate CRL endpoints (OCSP was retired 2025-08-06) ([sonatype-nexus v3.3.6](templates/shared_services/sonatype-nexus-vm))
 
 COMPONENTS:
+* Rebuild `tre-shared-service-certs` ([certs v0.7.5](templates/shared_services/certs))
 
 ## 0.26.0 (October 12, 2025)
 **BREAKING CHANGES**

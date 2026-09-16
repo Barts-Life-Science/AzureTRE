@@ -30,18 +30,13 @@
       "title": "Windows image",
       "description": "Select Windows image to use for VM",
       "enum": [
-        "(2025-03) Custom Windows 2019 Data Science VM",
-        "(2025-03) Custom Windows 11",
-        "(2025-03) Custom Windows 10",
-        "Custom Windows 11",
-        "Custom Windows 10",
-        "(deprecated) Server 2019 Data Science VM",
-        "(deprecated) Windows 10",
-        "(deprecated) Windows 11",
-        "test 1 do not use",
-        "test 2 do not use",
-        "test 3 do not use",
-        "test 4 do not use"
+        "(2026-04) Custom Windows 25-DS",
+        "(2026-04) Custom Windows 11",
+        "(2026-04) Custom Windows 19-DS",
+        "(2026-04) Custom Windows 10",
+        "(deprecated 2025-03) Custom Windows 2019 Data Science VM",
+        "(deprecated 2025-03) Custom Windows 11",
+        "(deprecated 2025-03) Custom Windows 10"
       ]
     },
     "vm_size": {
