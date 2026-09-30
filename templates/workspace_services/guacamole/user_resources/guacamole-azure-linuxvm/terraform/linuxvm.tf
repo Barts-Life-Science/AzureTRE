@@ -63,12 +63,17 @@ resource "azurerm_linux_virtual_machine" "linuxvm" {
     type = "SystemAssigned"
   }
 
-  tags = local.tre_user_resources_tags
+  # The idle-VM automation reads the "can shut down if idle" tag and skips any VM
+  # whose value is "false". Tags are deliberately NOT ignored on this resource, so
+  # that researchers can toggle the setting by updating the VM.
+  tags = merge(local.tre_user_resources_tags, {
+    "can shut down if idle" = tostring(var.can_shut_down_if_idle)
+  })
 
   # ignore changes to secure_boot_enabled and vtpm_enabled as these are destructive
   # (may be allowed once https://github.com/hashicorp/terraform-provider-azurerm/issues/25808 is fixed)
   #
-  lifecycle { ignore_changes = [tags, secure_boot_enabled, vtpm_enabled, admin_username] }
+  lifecycle { ignore_changes = [secure_boot_enabled, vtpm_enabled, admin_username] }
 }
 
 resource "azurerm_disk_encryption_set" "linuxvm_disk_encryption" {
