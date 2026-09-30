@@ -70,6 +70,14 @@
       "default": true,
       "description": "Enable access to shared storage"
     },
+    "can_shut_down_if_idle": {
+      "$id": "#/properties/can_shut_down_if_idle",
+      "type": "boolean",
+      "title": "Can shut down if idle",
+      "default": true,
+      "description": "Allow TRE to shut this VM down automatically when it has been running for at least 8 hours and is idle (average CPU, and GPU where fitted, below 5%). Untick to keep it running through long jobs; you can change this later by updating the VM.",
+      "updateable": true
+    },
     "enable_shutdown_schedule": {
       "$id": "#/properties/enable_shutdown_schedule",
       "type": "boolean",

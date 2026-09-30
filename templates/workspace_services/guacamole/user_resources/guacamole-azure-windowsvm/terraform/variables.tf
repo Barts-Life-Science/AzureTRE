@@ -19,6 +19,12 @@ variable "vm_size" {
 variable "shared_storage_access" {
   type = bool
 }
+
+variable "can_shut_down_if_idle" {
+  type        = bool
+  default     = true
+  description = "When true, the idle-VM automation may deallocate this VM. Surfaced to Azure as the 'can shut down if idle' tag."
+}
 variable "shared_storage_name" {
   type = string
 }
