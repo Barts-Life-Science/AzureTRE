@@ -16,6 +16,7 @@ BUG FIXES:
 
 COMPONENTS:
 * Rebuild `tre-shared-service-certs` ([certs v0.7.5](templates/shared_services/certs))
+* Update TRE CLI dependencies to match upstream pins (httpx 0.28.1, msal 1.31.1, pygments 2.20.0, PyJWT 2.15.0, azure-cli-core 2.68.0, azure-identity 1.25.1, aiohttp 3.14.3) and sync `cli/requirements.txt` with `setup.py` (tre-cli v0.2.4)
 
 ## 0.26.0 (October 12, 2025)
 **BREAKING CHANGES**
