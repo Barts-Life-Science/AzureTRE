@@ -125,7 +125,7 @@ resource "azurerm_linux_virtual_machine" "nexus" {
     name                   = "osdisk-nexus-${var.tre_id}"
     caching                = "ReadWrite"
     storage_account_type   = "Standard_LRS"
-    disk_size_gb           = 64
+    disk_size_gb           = 128
     disk_encryption_set_id = var.enable_cmk_encryption ? azurerm_disk_encryption_set.nexus_disk_encryption[0].id : null
   }
 
