@@ -11,6 +11,8 @@ ENHANCEMENTS:
 BUG FIXES:
 * Fix Windows VM R configuration for Nexus proxy: set `download.file.extra=--ssl-no-revoke` to bypass Schannel revocation-check failures, and point R at a version-independent `Rprofile.site` via the `R_PROFILE` env var instead of a hardcoded `R-4.1.2` path ([guacamole-azure-windowsvm v1.2.18](templates/workspace_services/guacamole/user_resources/guacamole-azure-windowsvm))
 * Collapse the workspace VM Let's Encrypt CRL allowlist to the `*.c.lencr.org` wildcard so Windows Schannel chain revocation checks reach all current and future LE intermediate CRL endpoints (OCSP was retired 2025-08-06) ([sonatype-nexus v3.3.6](templates/shared_services/sonatype-nexus-vm))
+* Re-enable shared access key on the core storage account; the Gitea shared service mounts its Azure Files share via App Service BYOS, which requires key auth (matches upstream [#4518](https://github.com/microsoft/AzureTRE/pull/4518)) (core v0.12.5)
+* Disable public network access on the Gitea shared service web app; a private endpoint alone does not block public access (upstream [#4558](https://github.com/microsoft/AzureTRE/issues/4558)) ([gitea shared service v1.0.4](templates/shared_services/gitea))
 
 COMPONENTS:
 * Rebuild `tre-shared-service-certs` ([certs v0.7.5](templates/shared_services/certs))
