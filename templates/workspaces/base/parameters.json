@@ -53,6 +53,24 @@
       }
     },
     {
+      "name": "archive_cool_days",
+      "source": {
+        "env": "ARCHIVE_COOL_DAYS"
+      }
+    },
+    {
+      "name": "archive_cold_days",
+      "source": {
+        "env": "ARCHIVE_COLD_DAYS"
+      }
+    },
+    {
+      "name": "archive_archive_days",
+      "source": {
+        "env": "ARCHIVE_ARCHIVE_DAYS"
+      }
+    },
+    {
       "name": "enable_local_debugging",
       "source": {
         "env": "ENABLE_LOCAL_DEBUGGING"

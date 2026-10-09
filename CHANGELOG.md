@@ -124,6 +124,7 @@ BUG FIXES:
 In future versions, public access will be fully removed, and the ACR will become private only. Please ensure that relevant templates are updated to their latest versions to support communication through the private endpoint ([#4533](https://github.com/microsoft/AzureTRE/pull/4533))
 
 ENHANCEMENTS:
+* Gitea shared service: sync with upstream v0.21.0 — azurerm provider 3.33.0 → 4.14.0, TLS 1.3, RBAC role assignment replacing Key Vault access policy, Debian bookworm base image, Terraform mixin 1.9.8, OIDC backend auth.
 * Add ability to pass values to install stage on pipleine ([#4451](https://github.com/microsoft/AzureTRE/pull/4451))
 * Format the error message in the Operations panel for enhanced readability ([#4493](https://github.com/microsoft/AzureTRE/issues/4493))
 * Modify the AML workspace service so it does not use local authentication keys for storage access ([#4341](https://github.com/microsoft/AzureTRE/issues/4341))
