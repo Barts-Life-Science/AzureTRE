@@ -206,6 +206,9 @@ apt-get install -y docker-ce
 jq -n --arg proxy "${NEXUS_PROXY_URL}:8083" '{"registry-mirrors": [$proxy]}' > /etc/docker/daemon.json
 systemctl daemon-reload
 systemctl restart docker
+# AzureTRE#313: the workspace user must be in the docker group to run docker without sudo.
+# Takes effect at the user's next login (group membership is read at session start).
+usermod -aG docker "${VM_USER}"
 
 
 # Application desktop launcher metadata.

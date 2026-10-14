@@ -9,7 +9,7 @@
 # A token of the form  dollar-sign + {NAME}  is a Terraform TEMPLATE variable,
 # substituted at deploy time. ONLY names present in the templatefile() map in
 # windowsvm.tf are valid. Current keys:
-#     nexus_proxy_url, SharedStorageAccess, StorageAccountName,
+#     nexus_proxy_url, admin_username, SharedStorageAccess, StorageAccountName,
 #     StorageAccountKey1, StorageAccountKey2, StorageAccountFileHost,
 #     FileShareName, CondaConfig
 #
@@ -79,13 +79,32 @@ custom_channels:
   $CondaRc | Out-File -Encoding Ascii -FilePath "C:\Miniconda3\.condarc"
 }
 
-# Docker proxy config
+# Docker proxy config (AzureTRE#313)
 $DaemonConfig = @"
 {
 "registry-mirrors": ["${nexus_proxy_url}:8083"]
 }
 "@
+# Docker Engine (Windows Server 2019 images, docker-engine service) reads ProgramData\docker\config.
 $DaemonConfig | Out-File -Encoding Ascii ( New-Item -Path $env:ProgramData\docker\config\daemon.json -Force )
+# Docker Desktop (Windows 11 / Server 2025 images, WSL2 backend) does NOT read that file; it
+# reads the per-user %USERPROFILE%\.docker\daemon.json. Write it into the Default User
+# profile so every new profile inherits it at first login, and into the admin user's
+# profile if that already exists.
+$DesktopProfiles = @("C:\Users\Default", "C:\Users\${admin_username}")
+foreach ($UserProfileDir in $DesktopProfiles) {
+  if (Test-Path $UserProfileDir) {
+    $DockerDir = Join-Path $UserProfileDir ".docker"
+    if (-not (Test-Path $DockerDir)) { New-Item -ItemType Directory -Force -Path $DockerDir | Out-Null }
+    $DaemonConfig | Out-File -Encoding Ascii -FilePath (Join-Path $DockerDir "daemon.json")
+  }
+}
+# Docker Desktop only serves members of the local docker-users group (administrators are
+# also accepted). Add the workspace user so docker works without elevation.
+if (-not (Get-LocalGroup -Name "docker-users" -ErrorAction SilentlyContinue)) {
+  New-LocalGroup -Name "docker-users" -Description "Users of Docker Desktop" | Out-Null
+}
+Add-LocalGroupMember -Group "docker-users" -Member "${admin_username}" -ErrorAction SilentlyContinue
 
 # R config - write to a fixed path and point R at it via R_PROFILE so the config
 # is version-independent and survives R upgrades.
