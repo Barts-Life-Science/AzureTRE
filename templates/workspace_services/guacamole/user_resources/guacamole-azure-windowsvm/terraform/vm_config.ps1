@@ -65,14 +65,15 @@ $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
 ### Anaconda Config
 if( ${CondaConfig} -eq 1 )
 {
+  # TRE-CustomVMs#170: conda-forge only. Anaconda's "defaults" repository (repo.anaconda.com,
+  # Nexus conda-repo) needs a paid licence and is no longer offered. The images ship Miniforge,
+  # whose base is conda-forge, so this keeps their channel.
   $CondaRc = @"
 channels:
-  - ${nexus_proxy_url}/repository/conda-repo/main/
-  - ${nexus_proxy_url}/repository/conda-mirror/main/
+  - conda-forge
 custom_channels:
   conda-forge: ${nexus_proxy_url}/repository/conda-mirror/
   bioconda: ${nexus_proxy_url}/repository/conda-mirror/
-  defaults: ${nexus_proxy_url}/repository/conda-mirror/
 "@
   # Validated: the 2026-04 Windows images ship Miniconda at C:\Miniconda3, so its base
   # .condarc lives here (conda info --base == C:\Miniconda3).

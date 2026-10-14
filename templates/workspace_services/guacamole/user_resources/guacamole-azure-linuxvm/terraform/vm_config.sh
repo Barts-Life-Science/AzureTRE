@@ -164,14 +164,15 @@ if [ "${CONDA_CONFIG}" -eq 1 ]; then
   # images ship Miniconda at /opt/miniconda, so write channel config to its .condarc.
   if [ -d /opt/miniconda ]; then
     echo "init_vm.sh: Miniconda"
+    # TRE-CustomVMs#170: conda-forge only. Anaconda's "defaults" repository
+    # (repo.anaconda.com, Nexus conda-repo) needs a paid licence and is no longer offered.
+    # The images ship Miniforge, whose base is conda-forge, so this keeps their channel.
     cat <<EOF >/opt/miniconda/.condarc
 channels:
-  - "${NEXUS_PROXY_URL}/repository/conda-repo/main/"
-  - "${NEXUS_PROXY_URL}/repository/conda-mirror/main/"
+  - conda-forge
 custom_channels:
     conda-forge: ${NEXUS_PROXY_URL}/repository/conda-mirror/
     bioconda: ${NEXUS_PROXY_URL}/repository/conda-mirror/
-    defaults: ${NEXUS_PROXY_URL}/repository/conda-mirror/
 EOF
   fi
   if [ -d "/anaconda" ]; then # Deprecated legacy Anaconda path, superseded by Miniconda.
@@ -184,7 +185,6 @@ EOF
     which conda
     set +o errexit # Don't exit on error if one of these fails
     conda config --add channels "${NEXUS_PROXY_URL}"/repository/conda-mirror/main/ --system
-    conda config --add channels "${NEXUS_PROXY_URL}"/repository/conda-repo/main/ --system
     conda config --remove channels defaults --system
     conda config --set channel_alias "${NEXUS_PROXY_URL}"/repository/conda-mirror/ --system
 
