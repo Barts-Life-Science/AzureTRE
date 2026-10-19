@@ -72,6 +72,7 @@ Nexus Shared Service requires access to resources outside of the Azure TRE VNET.
 | *.docker.io | Enables Nexus to "proxy" docker repos to use inside of workspaces. |
 | archive.ubuntu.com | Enables Nexus to "proxy" apt packages to use inside of workspaces. |
 | security.ubuntu.com | Enables Nexus to "proxy" apt packages to use inside of workspaces. |
+| developer.download.nvidia.com | Enables Nexus to "proxy" NVIDIA's CUDA apt repositories and the cuda-keyring package. |
 
 ## Current Repos
 
