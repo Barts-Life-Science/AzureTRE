@@ -85,12 +85,13 @@ $DaemonConfig = @"
 "registry-mirrors": ["${nexus_proxy_url}:8083"]
 }
 "@
-# Docker Engine (Windows Server 2019 images, docker-engine service) reads ProgramData\docker\config.
+# Docker Engine (the service on every Windows image since TRE-CustomVMs#171; Server 2019
+# before that) reads ProgramData\docker\config\daemon.json, so this is the primary path.
 $DaemonConfig | Out-File -Encoding Ascii ( New-Item -Path $env:ProgramData\docker\config\daemon.json -Force )
-# Docker Desktop (Windows 11 / Server 2025 images, WSL2 backend) does NOT read that file; it
-# reads the per-user %USERPROFILE%\.docker\daemon.json. Write it into the Default User
-# profile so every new profile inherits it at first login, and into the admin user's
-# profile if that already exists.
+# Best-effort extras for any image still carrying Docker Desktop, which reads the per-user
+# %USERPROFILE%\.docker\daemon.json instead: seed the Default User profile (usually
+# inherited by new profiles at first login) and the admin user's profile if it exists.
+# Harmless on Docker Engine images.
 $DesktopProfiles = @("C:\Users\Default", "C:\Users\${admin_username}")
 foreach ($UserProfileDir in $DesktopProfiles) {
   if (Test-Path $UserProfileDir) {
@@ -99,12 +100,18 @@ foreach ($UserProfileDir in $DesktopProfiles) {
     $DaemonConfig | Out-File -Encoding Ascii -FilePath (Join-Path $DockerDir "daemon.json")
   }
 }
-# Docker Desktop only serves members of the local docker-users group (administrators are
-# also accepted). Add the workspace user so docker works without elevation.
+# Docker (Engine and Desktop alike) serves members of the local docker-users group
+# (administrators are also accepted). Add the workspace user so docker works without
+# elevation. Only an already-a-member result is tolerated; any other failure (user not
+# found, SAM error) must surface, which -ErrorAction SilentlyContinue used to swallow.
 if (-not (Get-LocalGroup -Name "docker-users" -ErrorAction SilentlyContinue)) {
-  New-LocalGroup -Name "docker-users" -Description "Users of Docker Desktop" | Out-Null
+  New-LocalGroup -Name "docker-users" -Description "Users of Docker" | Out-Null
 }
-Add-LocalGroupMember -Group "docker-users" -Member "${admin_username}" -ErrorAction SilentlyContinue
+$AlreadyMember = @(Get-LocalGroupMember -Group "docker-users" -ErrorAction SilentlyContinue |
+  Where-Object { $_.Name -match "\\${admin_username}$" })
+if (-not $AlreadyMember) {
+  Add-LocalGroupMember -Group "docker-users" -Member "${admin_username}"
+}
 
 # R config - write to a fixed path and point R at it via R_PROFILE so the config
 # is version-independent and survives R upgrades.
