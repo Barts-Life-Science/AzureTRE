@@ -66,8 +66,7 @@ Nexus Shared Service requires access to resources outside of the Azure TRE VNET.
 | AzureActiveDirectory | Authorize the signed in user against Microsoft Entra ID. |
 | AzureContainerRegistry | Pull the Nexus container image, as it is located in Azure Container Registry.  |
 | pypi.org, *.pypi.org | Enables Nexus to "proxy" python packages to use inside of workspaces. |
-| repo.anaconda.com | Enables Nexus to "proxy" conda packages to use inside of workspaces. |
-| conda.anaconda.org | Enables Nexus to "proxy" additional conda packages to use inside of workspaces such as conda-forge. |
+| conda.anaconda.org | Enables Nexus to "proxy" conda packages (conda-forge, bioconda) to use inside of workspaces. Anaconda's own `defaults` repository (repo.anaconda.com) is not proxied: it needs a paid licence (TRE-CustomVMs#170). |
 | *.docker.com | Enables Nexus to "proxy" docker repos to use inside of workspaces. |
 | *.docker.io | Enables Nexus to "proxy" docker repos to use inside of workspaces. |
 | archive.ubuntu.com | Enables Nexus to "proxy" apt packages to use inside of workspaces. |
@@ -78,7 +77,6 @@ Nexus Shared Service requires access to resources outside of the Azure TRE VNET.
 | Name | Type | Source URI | Nexus URI | Usage |
 | --- | --- | --- | --- | --- |
 | PyPI | PyPI | [https://pypi.org/] | `https://nexus-{TRE_ID}.{LOCATION}.cloudapp.azure.com/repository/pypi/` | Allow use of pip commands. |
-| Conda | conda | [https://repo.anaconda.com/pkgs] | `https://nexus-{TRE_ID}.{LOCATION}.cloudapp.azure.com/repository/conda-repo/` | Configure conda to have access to default conda packages. |
 | Conda Mirror | conda | [https://conda.anaconda.org] | `https://nexus-{TRE_ID}.{LOCATION}.cloudapp.azure.com/repository/conda-mirror/` | Configure conda to have access to conda mirror packages. |
 | Docker | apt | [https://download.docker.com/linux/ubuntu/] | `https://nexus-{TRE_ID}.{LOCATION}.cloudapp.azure.com/repository/docker/` | Install Docker via apt on Linux systems. |
 | Docker GPG | raw | [https://download.docker.com/linux/ubuntu/] | `https://nexus-{TRE_ID}.{LOCATION}.cloudapp.azure.com/repository/docker-public-key/` | Provide public key to sign apt source for above Docker apt. |
