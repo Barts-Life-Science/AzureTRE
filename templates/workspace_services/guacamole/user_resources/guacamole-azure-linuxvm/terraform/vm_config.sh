@@ -206,6 +206,11 @@ apt-get install -y docker-ce
 jq -n --arg proxy "${NEXUS_PROXY_URL}:8083" '{"registry-mirrors": [$proxy]}' > /etc/docker/daemon.json
 systemctl daemon-reload
 systemctl restart docker
+# AzureTRE#313: the workspace user must be in the docker group to run docker without sudo.
+# Takes effect at the user's next login (group membership is read at session start).
+# errexit is off on Ubuntu 24.04 in this script (upstream debugging choice above), so
+# report a failure here explicitly rather than passing it silently.
+usermod -aG docker "${VM_USER}" || echo "ERROR: could not add ${VM_USER} to the docker group" >&2
 
 
 # Application desktop launcher metadata.
