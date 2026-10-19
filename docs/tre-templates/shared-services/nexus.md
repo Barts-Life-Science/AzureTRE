@@ -72,6 +72,7 @@ Nexus Shared Service requires access to resources outside of the Azure TRE VNET.
 | *.docker.io | Enables Nexus to "proxy" docker repos to use inside of workspaces. |
 | archive.ubuntu.com | Enables Nexus to "proxy" apt packages to use inside of workspaces. |
 | security.ubuntu.com | Enables Nexus to "proxy" apt packages to use inside of workspaces. |
+| developer.download.nvidia.com | Enables Nexus to "proxy" NVIDIA's CUDA apt repositories and the cuda-keyring package. |
 
 ## Current Repos
 
@@ -91,6 +92,7 @@ Nexus Shared Service requires access to resources outside of the Azure TRE VNET.
 | Fedora Project | yum | [https://download-ib01.fedoraproject.org] | `https://nexus-{TRE_ID}.{LOCATION}.cloudapp.azure.com/repository/fedoraproject` | Install Fedora Project Linux packages |
 | Microsoft Apt | apt | [https://packages.microsoft.com] | `https://nexus-{TRE_ID}.{LOCATION}.cloudapp.azure.com/repository/microsoft-apt` | Provide access to Microsoft Apt packages |
 | Microsoft Keys | raw | [https://packages.microsoft.com/keys/] | `https://nexus-{TRE_ID}.{LOCATION}.cloudapp.azure.com/repository/microsoft-keys` | Provide access to Microsoft keys |
+| NVIDIA CUDA | raw | [https://developer.download.nvidia.com/compute/cuda/repos/] | `https://nexus-{TRE_ID}.{LOCATION}.cloudapp.azure.com/repository/nvidia-cuda` | NVIDIA's CUDA apt repositories (flat, per Ubuntu release) and the cuda-keyring package, for installing the CUDA toolkit on A100/H100 VMs |
 | Microsoft Yum | yum | [https://packages.microsoft.com/yumrepos] | `https://nexus-{TRE_ID}.{LOCATION}.cloudapp.azure.com/repository/microsoft-yum` | Provide access to Microsoft Yum packages |
 | Microsoft Download | raw | [https://download.microsoft.com/download] | `https://nexus-{TRE_ID}.{LOCATION}.cloudapp.azure.com/repository/microsoft-download` | Provide access to Microsoft Downloads |
 | VS Code Extensions | raw | [https://marketplace.visualstudio.com/_apis/public/gallery/publishers/] | `https://nexus-{TRE_ID}.{LOCATION}.cloudapp.azure.com/repository/vscode-extensions/` | Provide access to VS Code extensions |

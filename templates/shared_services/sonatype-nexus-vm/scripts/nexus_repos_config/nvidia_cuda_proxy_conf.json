@@ -1,0 +1,32 @@
+{
+  "name": "nvidia-cuda",
+  "online": true,
+  "storage": {
+      "blobStoreName": "default",
+      "strictContentTypeValidation": false,
+      "write_policy": "ALLOW"
+  },
+  "proxy": {
+      "remoteUrl": "https://developer.download.nvidia.com/compute/cuda/repos/",
+      "contentMaxAge": 1440,
+      "metadataMaxAge": 1440
+  },
+  "negativeCache": {
+      "enabled": true,
+      "timeToLive": 1440
+  },
+  "httpClient": {
+      "blocked": false,
+      "autoBlock": false,
+      "connection": {
+          "retries": 0,
+          "userAgentSuffix": "string",
+          "timeout": 60,
+          "enableCircularRedirects": false,
+          "enableCookies": false,
+          "useTrustStore": false
+      }
+  },
+  "baseType": "raw",
+  "repoType": "proxy"
+}
