@@ -160,13 +160,15 @@ echo -e "local({\n    r <- getOption(\"repos\")\n    r[\"Nexus\"] <- \"${NEXUS_P
 ### Anaconda Config
 if [ "${CONDA_CONFIG}" -eq 1 ]; then
 
-  # Distinguish Miniconda from the (deprecated) Anaconda layout. Validated: the 2026-04
-  # images ship Miniconda at /opt/miniconda, so write channel config to its .condarc.
+  # Distinguish the conda-at-/opt/miniconda layout from the (deprecated) Anaconda layouts.
+  # The 2026-12 images ship Miniforge at the old Miniconda prefix /opt/miniconda
+  # (TRE-CustomVMs#170); the 2026-04 images shipped Miniconda at the same path, so this
+  # branch covers both.
   if [ -d /opt/miniconda ]; then
-    echo "init_vm.sh: Miniconda"
+    echo "init_vm.sh: conda at /opt/miniconda"
     # TRE-CustomVMs#170: conda-forge only. Anaconda's "defaults" repository
     # (repo.anaconda.com, Nexus conda-repo) needs a paid licence and is no longer offered.
-    # The images ship Miniforge, whose base is conda-forge, so this keeps their channel.
+    # Miniforge's base is conda-forge, so this keeps the image's own channel.
     cat <<EOF >/opt/miniconda/.condarc
 channels:
   - conda-forge
