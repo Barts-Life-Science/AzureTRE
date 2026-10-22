@@ -1,6 +1,7 @@
 #!/bin/bash
 
 docker_pull_timeout=10
+VSN=3.96.4
 
 while true; do
   if [ $docker_pull_timeout == 0 ]; then
@@ -8,7 +9,7 @@ while true; do
     exit 1
   fi
 
-  if docker pull sonatype/nexus3; then
+  if docker pull sonatype/nexus3:$VSN; then
       echo "Image pulled successfully"
       break
   else
@@ -35,4 +36,4 @@ docker run -d -p 80:8081 -p 443:8443 -p 8083:8083 -v /etc/nexus-data:/nexus-data
     --restart always \
     --name nexus \
     --log-driver local \
-    sonatype/nexus3
+    sonatype/nexus3:$VSN
