@@ -57,6 +57,7 @@
         "36 CPU | 440GB | 1 x A10 GPU",
         "36 CPU | 880GB | 1 x A10 GPU",
         "24 CPU | 220GB RAM | 1 x A100 80GB GPU",
+        "96 CPU | 880GB RAM | 4 x A100 80GB GPU",
         "40 CPU | 320GB RAM | 1 x H100 80GB GPU"
       ],
       "updateable": true
