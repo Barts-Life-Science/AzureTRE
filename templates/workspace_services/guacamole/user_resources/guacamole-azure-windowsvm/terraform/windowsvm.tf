@@ -42,6 +42,7 @@ resource "azurerm_windows_virtual_machine" "windowsvm" {
   custom_data = base64encode(templatefile(
     "${path.module}/vm_config.ps1", {
       nexus_proxy_url        = local.nexus_proxy_url
+      admin_username         = local.admin_username
       SharedStorageAccess    = var.shared_storage_access ? 1 : 0
       StorageAccountName     = data.azurerm_storage_account.stg.name
       StorageAccountKey1     = data.azurerm_storage_account.stg.primary_access_key
