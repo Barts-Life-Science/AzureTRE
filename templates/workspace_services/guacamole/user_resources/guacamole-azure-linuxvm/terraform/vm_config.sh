@@ -146,8 +146,44 @@ if [ "${SHARED_STORAGE_ACCESS}" -eq 1 ]; then
   # Change permissions on the credential file so only root can read or modify the password file.
   chmod 600 "$smbCredentialFile"
 
-  echo "$smbPath $mntRoot cifs rw,vers=default,dir_mode=0777,file_mode=0777,uid=1000,gid=1000,credentials=$smbCredentialFile 0 0" | tee -a /etc/fstab >/dev/null
-  mount $mntRoot
+  # noauto: boot does not block on the share. The unit below mounts it once the
+  # private endpoint answers, which can lag the VM's network by a few seconds.
+  if ! grep -q " $mntRoot cifs " /etc/fstab; then
+    echo "$smbPath $mntRoot cifs rw,vers=default,dir_mode=0777,file_mode=0777,uid=1000,gid=1000,credentials=$smbCredentialFile,noauto,_netdev,nofail 0 0" | tee -a /etc/fstab >/dev/null
+  fi
+
+  cat > /usr/local/sbin/shared-storage-mount.sh <<'SCRIPT'
+#!/bin/bash
+# Wait until the share answers on port 445 (5 tries, 2/4/8/16 s between them), then mount.
+H=$(awk '$2=="/shared-storage"{print $1; exit}' /etc/fstab | sed -E 's#^//([^/]+)/.*#\1#')
+if [ -z "$H" ]; then echo "no /shared-storage entry in /etc/fstab"; exit 1; fi
+d=2; i=1
+while [ $i -le 5 ]; do
+  if timeout 3 bash -c "</dev/tcp/$H/445" 2>/dev/null; then echo "port 445 answered on attempt $i"; break; fi
+  echo "port 445 not answering (attempt $i)"; [ $i -lt 5 ] && sleep $d; d=$((d*2)); i=$((i+1))
+done
+mountpoint -q /shared-storage && { echo "already mounted"; exit 0; }
+if mount /shared-storage; then echo "mounted"; exit 0; fi
+echo "mount failed"; exit 1
+SCRIPT
+  chmod 0755 /usr/local/sbin/shared-storage-mount.sh
+
+  cat > /etc/systemd/system/shared-storage-mount.service <<'UNIT'
+[Unit]
+Description=Mount /shared-storage once the share answers on port 445
+Wants=network-online.target
+After=network-online.target
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+TimeoutStartSec=120
+ExecStart=/usr/local/sbin/shared-storage-mount.sh
+[Install]
+WantedBy=multi-user.target
+UNIT
+  systemctl daemon-reload
+  systemctl enable shared-storage-mount.service
+  systemctl start shared-storage-mount.service || echo "init_vm.sh: shared storage not mounted yet; it retries at next boot"
 fi
 
 ## Python 3.8 and Jupyter
